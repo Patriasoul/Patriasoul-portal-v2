@@ -45,11 +45,11 @@ function enhanceArticle(s,file){
   const img=((s.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
   const canonical="https://patriasoul.github.io/Patriasoul-portal-v2/"+rel;
   const imageAbs=img ? (img.startsWith("http")?img:new URL(img,canonical).href) : "";
-  s=s.replace(/<meta[^>]+name="robots"[^>]*>\\s*/gi,"");
-  s=s.replace(/<meta[^>]+name="author"[^>]*>\\s*/gi,"");
-  s=s.replace(/<link[^>]+rel="canonical"[^>]*>\\s*/gi,"");
-  s=s.replace(/<meta[^>]+property="og:[^>]+>\\s*/gi,"");
-  s=s.replace(/<meta[^>]+name="twitter:[^>]+>\\s*/gi,"");
+  s=s.replace(/<meta[^>]+name="robots"[^>]*>\s*/gi,"");
+  s=s.replace(/<meta[^>]+name="author"[^>]*>\s*/gi,"");
+  s=s.replace(/<link[^>]+rel="canonical"[^>]*>\s*/gi,"");
+  s=s.replace(/<meta[^>]+property="og:[^>]+>\s*/gi,"");
+  s=s.replace(/<meta[^>]+name="twitter:[^>]+>\s*/gi,"");
   const meta=[
     '<meta name="author" content="Čuvari nasljeđa">',
     '<meta name="article:section" content="'+categoryLabel+'">',
@@ -80,7 +80,7 @@ function enhanceArticle(s,file){
   const picks=[related[(idx-1+related.length)%related.length],related[(idx+1)%related.length],related[Math.min(related.length-1,idx+2)]].filter((x,i,a)=>x&&x!==name&&a.indexOf(x)===i);
   const cards=picks.map(n=>{
     const raw=fs.readFileSync(path.join(dir,n),"utf8");
-    const t=((raw.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i)||[])[1]||n).replace(/<[^>]+>/g,"").trim();
+    const t=((raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[])[1]||n).replace(/<[^>]+>/g,"").trim();
     const im=((raw.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
     const alt=((raw.match(/<img[^>]+alt="([^"]*)"/i)||[])[1]||t).trim();
     const image=im ? '<img src="'+escAttr(im)+'" alt="'+escAttr(alt)+'" loading="lazy" decoding="async">' : "";
