@@ -83,16 +83,16 @@ function enhanceArticle(s,file){
     "kako","što","koji","koja","koje","jedan","jedna","jedno","godina","godine","danas",
     "hrvatska","hrvatski","hrvatsko","hrvatske"
   ]);
-  const fold=v=>String(v||"").toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"");
+  const fold=v=>String(v||"").toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\u0300-\u036f]/g,"");
   const keywords=v=>new Set(
-    fold(v).replace(/[^a-z0-9\\s-]/g," ").split(/\\s+/)
+    fold(v).replace(/[^a-z0-9\s-]/g," ").split(/\s+/)
       .map(x=>x.trim()).filter(x=>x.length>=4&&!stopWords.has(x))
   );
-  const titleOf=raw=>((raw.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i)||[])[1]||"")
-    .replace(/<[^>]+>/g,"").replace(/\\s+/g," ").trim();
+  const titleOf=raw=>((raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[])[1]||"")
+    .replace(/<[^>]+>/g,"").replace(/\s+/g,"").trim();
 
   const related=fs.readdirSync(dir)
-    .filter(n=>/^clanak-.*\\.html$/.test(n)&&n!==name);
+    .filter(n=>/^clanak-.*\.html$/.test(n)&&n!==name);
 
   const currentTitle=titleOf(s);
   const currentKeys=keywords(currentTitle);
