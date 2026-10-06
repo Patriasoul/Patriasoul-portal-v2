@@ -80,8 +80,11 @@ function enhanceArticle(s,file){
   const picks=[related[(idx-1+related.length)%related.length],related[(idx+1)%related.length],related[Math.min(related.length-1,idx+2)]].filter((x,i,a)=>x&&x!==name&&a.indexOf(x)===i);
   const cards=picks.map(n=>{
     const raw=fs.readFileSync(path.join(dir,n),"utf8");
-    const t=((raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[])[1]||n).replace(/<[^>]+>/g,"").trim();
-    return '<a class="article-related-card" href="'+n+'"><span>'+categoryLabel+'</span><strong>'+escHtml(t)+'</strong></a>';
+    const t=((raw.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i)||[])[1]||n).replace(/<[^>]+>/g,"").trim();
+    const im=((raw.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
+    const alt=((raw.match(/<img[^>]+alt="([^"]*)"/i)||[])[1]||t).trim();
+    const image=im ? '<img src="'+escAttr(im)+'" alt="'+escAttr(alt)+'" loading="lazy" decoding="async">' : "";
+    return '<a class="article-related-card" href="'+n+'">'+image+'<span><b>'+categoryLabel+'</b><strong>'+escHtml(t)+'</strong><em>Pročitaj članak →</em></span></a>';
   }).join("");
   const categoryHref=category==="cuvari-nasljedja"?"../../cuvari-nasljedja/":"../../kategorije/"+category+"/index.html";
   const relatedHtml='<section class="article-related" aria-labelledby="povezani-naslovi"><h2 id="povezani-naslovi">Povezano</h2><div class="article-related-grid">'+cards+'</div><a class="article-related-all" href="'+categoryHref+'">Više iz rubrike '+categoryLabel+' →</a></section>';
