@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Normaliziraj članke
+        run: node scripts/build/normalize-articles.js
+
       - name: QA strukture
         run: node scripts/qa/qa-structure.js
 
