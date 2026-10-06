@@ -83,7 +83,8 @@ function enhanceArticle(s,file){
     const t=((raw.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i)||[])[1]||n).replace(/<[^>]+>/g,"").trim();
     return '<a class="article-related-card" href="'+n+'"><span>'+categoryLabel+'</span><strong>'+escHtml(t)+'</strong></a>';
   }).join("");
-  const relatedHtml='<section class="article-related" aria-labelledby="povezani-naslovi"><h2 id="povezani-naslovi">Povezano</h2><div class="article-related-grid">'+cards+'</div><a class="article-related-all" href="../../kategorije/'+category+'/index.html">Više iz rubrike '+categoryLabel+' →</a></section>';
+  const categoryHref=category==="cuvari-nasljedja"?"../../cuvari-nasljedja/":"../../kategorije/"+category+"/index.html";
+  const relatedHtml='<section class="article-related" aria-labelledby="povezani-naslovi"><h2 id="povezani-naslovi">Povezano</h2><div class="article-related-grid">'+cards+'</div><a class="article-related-all" href="'+categoryHref+'">Više iz rubrike '+categoryLabel+' →</a></section>';
   s=s.replace(/<section class="article-related"[\\s\\S]*?<\\/section>/i,"");
   s=s.replace(/<\\/body>/i,relatedHtml+"</body>");
   return s;
@@ -93,4 +94,28 @@ function escHtml(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").
 function normalizePage(file){let s=fs.readFileSync(file,'utf8');s=s.replace(/<header[\s\S]*?<\/header>/i,'').replace(/<link[^>]+(?:portal\.css|legal-page\.css|editorial-standard\.css|community\.css)[^>]*>\s*/gi,'').replace(/<script[^>]+portal\.js[^>]*><\/script>/gi,'');const fixes=[[/href="index\.html"/g,'href="../index.html"'],[/href="vjera\.html"/g,'href="../kategorije/vjera/"'],[/href="obitelj\.html"/g,'href="../kategorije/domovina/obitelj.html"'],[/href="domovina\.html"/g,'href="../kategorije/domovina/"'],[/href="vrijeme\.html"/g,'href="../kategorije/domovina/hrvatska-danas.html"'],[/href="cuvari-nasljeda\.html"/g,'href="../cuvari-nasljedja/"'],[/href="o-nama\.html"/g,'href="../stranice/o-patriasoul.html"']];for(const [re,to] of fixes)s=s.replace(re,to);if(!/portal\.js/i.test(s))s=s.replace('</body>','<script src="../assets/js/portal.js"></script></body>');fs.writeFileSync(file,s)}
 function walkPages(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())walkPages(p);else if(e.name.endsWith('.html'))normalizePage(p)}}
 walk(root);walkPages(path.join(process.cwd(),'stranice'));
+
+function generateArticleIndex(){
+  const items=[];
+  function collect(dir){
+    for(const e of fs.readdirSync(dir,{withFileTypes:true})){
+      const p=path.join(dir,e.name);
+      if(e.isDirectory()) collect(p);
+      else if(/^clanak-.*\.html$/.test(e.name)){
+        const raw=fs.readFileSync(p,'utf8');
+        const rel=path.relative(process.cwd(),p).replace(/\\/g,"/");
+        const title=((raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[])[1]||e.name).replace(/<[^>]+>/g,"").trim();
+        const description=((raw.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i)||[])[1]||"").trim();
+        const image=((raw.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
+        const category=rel.split("/")[1]||"";
+        items.push({title,description,image,category,url:rel,author:"Čuvari nasljeđa"});
+      }
+    }
+  }
+  collect(root);
+  fs.mkdirSync(path.join(process.cwd(),'data'),{recursive:true});
+  fs.writeFileSync(path.join(process.cwd(),'data/articles.json'),JSON.stringify(items.sort((a,b)=>a.title.localeCompare(b.title,'hr')),null,2));
+  console.log("Indeks članaka:",items.length);
+}
+generateArticleIndex();
 console.log("Normalizirano",root);
