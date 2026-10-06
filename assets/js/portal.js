@@ -65,14 +65,14 @@
         </div>
       </div>
       <a class="${active("/cuvari-nasljedja")}" href="${link("cuvari-nasljedja/")}">Čuvari nasljeđa</a>
+      <a class="${active("/cuvari-nasljedja/prijavi-pricu")}" href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
+      <a class="${active("/stranice/o-patriasoul")}" href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
       <div class="ps-nav-group ps-more">
-        <a href="${link("stranice/o-patriasoul.html")}">Više <span>⌄</span></a>
+        <a href="${link("stranice/kontakt.html")}">Više <span>⌄</span></a>
         <div class="ps-dropdown ps-dropdown-right">
-          <a href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
           <a href="${link("stranice/kontakt.html")}">Kontakt</a>
           <a href="${link("stranice/pretraga.html")}">Pretraži</a>
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
-          <a href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
         </div>
       </div>
     </div></nav>
