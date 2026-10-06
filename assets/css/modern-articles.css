@@ -440,6 +440,7 @@
 
   .article-figure img,
   .article-figure img.article-hero{
+    height:clamp(210px,62vw,420px);
     aspect-ratio:16/10;
     max-height:none;
   }
