@@ -89,7 +89,7 @@ function enhanceArticle(s,file){
       .map(x=>x.trim()).filter(x=>x.length>=4&&!stopWords.has(x))
   );
   const titleOf=raw=>((raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[])[1]||"")
-    .replace(/<[^>]+>/g,"").replace(/\s+/g,"").trim();
+    .replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();
 
   const related=fs.readdirSync(dir)
     .filter(n=>/^clanak-.*\.html$/.test(n)&&n!==name);
