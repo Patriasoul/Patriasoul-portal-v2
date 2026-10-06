@@ -32,8 +32,7 @@
       </div>
     </div></div>
     <nav class="ps-nav" aria-label="Glavna navigacija"><div class="ps-container ps-nav-inner">
-      <a href="${link("index.html")}">Naslovnica</a>
-      <a href="${link("stranice/najnovije.html")}">Najnovije</a>
+      <a class="ps-nav-direct" href="${link("index.html")}">Naslovnica</a>
       <div class="ps-nav-group${active("/kategorije/domovina")}">
         <a href="${link("kategorije/domovina/")}">Domovina <span>⌄</span></a>
         <div class="ps-dropdown">
