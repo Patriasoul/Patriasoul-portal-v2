@@ -24,6 +24,8 @@ for(const file of files){
     [/<img\b[^>]+alt="[^"]+"/i,"alt tekst"]
   ];
   for(const [re,label] of checks) if(!re.test(s)) problems.push(rel+": nedostaje "+label);
+  const relatedCards=(s.match(/class="article-related-card"/g)||[]).length;
+  if(relatedCards<2) problems.push(rel+": manje od 2 povezana članka ("+relatedCards+")");
   if(/Piše:\s*PatriaSoul|Autor:\s*PatriaSoul/i.test(s)) problems.push(rel+": stari autor PatriaSoul");
   if(/data:image\//i.test(s)) problems.push(rel+": data URI slika");
 }
