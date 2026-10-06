@@ -1,8 +1,9 @@
 (()=>{"use strict";
 const article=document.querySelector(".article-page");if(!article)return;
 const loadScript=(src)=>new Promise((resolve,reject)=>{const s=document.createElement("script");s.src=src;s.async=true;s.onload=resolve;s.onerror=reject;document.head.append(s)});
+const commentScript=document.currentScript;
 const portalScript=document.querySelector('script[src*="/assets/js/portal.js"]');
-const authSrc=portalScript?new URL("auth.js",portalScript.src).href:"../assets/js/auth.js";
+const authSrc=commentScript?new URL("auth.js",commentScript.src).href:(portalScript?new URL("auth.js",portalScript.src).href:"../assets/js/auth.js");
 const escape=(v)=>String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const loginUrl=()=>{const p=new URL("../../stranice/prijava.html",location.href);p.searchParams.set("next",location.href);return p.href};
 async function boot(){
@@ -10,7 +11,7 @@ async function boot(){
  const old=document.querySelector(".ps-comments");if(old)old.remove();
  const section=document.createElement("section");section.className="ps-comments";
  section.innerHTML='<div class="ps-comments-head"><span>KOMENTARI</span><h2>Recite što mislite</h2><p>Za komentiranje morate biti prijavljeni na PatriaSoul. Anonimno komentiranje nije omogućeno.</p></div><div class="ps-comments-content"></div>';
- const related=article.querySelector(".article-related");if(related)related.before(section);else article.append(section);
+ const related=article.querySelector(".article-related");if(related)related.after(section);else article.append(section);
  const box=section.querySelector(".ps-comments-content");
  try{if(!window.PatriaSoulAuth)await loadScript(authSrc);const auth=window.PatriaSoulAuth;const client=await auth.client();let user=await auth.getUser();
  const render=async()=>{
