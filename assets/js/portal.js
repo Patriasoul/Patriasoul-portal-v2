@@ -57,6 +57,10 @@
         <a href="${link("stranice/o-patriasoul.html")}">Više <span>⌄</span></a>
         <div class="ps-dropdown ps-dropdown-right">
           <a href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
+          <a href="${link("stranice/urednicki-standard.html")}">Urednički standard</a>
+          <a href="${link("stranice/pravne-informacije.html")}">Pravne informacije</a>
+          <a href="${link("stranice/privatnost.html")}">Privatnost</a>
+          <a href="${link("stranice/pravilnik-o-igranju-kvizova.html")}">Pravilnik o igranju kvizova</a>
           <a href="${link("stranice/kontakt.html")}">Kontakt</a>
           <a href="${link("stranice/pretraga.html")}">Pretraži</a>
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
