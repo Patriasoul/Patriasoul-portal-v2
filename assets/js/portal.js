@@ -1,0 +1,1 @@
+(()=>{const clock=document.querySelector('[data-ps-clock]');if(clock){const tick=()=>clock.textContent=new Intl.DateTimeFormat('hr-HR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date());tick();setInterval(tick,1000)}})();
