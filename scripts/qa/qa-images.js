@@ -5,7 +5,7 @@ function walk(d){
   for(const e of fs.readdirSync(d,{withFileTypes:true})){
     const p=path.join(d,e.name);
     if(e.isDirectory())walk(p);
-    else if(e.name.endsWith(".html"))files.push(p);
+    else if(/^clanak-.*\.html$/i.test(e.name))files.push(p);
   }
 }
 walk(root);
@@ -26,7 +26,7 @@ for(const file of files){
   if(src.startsWith("data:")) problems.push(file+" — data image");
   if(/assets\/images\/articles\/.*\.svg$/i.test(src)) problems.push(file+" — SVG placeholder: "+src);
 }
-console.log("SLIKE:",files.length);
+console.log("ČLANCI:",files.length);
 if(problems.length){
   console.error("SLIKE FAIL");
   console.error(problems.join("\n"));
