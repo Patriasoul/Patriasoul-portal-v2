@@ -29,6 +29,9 @@ jobs:
       - name: Normaliziraj članke
         run: node scripts/build/normalize-articles.js
 
+      - name: Generiraj sitemap, robots i indeks pretrage
+        run: node scripts/build/generate-discovery.js
+
       - name: QA strukture
         run: node scripts/qa/qa-structure.js
 
