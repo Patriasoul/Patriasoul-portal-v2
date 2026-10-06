@@ -99,7 +99,7 @@
 .article-figure img{
   display:block;
   width:100%;
-  height:auto;
+  height:clamp(260px,52vw,660px);
   max-height:660px;
   aspect-ratio:16/9;
   object-fit:cover;
@@ -107,7 +107,7 @@
 }
 
 .article-figure img.article-hero{
-  height:auto;
+  height:clamp(260px,52vw,660px);
   min-height:0;
   aspect-ratio:16/9;
   object-fit:cover;
@@ -357,7 +357,7 @@
   display:block;
   width:100%;
   max-width:980px;
-  height:auto;
+  height:clamp(260px,52vw,660px);
   max-height:660px;
   aspect-ratio:16/9;
   margin:30px auto 46px;
