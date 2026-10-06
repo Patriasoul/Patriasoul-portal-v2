@@ -1,0 +1,1 @@
+window.PatriaSoulContent=window.PatriaSoulContent||{};
