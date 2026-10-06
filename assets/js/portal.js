@@ -164,7 +164,7 @@
     if(!existing){
       const loader=document.createElement("script");
       loader.src=commentsScript.href;
-      loader.async=true;
+      loader.async=false;
       loader.dataset.psComments="true";
       document.body.append(loader);
     }
