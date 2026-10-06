@@ -99,15 +99,15 @@
 .article-figure img{
   display:block;
   width:100%;
-  height:clamp(260px,52vw,660px);
-  max-height:660px;
+  height:clamp(240px,38vw,520px);
+  max-height:520px;
   aspect-ratio:16/9;
   object-fit:cover;
   background:#e8e5de;
 }
 
 .article-figure img.article-hero{
-  height:clamp(260px,52vw,660px);
+  height:clamp(240px,38vw,520px);
   min-height:0;
   aspect-ratio:16/9;
   object-fit:cover;
@@ -357,8 +357,8 @@
   display:block;
   width:100%;
   max-width:980px;
-  height:clamp(260px,52vw,660px);
-  max-height:660px;
+  height:clamp(240px,38vw,520px);
+  max-height:520px;
   aspect-ratio:16/9;
   margin:30px auto 46px;
   object-fit:cover;
@@ -440,7 +440,7 @@
 
   .article-figure img,
   .article-figure img.article-hero{
-    height:clamp(210px,62vw,420px);
+    height:clamp(180px,46vw,330px);
     aspect-ratio:16/10;
     max-height:none;
   }
@@ -525,3 +525,13 @@
 .article-related-card:hover{transform:translateY(-2px)}
 .article-related-all{display:inline-block;margin-top:1rem;font-weight:700;text-decoration:none}
 @media(max-width:760px){.article-related-grid{grid-template-columns:1fr}.article-related{padding:1rem}}
+
+
+/* Kompaktniji izgled glavne fotografije za novije članke. */
+.article-page.article-compact > .article-figure,
+.article-page.article-compact > figure.article-figure,
+.article-page.article-compact > .article-hero{max-width:900px;margin:26px auto 38px;border-radius:10px;box-shadow:0 7px 20px rgba(23,32,42,.07)}
+.article-page.article-compact .article-figure img,
+.article-page.article-compact .article-figure img.article-hero,
+.article-page.article-compact > .article-hero{height:clamp(230px,34vw,460px);max-height:460px;aspect-ratio:16/9}
+@media(max-width:560px){.article-page.article-compact > .article-figure,.article-page.article-compact > figure.article-figure,.article-page.article-compact > .article-hero{margin:18px 0 28px;border-radius:8px}.article-page.article-compact .article-figure img,.article-page.article-compact .article-figure img.article-hero,.article-page.article-compact > .article-hero{height:clamp(175px,48vw,300px);max-height:300px}}
