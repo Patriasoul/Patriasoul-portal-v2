@@ -9,7 +9,11 @@ for(const f of files){
   const rel=path.relative(process.cwd(),f);
   if(!/class=["'][^"']*article-page/i.test(s))bad.push(rel+" missing article-page");
   if(!/class=["'][^"']*ps-comments(?:\s|["'])/i.test(s))bad.push(rel+" missing static/live comment block");
-  if(/class=["'][^"']*article-related(?:\s|["'])/i.test(s) && s.indexOf("article-related") > s.indexOf("ps-comments"))bad.push(rel+" comments placed before related stories");
+  const relatedPos=s.search(/<section[^>]*class=["'][^"']*article-related(?:\s|["'])[^>]*>/i);
+  const commentsPos=s.search(/<section[^>]*class=["'][^"']*ps-comments(?:\s|["'])[^>]*>/i);
+  const footerPos=s.search(/<footer[^>]*class=["'][^"']*site-footer/i);
+  if(relatedPos>=0 && commentsPos>=0 && commentsPos<relatedPos)bad.push(rel+" comments placed before related stories");
+  if(commentsPos>=0 && footerPos>=0 && commentsPos>footerPos)bad.push(rel+" comments are after footer");
   if(/class=["'][^"']*ps-comments(?:\s|["'])/i.test(s) && /<footer[^>]*class=["']site-footer/i.test(s) && s.indexOf("ps-comments") > s.indexOf("<footer"))bad.push(rel+" comments are after footer");
   if(!/<script[^>]+assets\/js\/portal\.js/i.test(s))bad.push(rel+" missing portal.js");
   if(!/modern-articles\.css/i.test(s))bad.push(rel+" missing modern-articles.css");
