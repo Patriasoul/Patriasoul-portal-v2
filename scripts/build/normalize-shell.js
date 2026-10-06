@@ -1,6 +1,6 @@
 const fs=require("fs"),path=require("path");
 const ROOT=process.cwd();
-const VERSION="20261007-4";
+const VERSION="20261007-5";
 const SKIP=new Set(["kviz"]);
 let changed=0;
 function walk(dir){
@@ -18,7 +18,7 @@ function walk(dir){
     }
     // Članci uvijek imaju vidljiv statični blok komentara kao fallback.
     // JavaScript ga kasnije pretvara u puni Supabase komentarni sustav.
-    if(/<article[^>]*class=["'][^"']*article-page/i.test(html)){
+    if(/<(?:article|main|div)[^>]*class=["'][^"']*article-page/i.test(html)){
       const fallback='<section class="ps-comments ps-comments-static"><div class="ps-comments-head"><span>KOMENTARI</span><h2>Recite što mislite</h2><p>Za komentiranje morate biti prijavljeni na PatriaSoul. Anonimno komentiranje nije omogućeno.</p></div><div class="ps-comments-content"><div class="ps-comments-login"><strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong><p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p><a href="'+loginPath(full)+'">Prijavi se na PatriaSoul</a></div></div></section>';
       if(!/class=["'][^"']*ps-comments(?:\s|["'])/i.test(html)){
         const related=html.match(/<section[^>]*class=["'][^"']*article-related[^"']*["'][\s\S]*?<\/section>/i);
