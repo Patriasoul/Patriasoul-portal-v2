@@ -33,6 +33,7 @@
     </div></div>
     <nav class="ps-nav" aria-label="Glavna navigacija"><div class="ps-container ps-nav-inner">
       <a class="ps-nav-direct" href="${link("index.html")}">Naslovnica</a>
+      <a class="ps-nav-direct${active("/stranice/najnovije.html")}" href="${link("stranice/najnovije.html")}">Najnovije</a>
       <div class="ps-nav-group${active("/kategorije/domovina")}">
         <a href="${link("kategorije/domovina/")}">Domovina <span>⌄</span></a>
         <div class="ps-dropdown">
@@ -64,13 +65,15 @@
         </div>
       </div>
       <a class="ps-nav-direct${active("/cuvari-nasljedja")}" href="${link("cuvari-nasljedja/")}">Čuvari nasljeđa</a>
-      <a class="ps-nav-direct${active("/stranice/o-patriasoul")}" href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
-      <div class="ps-nav-group ps-more">
-        <a href="${link("stranice/kontakt.html")}">Više <span>⌄</span></a>
+      <div class="ps-nav-group ps-more${active("/stranice/")}">
+        <a href="${link("stranice/o-patriasoul.html")}">Više <span>⌄</span></a>
         <div class="ps-dropdown ps-dropdown-right">
+          <a href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
           <a href="${link("stranice/kontakt.html")}">Kontakt</a>
           <a href="${link("stranice/pretraga.html")}">Pretraži</a>
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
+          <a href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
+          <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
         </div>
       </div>
     </div></nav>
@@ -85,6 +88,14 @@
   document.body.prepend(header);
 
   // Mobilna navigacija: prvi dodir otvara padajući izbornik, drugi vodi na glavnu kategoriju.
+  const positionDropdown = (group) => {
+    const navRect = header.querySelector(".ps-nav").getBoundingClientRect();
+    const dropdown = group.querySelector(".ps-dropdown");
+    if (!dropdown) return;
+    dropdown.style.top = Math.round(navRect.bottom) + "px";
+    dropdown.style.left = "10px";
+    dropdown.style.right = "10px";
+  };
   header.querySelectorAll(".ps-nav-group > a").forEach((anchor) => {
     anchor.addEventListener("click", (event) => {
       if (window.matchMedia("(max-width: 680px)").matches) {
@@ -95,10 +106,12 @@
             if (open !== group) open.classList.remove("is-open");
           });
           group.classList.add("is-open");
+          positionDropdown(group);
         }
       }
     });
   });
+  window.addEventListener("resize", () => header.querySelectorAll(".ps-nav-group.is-open").forEach(positionDropdown));
   document.addEventListener("click", (event) => {
     if (!header.contains(event.target)) header.querySelectorAll(".ps-nav-group.is-open").forEach((g) => g.classList.remove("is-open"));
   });
