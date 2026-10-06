@@ -96,14 +96,30 @@ function enhanceArticle(s,file){
 
   const currentTitle=titleOf(s);
   const currentKeys=keywords(currentTitle);
+  const topicGroups=[
+    ["znanost","znanstv","istraživ","istraživanj","fizik","kemij","matem","seizm","meteorolog","svemir","tehn","izum","torped","sigurnost","kibernet","računal"],
+    ["knjizevnost","književ","pisac","pjesnik","poezij","judit","marul","mažuranić","starčević"],
+    ["umjetnost","umjet","kipar","skladatelj","glazb","pejačević","meštrović"],
+    ["bastina","baštin","glagolj","zakonik","kultura","običaj","tradic","alk","dvorac","republik"],
+    ["domovinski-rat","vukovar","trpinj","branitelj","domovinsk","čavoglav","thompson","zadro","memorij","sjećanj","napad"],
+    ["obitelj-dijaspora","obitelj","obiteljsk","dijaspora","hrvati","prezime","album","baka","djed","selo","škola","djetinj","svadb"],
+    ["vjera","vjera","sveti","svetišt","crkv","krunic","marija","eufem","trsats","vepric","bibl"],
+    ["aktualno","plać","zaposlen","gospodar","turiz","promet","pruga","zet","potres","pfas","med9","sport"]
+  ];
+  const groupsFor=title=>{
+    const f=fold(title);
+    return new Set(topicGroups.filter(([name,...terms])=>terms.some(t=>f.includes(fold(t)))).map(x=>x[0]));
+  };
+  const currentGroups=groupsFor(currentTitle);
   const scored=related.map(n=>{
     const raw=fs.readFileSync(path.join(dir,n),"utf8");
     const title=titleOf(raw);
     const keys=keywords(title);
+    const groups=groupsFor(title);
     let score=0;
     for(const key of currentKeys) if(keys.has(key)) score+=1;
-    // Dodatna težina za izrazito specifične, duže ključne riječi.
     for(const key of currentKeys) if(keys.has(key)&&key.length>=7) score+=0.35;
+    for(const group of currentGroups) if(groups.has(group)) score+=1.5;
     return {n,raw,title,score};
   }).sort((a,b)=>b.score-a.score||a.title.localeCompare(b.title,"hr"));
 
