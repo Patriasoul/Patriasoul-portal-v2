@@ -57,10 +57,6 @@
         <a href="${link("stranice/o-patriasoul.html")}">Više <span>⌄</span></a>
         <div class="ps-dropdown ps-dropdown-right">
           <a href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
-          <a href="${link("stranice/urednicki-standard.html")}">Urednički standard</a>
-          <a href="${link("stranice/pravne-informacije.html")}">Pravne informacije</a>
-          <a href="${link("stranice/privatnost.html")}">Privatnost</a>
-          <a href="${link("stranice/pravilnik-o-igranju-kvizova.html")}">Pravilnik o igranju kvizova</a>
           <a href="${link("stranice/kontakt.html")}">Kontakt</a>
           <a href="${link("stranice/pretraga.html")}">Pretraži</a>
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
@@ -80,7 +76,39 @@
 
   const footer = document.createElement("footer");
   footer.className = "ps-footer";
-  footer.innerHTML = `<div class="ps-container"><strong>PatriaSoul — Čuvaj nasljeđe.</strong><p>Činjenice prije senzacije. Izvor prije tvrdnje.</p><p>patriasoul@protonmail.com</p><small>© 2026 PatriaSoul — Sva prava pridržana.</small></div>`;
+  footer.innerHTML = `
+    <div class="ps-container ps-footer-grid">
+      <div class="ps-footer-brand">
+        <strong>PatriaSoul — Čuvaj nasljeđe.</strong>
+        <p>Činjenice prije senzacije. Izvor prije tvrdnje.</p>
+        <p><a href="mailto:patriasoul@protonmail.com">patriasoul@protonmail.com</a></p>
+      </div>
+      <div class="ps-footer-col">
+        <h3>Informacije</h3>
+        <a href="${link("stranice/urednicki-standard.html")}">Urednički standard</a>
+        <a href="${link("stranice/pravne-informacije.html")}">Pravne informacije</a>
+        <a href="${link("stranice/privatnost.html")}">Privatnost</a>
+        <a href="${link("stranice/pravilnik-o-igranju-kvizova.html")}">Pravilnik o igranju Hrvatskog kviza</a>
+        <a href="${link("stranice/kolacici.html")}">Kolačići</a>
+      </div>
+      <div class="ps-footer-col">
+        <h3>PatriaSoul</h3>
+        <a href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
+        <a href="${link("stranice/kontakt.html")}">Kontakt</a>
+        <a href="${link("stranice/pretraga.html")}">Pretraži</a>
+        <a href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
+        <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
+      </div>
+      <div class="ps-footer-col">
+        <h3>Na portalu</h3>
+        <a href="${link("stranice/najnovije.html")}">Najnovije</a>
+        <a href="${link("kategorije/domovina/")}">Domovina</a>
+        <a href="${link("kategorije/povijest/")}">Povijest</a>
+        <a href="${link("kategorije/vjera/")}">Vjera</a>
+        <a href="${link("cuvari-nasljedja/")}">Čuvari nasljeđa</a>
+      </div>
+    </div>
+    <div class="ps-container ps-footer-bottom"><small>© 2026 PatriaSoul — Čuvaj nasljeđe. Sva prava pridržana.</small></div>`;
   document.body.append(footer);
 
   const date = header.querySelector("[data-ps-date]");
