@@ -4,7 +4,11 @@ const urls=[];
 function walk(d){for(const e of fs.readdirSync(d,{withFileTypes:true})){if([".git","node_modules","_site","kviz"].includes(e.name))continue;const p=path.join(d,e.name);if(e.isDirectory())walk(p);else if(e.name.endsWith(".html")&&e.name!=="404.html")urls.push(base+path.relative(root,p).replaceAll(path.sep,"/"));}}
 walk(root);
 const unique=[...new Set(urls)].sort();
-fs.writeFileSync("sitemap.xml",'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+unique.map(u=>\`<url><loc>\${u}</loc></url>\`).join("\n")+"\n</urlset>\n");
+const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+  unique.map(u => '  <url><loc>' + u + '</loc></url>').join("\n") +
+  '\n</urlset>\n';
+fs.writeFileSync("sitemap.xml", sitemap);
 fs.writeFileSync("robots.txt","User-agent: *\nAllow: /\nSitemap: "+base+"sitemap.xml\n");
 const strip=x=>x.replace(/<[^>]+>/g," ").replace(/&nbsp;/g," ").replace(/&amp;/g,"&").replace(/\s+/g," ").trim();
 const slug=x=>x.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
