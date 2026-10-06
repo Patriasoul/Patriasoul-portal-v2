@@ -23,7 +23,7 @@ function normalizeFile(file){
     [/href="cuvari-nasljeda\.html"/g,'href="../../cuvari-nasljedja/"'],
     [/href="o-nama\.html"/g,'href="../../stranice/o-patriasoul.html"'],[/href="domovina\.html"/g,'href="../../kategorije/domovina/"'],[/href="urednicki-standard\.html"/g,'href="../../stranice/urednicki-standard.html"']
   ];
-  s=s.replace('href="domovina.html"','href="../../kategorije/domovina/"').replace('href="../../domovina.html"','href="../../kategorije/domovina/"').replace('href="../../../domovina.html"','href="../../kategorije/domovina/"');
+  s=s.replace('href="domovina.html"','href="../../kategorije/domovina/"').replace("href='domovina.html'","href='../../kategorije/domovina/'").replace('href="../../domovina.html"','href="../../kategorije/domovina/"').replace('href="../../../domovina.html"','href="../../kategorije/domovina/"');
   for(const [re,to] of fixes)s=s.replace(re,to);
   if(!/articles\.css/i.test(s))s=s.replace("</head>",'<link rel="stylesheet" href="../../assets/css/articles.css"></head>');
   s=s.replace("</body>",'<script src="../../assets/js/portal.js"></script></body>');
