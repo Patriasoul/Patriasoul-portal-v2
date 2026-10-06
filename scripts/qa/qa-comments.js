@@ -8,6 +8,9 @@ for(const f of files){
   const s=fs.readFileSync(f,"utf8");
   const rel=path.relative(process.cwd(),f);
   if(!/class=["'][^"']*article-page/i.test(s))bad.push(rel+" missing article-page");
+  if(!/class=["'][^"']*ps-comments(?:\s|["'])/i.test(s))bad.push(rel+" missing static/live comment block");
+  if(/class=["'][^"']*article-related(?:\s|["'])/i.test(s) && s.indexOf("article-related") > s.indexOf("ps-comments"))bad.push(rel+" comments placed before related stories");
+  if(/class=["'][^"']*ps-comments(?:\s|["'])/i.test(s) && /<footer[^>]*class=["']site-footer/i.test(s) && s.indexOf("ps-comments") > s.indexOf("<footer"))bad.push(rel+" comments are after footer");
   if(!/<script[^>]+assets\/js\/portal\.js/i.test(s))bad.push(rel+" missing portal.js");
   if(!/modern-articles\.css/i.test(s))bad.push(rel+" missing modern-articles.css");
   if(/utterances|github\.com\/utterance|giscus/i.test(s))bad.push(rel+" contains anonymous/legacy comment system");
