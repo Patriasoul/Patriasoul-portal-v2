@@ -14,7 +14,6 @@ for(const f of files){
   const footerPos=s.search(/<footer[^>]*class=["'][^"']*site-footer/i);
   if(relatedPos>=0 && commentsPos>=0 && commentsPos<relatedPos)bad.push(rel+" comments placed before related stories");
   if(commentsPos>=0 && footerPos>=0 && commentsPos>footerPos)bad.push(rel+" comments are after footer");
-  if(/class=["'][^"']*ps-comments(?:\s|["'])/i.test(s) && /<footer[^>]*class=["']site-footer/i.test(s) && s.indexOf("ps-comments") > s.indexOf("<footer"))bad.push(rel+" comments are after footer");
   if(!/<script[^>]+assets\/js\/portal\.js/i.test(s))bad.push(rel+" missing portal.js");
   if(!/modern-articles\.css/i.test(s))bad.push(rel+" missing modern-articles.css");
   if(/utterances|github\.com\/utterance|giscus/i.test(s))bad.push(rel+" contains anonymous/legacy comment system");
