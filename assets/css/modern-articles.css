@@ -513,3 +513,14 @@
   background:#e8e5de;
 }
 .article-card .article-card-body{padding:22px;}
+
+/* Povezani članci */
+.article-related{margin:3rem 0 1rem;padding:1.5rem;border-top:1px solid rgba(0,0,0,.12)}
+.article-related h2{margin:0 0 1rem;font-size:1.35rem}
+.article-related-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.article-related-card{display:flex;flex-direction:column;gap:.45rem;padding:1rem;border:1px solid rgba(0,0,0,.1);border-radius:12px;text-decoration:none;background:#fff}
+.article-related-card span{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;opacity:.65}
+.article-related-card strong{line-height:1.35;color:inherit}
+.article-related-card:hover{transform:translateY(-2px)}
+.article-related-all{display:inline-block;margin-top:1rem;font-weight:700;text-decoration:none}
+@media(max-width:760px){.article-related-grid{grid-template-columns:1fr}.article-related{padding:1rem}}
