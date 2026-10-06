@@ -50,6 +50,9 @@ jobs:
       - name: QA linkova
         run: node scripts/qa/qa-links.js
 
+      - name: QA komentara i prijave
+        run: node scripts/qa/qa-comments.js
+
       - name: Build Hrvatski kviz
         working-directory: kviz
         run: |
