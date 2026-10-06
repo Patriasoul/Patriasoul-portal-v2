@@ -26,13 +26,13 @@ function normalizeFile(file){
     [/href="o-nama\.html"/g,'href="../../stranice/o-patriasoul.html"'],[/href="domovina\.html"/g,'href="../../kategorije/domovina/"'],[/href="urednicki-standard\.html"/g,'href="../../stranice/urednicki-standard.html"']
   ];
   // Ukloni sve stare relativne poveznice prema domovina.html, uključujući sidra.
-  s=s.replace(/href=(["'])domovina\\.html#branitelji\\1/gi,'href="../../kategorije/domovina/branitelji-hrvatske.html"');
+s=s.replace(/href=(["'])\.\.\/domovina\.html#branitelji\1/gi,'href="../../kategorije/domovina/branitelji-hrvatske.html"');
   s=s.replace(/href=(["'])domovina\\.html\\1/gi,'href="../../kategorije/domovina/"');
-  s=s.replace(/href=(["'])\\.\\.\\/domovina\\.html#branitelji\\1/gi,'href="../../kategorije/domovina/branitelji-hrvatske.html"');
+s=s.replace(/href=(["'])\.\.\/domovina\.html#branitelji\1/gi,'href="../../kategorije/domovina/branitelji-hrvatske.html"');
   s=s.replace(/href=(["'])\\.\\.\\/domovina\\.html\\1/gi,'href="../../kategorije/domovina/"');
-  s=s.replace(/href=(["'])\\.\\.\\/\\.\\.\\/domovina\\.html#branitelji\\1/gi,'href="../../kategorije/domovina/branitelji-hrvatske.html"');
+s=s.replace(/href=(["'])\.\.\/domovina\.html#branitelji\1/gi,'href="../../kategorije/domovina/branitelji-hrvatske.html"');
   s=s.replace(/href=(["'])\\.\\.\\/\\.\\.\\/domovina\\.html\\1/gi,'href="../../kategorije/domovina/"');
-  s=s.replace(/href=(["'])\\.\\.\\/\\.\\.\\/\\.\\.\\/domovina\\.html(?:#branitelji)?\\1/gi,'href="../../kategorije/domovina/"');
+s=s.replace(/href=(["'])\.\.\/domovina\.html#branitelji\1/gi,'href="../../kategorije/domovina/branitelji-hrvatske.html"');
   for(const [re,to] of fixes)s=s.replace(re,to);
   if(!/articles\.css/i.test(s))s=s.replace("</head>",'<link rel="stylesheet" href="../../assets/css/articles.css"></head>');
   s=s.replace("</body>",'<script src="../../assets/js/portal.js"></script></body>');
