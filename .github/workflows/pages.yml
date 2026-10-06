@@ -26,6 +26,18 @@ jobs:
         with:
           node-version: 22
 
+      - name: QA strukture
+        run: node scripts/qa/qa-structure.js
+
+      - name: QA članaka
+        run: node scripts/qa/qa-articles.js
+
+      - name: QA slika
+        run: node scripts/qa/qa-images.js
+
+      - name: QA linkova
+        run: node scripts/qa/qa-links.js
+
       - name: Build Hrvatski kviz
         working-directory: kviz
         run: |
