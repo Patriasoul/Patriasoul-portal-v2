@@ -2,7 +2,7 @@
   "use strict";
   const script = document.currentScript;
   // Svaka stranica portala dobiva isti vizualni shell, neovisno o tome koje je CSS datoteke prethodno imala.
-  const coreCss = ["base.css","header.css","navigation.css","footer.css","responsive.css"];
+  const coreCss = ["base.css","header.css","navigation.css","footer.css","responsive.css","comments.css","auth.css"];
   const cssRoot = new URL("../css/", script?.src || location.href).href;
   coreCss.forEach((file) => {
     if (!document.querySelector('link[data-ps-core-css="' + file + '"]')) {
