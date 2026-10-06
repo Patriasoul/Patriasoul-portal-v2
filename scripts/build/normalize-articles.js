@@ -74,18 +74,55 @@ function enhanceArticle(s,file){
   s=s.replace(/<figcaption>PatriaSoul urednička ilustracija[\s\S]*?<\/figcaption>/gi,'<figcaption>Fotografija povezana s temom članka. Izvor i licenca navedeni su uz fotografiju kada su dostupni.</figcaption>');
   if(img) s=s.replace(/<img([^>]+)>/i,(m,a)=>m.includes("loading=")?m:'<img'+a+' loading="eager" decoding="async">');
   const dir=path.dirname(file);
-  const related=fs.readdirSync(dir).filter(n=>/^clanak-.*\.html$/.test(n)).sort();
   const name=path.basename(file);
-  const idx=related.indexOf(name);
-  const picks=[related[(idx-1+related.length)%related.length],related[(idx+1)%related.length],related[Math.min(related.length-1,idx+2)]].filter((x,i,a)=>x&&x!==name&&a.indexOf(x)===i);
-  const cards=picks.map(n=>{
+
+  // Pametni odabir povezanih članaka: prvo tražimo zajedničke ključne riječi
+  // iz naslova, a tek onda koristimo siguran fallback iz iste rubrike.
+  const stopWords=new Set([
+    "i","u","na","je","za","od","iz","s","sa","o","te","do","po","uz","kod","ka","kroz",
+    "kako","što","koji","koja","koje","jedan","jedna","jedno","godina","godine","danas",
+    "hrvatska","hrvatski","hrvatsko","hrvatske"
+  ]);
+  const fold=v=>String(v||"").toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"");
+  const keywords=v=>new Set(
+    fold(v).replace(/[^a-z0-9\\s-]/g," ").split(/\\s+/)
+      .map(x=>x.trim()).filter(x=>x.length>=4&&!stopWords.has(x))
+  );
+  const titleOf=raw=>((raw.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i)||[])[1]||"")
+    .replace(/<[^>]+>/g,"").replace(/\\s+/g," ").trim();
+
+  const related=fs.readdirSync(dir)
+    .filter(n=>/^clanak-.*\\.html$/.test(n)&&n!==name);
+
+  const currentTitle=titleOf(s);
+  const currentKeys=keywords(currentTitle);
+  const scored=related.map(n=>{
     const raw=fs.readFileSync(path.join(dir,n),"utf8");
-    const t=((raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[])[1]||n).replace(/<[^>]+>/g,"").trim();
-    const im=((raw.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
-    const alt=((raw.match(/<img[^>]+alt="([^"]*)"/i)||[])[1]||t).trim();
+    const title=titleOf(raw);
+    const keys=keywords(title);
+    let score=0;
+    for(const key of currentKeys) if(keys.has(key)) score+=1;
+    // Dodatna težina za izrazito specifične, duže ključne riječi.
+    for(const key of currentKeys) if(keys.has(key)&&key.length>=7) score+=0.35;
+    return {n,raw,title,score};
+  }).sort((a,b)=>b.score-a.score||a.title.localeCompare(b.title,"hr"));
+
+  const picks=[];
+  for(const item of scored){
+    if(item.score>0&&picks.length<3) picks.push(item);
+  }
+  if(picks.length<2){
+    for(const item of scored) if(!picks.includes(item)&&picks.length<3) picks.push(item);
+  }
+
+  const cards=picks.slice(0,3).map(item=>{
+    const t=item.title||item.n;
+    const im=((item.raw.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
+    const alt=((item.raw.match(/<img[^>]+alt="([^"]*)"/i)||[])[1]||t).trim();
     const image=im ? '<img src="'+escAttr(im)+'" alt="'+escAttr(alt)+'" loading="lazy" decoding="async">' : "";
-    return '<a class="article-related-card" href="'+n+'">'+image+'<span><b>'+categoryLabel+'</b><strong>'+escHtml(t)+'</strong><em>Pročitaj članak →</em></span></a>';
+    return '<a class="article-related-card" href="'+item.n+'">'+image+'<span><b>'+categoryLabel+'</b><strong>'+escHtml(t)+'</strong><em>Pročitaj članak →</em></span></a>';
   }).join("");
+
   const categoryHref=category==="cuvari-nasljedja"?"../../cuvari-nasljedja/":"../../kategorije/"+category+"/index.html";
   const relatedHtml='<section class="article-related" aria-labelledby="povezani-naslovi"><h2 id="povezani-naslovi">Povezano</h2><div class="article-related-grid">'+cards+'</div><a class="article-related-all" href="'+categoryHref+'">Više iz rubrike '+categoryLabel+' →</a></section>';
   s=s.replace(/<section class="article-related"[\s\S]*?<\/section>/i,"");
