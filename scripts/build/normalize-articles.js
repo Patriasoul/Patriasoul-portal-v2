@@ -4,6 +4,8 @@ function walk(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){cons
 function normalizeFile(file){
   let s=fs.readFileSync(file,"utf8");
   s=s.replace(/<header[\s\S]*?<\/header>/i,"");
+  s=s.replace(/Piše:\s*PatriaSoul/gi,"Autor: Čuvari nasljeđa");
+  s=s.replace(/Autor:\s*PatriaSoul/gi,"Autor: Čuvari nasljeđa");
   s=s.replace(/<link[^>]+(?:portal\.css|community\.css)[^>]*>\s*/gi,"");
   s=s.replace(/<script[^>]+portal\.js[^>]*><\/script>/gi,"");
   const fixes=[
