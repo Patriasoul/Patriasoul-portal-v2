@@ -29,8 +29,67 @@ function normalizeFile(file){
   for(const [re,to] of fixes)s=s.replace(re,to);
   if(!/articles\.css/i.test(s))s=s.replace("</head>",'<link rel="stylesheet" href="../../assets/css/articles.css"></head>');
   s=s.replace("</body>",'<script src="../../assets/js/portal.js"></script></body>');
+  s=enhanceArticle(s,file);
   fs.writeFileSync(file,s);
 }
+
+function enhanceArticle(s,file){
+  const rel=path.relative(process.cwd(),file).replace(/\\/g,"/");
+  const parts=rel.split("/");
+  if(parts[0]!=="clanci" || !/^clanak-.*\\.html$/.test(parts[parts.length-1])) return s;
+  const category=parts[1];
+  const categoryLabel={domovina:"Domovina",povijest:"Povijest",vjera:"Vjera","cuvari-nasljedja":"Čuvari nasljeđa"}[category]||"PatriaSoul";
+  const title=((s.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
+  const deck=((s.match(/<p class="article-deck"[^>]*>([\\s\\S]*?)<\\/p>/i)||[])[1]||"").replace(/<[^>]+>/g,"").replace(/\\s+/g," ").trim();
+  const description=((s.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i)||[])[1]||deck||title).slice(0,160);
+  const img=((s.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
+  const canonical="https://patriasoul.github.io/Patriasoul-portal-v2/"+rel;
+  const imageAbs=img ? (img.startsWith("http")?img:new URL(img,canonical).href) : "";
+  s=s.replace(/<meta[^>]+name="robots"[^>]*>\\s*/gi,"");
+  s=s.replace(/<meta[^>]+name="author"[^>]*>\\s*/gi,"");
+  s=s.replace(/<link[^>]+rel="canonical"[^>]*>\\s*/gi,"");
+  s=s.replace(/<meta[^>]+property="og:[^>]+>\\s*/gi,"");
+  s=s.replace(/<meta[^>]+name="twitter:[^>]+>\\s*/gi,"");
+  const meta=[
+    '<meta name="author" content="Čuvari nasljeđa">',
+    '<meta name="article:section" content="'+categoryLabel+'">',
+    '<link rel="canonical" href="'+canonical+'">',
+    '<meta property="og:type" content="article">',
+    '<meta property="og:title" content="'+escAttr(title)+'">',
+    '<meta property="og:description" content="'+escAttr(description)+'">',
+    '<meta property="og:url" content="'+canonical+'">',
+    '<meta property="og:site_name" content="PatriaSoul">',
+    '<meta property="og:locale" content="hr_HR">',
+    imageAbs?'<meta property="og:image" content="'+escAttr(imageAbs)+'">':"",
+    '<meta name="twitter:card" content="summary_large_image">',
+    '<meta name="twitter:title" content="'+escAttr(title)+'">',
+    '<meta name="twitter:description" content="'+escAttr(description)+'">',
+    imageAbs?'<meta name="twitter:image" content="'+escAttr(imageAbs)+'">':""
+  ].filter(Boolean).join("");
+  s=s.replace(/<meta[^>]+name="description"[^>]*>/i,m=>m+meta);
+  const ld={"@context":"https://schema.org","@type":"Article","headline":title,"description":description,"author":{"@type":"Organization","name":"Čuvari nasljeđa"},"publisher":{"@type":"Organization","name":"PatriaSoul"},"mainEntityOfPage":{"@type":"WebPage","@id":canonical},"url":canonical,"inLanguage":"hr-HR"};
+  if(imageAbs) ld.image=[imageAbs];
+  s=s.replace(/<script[^>]+type="application\\/ld\\+json"[^>]*>[\\s\\S]*?<\\/script>\\s*/gi,"");
+  s=s.replace(/<\\/head>/i,'<script type="application/ld+json">'+JSON.stringify(ld)+'</script></head>');
+  s=s.replace(/<figcaption>PatriaSoul urednička ilustracija[\\s\\S]*?<\\/figcaption>/gi,'<figcaption>Fotografija povezana s temom članka. Izvor i licenca navedeni su uz fotografiju kada su dostupni.</figcaption>');
+  if(img) s=s.replace(/<img([^>]+)>/i,(m,a)=>m.includes("loading=")?m:'<img'+a+' loading="eager" decoding="async">');
+  const dir=path.dirname(file);
+  const related=fs.readdirSync(dir).filter(n=>/^clanak-.*\\.html$/.test(n)).sort();
+  const name=path.basename(file);
+  const idx=related.indexOf(name);
+  const picks=[related[(idx-1+related.length)%related.length],related[(idx+1)%related.length],related[Math.min(related.length-1,idx+2)]].filter((x,i,a)=>x&&x!==name&&a.indexOf(x)===i);
+  const cards=picks.map(n=>{
+    const raw=fs.readFileSync(path.join(dir,n),"utf8");
+    const t=((raw.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i)||[])[1]||n).replace(/<[^>]+>/g,"").trim();
+    return '<a class="article-related-card" href="'+n+'"><span>'+categoryLabel+'</span><strong>'+escHtml(t)+'</strong></a>';
+  }).join("");
+  const relatedHtml='<section class="article-related" aria-labelledby="povezani-naslovi"><h2 id="povezani-naslovi">Povezano</h2><div class="article-related-grid">'+cards+'</div><a class="article-related-all" href="../../kategorije/'+category+'/index.html">Više iz rubrike '+categoryLabel+' →</a></section>';
+  s=s.replace(/<section class="article-related"[\\s\\S]*?<\\/section>/i,"");
+  s=s.replace(/<\\/body>/i,relatedHtml+"</body>");
+  return s;
+}
+function escAttr(v){return String(v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function escHtml(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function normalizePage(file){let s=fs.readFileSync(file,'utf8');s=s.replace(/<header[\s\S]*?<\/header>/i,'').replace(/<link[^>]+(?:portal\.css|legal-page\.css|editorial-standard\.css|community\.css)[^>]*>\s*/gi,'').replace(/<script[^>]+portal\.js[^>]*><\/script>/gi,'');const fixes=[[/href="index\.html"/g,'href="../index.html"'],[/href="vjera\.html"/g,'href="../kategorije/vjera/"'],[/href="obitelj\.html"/g,'href="../kategorije/domovina/obitelj.html"'],[/href="domovina\.html"/g,'href="../kategorije/domovina/"'],[/href="vrijeme\.html"/g,'href="../kategorije/domovina/hrvatska-danas.html"'],[/href="cuvari-nasljeda\.html"/g,'href="../cuvari-nasljedja/"'],[/href="o-nama\.html"/g,'href="../stranice/o-patriasoul.html"']];for(const [re,to] of fixes)s=s.replace(re,to);if(!/portal\.js/i.test(s))s=s.replace('</body>','<script src="../assets/js/portal.js"></script></body>');fs.writeFileSync(file,s)}
 function walkPages(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())walkPages(p);else if(e.name.endsWith('.html'))normalizePage(p)}}
 walk(root);walkPages(path.join(process.cwd(),'stranice'));
