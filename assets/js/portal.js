@@ -74,6 +74,25 @@
   `;
   document.body.prepend(header);
 
+  // Mobilna navigacija: prvi dodir otvara padajući izbornik, drugi vodi na glavnu kategoriju.
+  header.querySelectorAll(".ps-nav-group > a").forEach((anchor) => {
+    anchor.addEventListener("click", (event) => {
+      if (window.matchMedia("(max-width: 680px)").matches) {
+        const group = anchor.parentElement;
+        if (!group.classList.contains("is-open")) {
+          event.preventDefault();
+          header.querySelectorAll(".ps-nav-group.is-open").forEach((open) => {
+            if (open !== group) open.classList.remove("is-open");
+          });
+          group.classList.add("is-open");
+        }
+      }
+    });
+  });
+  document.addEventListener("click", (event) => {
+    if (!header.contains(event.target)) header.querySelectorAll(".ps-nav-group.is-open").forEach((g) => g.classList.remove("is-open"));
+  });
+
   const footer = document.createElement("footer");
   footer.className = "ps-footer";
   footer.innerHTML = `
