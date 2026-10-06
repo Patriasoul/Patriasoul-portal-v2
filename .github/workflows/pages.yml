@@ -38,6 +38,9 @@ jobs:
       - name: QA članaka
         run: node scripts/qa/qa-articles.js
 
+      - name: QA sustava članaka
+        run: node scripts/qa/qa-article-system.js
+
       - name: QA slika
         run: node scripts/qa/qa-images.js
 
