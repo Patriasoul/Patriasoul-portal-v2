@@ -23,7 +23,12 @@ function renderDate(d){
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 
 async function fetchLocalEvents(d){
-  const json=await fetchJson(DATA_URL);
+  const response=await fetch(DATA_URL+"?v="+Date.now(),{
+    cache:"no-store",
+    headers:{"Accept":"application/json"}
+  });
+  if(!response.ok) throw new Error("HTTP "+response.status);
+  const json=await response.json();
   const key=pad(d.getMonth()+1)+"-"+pad(d.getDate());
   return json?.dates?.[key]?.events || [];
 }
