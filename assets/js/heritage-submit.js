@@ -18,6 +18,7 @@ form.addEventListener("submit",async event=>{
  try{
   const {data:{user}}=await supabase.auth.getUser();
   const submissionId=crypto.randomUUID();
+  let attachment=null;
   if(file){
    const ext=(file.name.split(".").pop()||"bin").toLowerCase().replace(/[^a-z0-9]/g,"");
    const path="submissions/"+submissionId+"/"+safeName(file.name).slice(0,120)+"."+ext;
@@ -32,11 +33,11 @@ form.addEventListener("submit",async event=>{
    story:data.get("story").trim(),source_info:(data.get("source_info")||"").trim()||null,
    period:(data.get("period")||"").trim()||null,rights_confirmed:data.get("rights_confirmed")==="on",
    consent:data.get("consent")==="on",status:"novo",
-   attachment_path:attachment?.path||null,attachment_name:attachment?.name||null,
-   attachment_type:attachment?.type||null,attachment_size:attachment?.size||null
+   attachment:attachment
   };
-  const result=await supabase.from("heritage_submissions").insert(payload);
-  if(result.error)throw result.error;
+  const {data:mailResult,error:mailError}=await supabase.functions.invoke("heritage-submit",{body:payload});
+  if(mailError)throw mailError;
+  if(!mailResult?.ok || !mailResult?.email_sent)throw new Error("E-mail nije potvrđen kao poslan.");
   form.hidden=true;success.hidden=false;success.scrollIntoView({behavior:"smooth",block:"center"});
  }catch(error){console.error("PatriaSoul prijava:",error);setStatus("Prijavu nije bilo moguće poslati. Provjeri vezu i pokušaj ponovno.","error")}
  finally{button.disabled=false;button.classList.remove("is-loading")}
