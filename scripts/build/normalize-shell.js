@@ -33,6 +33,7 @@ function walk(dir){
         const commentTag='<script src="'+relComments+'?v='+VERSION+'" data-ps-comments="true"></script>';
         html=html.replace(/(<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>)/i,'$1'+commentTag);
       }
+    }
     html=html.replace(/<footer class=["']site-footer["']><\/footer>/gi,"");
     fs.writeFileSync(full,html);
     changed++;
