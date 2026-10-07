@@ -1,6 +1,6 @@
 const fs=require("fs"),path=require("path");
 const ROOT=process.cwd();
-const VERSION="20261007-10";
+const VERSION="20261007-11";
 const SKIP=new Set(["kviz"]);
 let changed=0;
 function walk(dir){
@@ -16,21 +16,15 @@ function walk(dir){
       const rel=portalPath(full);
       if(/<\/body>/i.test(html)) html=html.replace(/<\/body>/i,'<script src="'+rel+'?v='+VERSION+'"></script></body>');
     }
-    // Članci uvijek imaju vidljiv statični blok komentara kao fallback.
-    // JavaScript ga kasnije pretvara u puni Supabase komentarni sustav.
     if(/<(?:article|main|div)[^>]*class=["'][^"']*article-page/i.test(html)){
       const fallback='<section class="ps-comments ps-comments-static"><div class="ps-comments-head"><span>KOMENTARI</span><h2>Recite što mislite</h2><p>Za komentiranje morate biti prijavljeni na PatriaSoul. Anonimno komentiranje nije omogućeno.</p></div><div class="ps-comments-content"><div class="ps-comments-login"><strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong><p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p><a href="'+loginPath(full)+'">Prijavi se na PatriaSoul</a></div></div></section>';
       html=html.replace(/<section[^>]*class=["'][^"']*ps-comments[^"']*["'][\s\S]*?<\/section>/gi,"");
-      // Stari statični footer uklanjamo. Portal.js je jedini vlasnik footera.
-      // Time sprječavamo dva footera i prekrivanje Povezanih priča/komentara.
       html=html.replace(/<footer[^>]*class=["']site-footer["'][\s\S]*?<\/footer>/gi,"");
-      // Komentari uvijek dolaze odmah nakon bloka Povezano.
-      // Ne oslanjamo se na položaj </main>, jer stariji članci imaju različitu strukturu.
-      const relatedMatch=html.match(/<section[^>]*class=["'][^"']*article-related(?:\\s|["'])[^>]*>[\\s\\S]*?<\\/section>/i);
+      const relatedMatch=html.match(/<section[^>]*class=["'][^"']*article-related(?:\s|["'])[^>]*>[\s\S]*?<\/section>/i);
       if(relatedMatch){
         html=html.replace(relatedMatch[0],relatedMatch[0]+fallback);
       }else{
-        html=html.replace(/<\\/main>/i,fallback+'</main>');
+        html=html.replace(/<\/main>/i,fallback+"</main>");
       }
       if(!/<script[^>]+src=["'][^"']*assets\/js\/comments\.js(?:\?[^"']*)?["']/i.test(html)){
         const relComments=commentsPath(full);
