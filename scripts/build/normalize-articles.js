@@ -166,11 +166,15 @@ function generateArticleIndex(){
         const title=((raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[])[1]||e.name).replace(/<[^>]+>/g,"").trim();
         const description=((raw.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i)||[])[1]||"").trim();
         const image=((raw.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
+        const alt=((raw.match(/<img[^>]+alt="([^"]*)"/i)||[])[1]||title).trim();
+        const meta=((raw.match(/<div class="article-meta">([\\s\\S]*?)<\\/div>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
+        const dateMatch=meta.match(/\\b\\d{1,2}\\.\\s*(?:siječnja|veljače|ožujka|travnja|svibnja|lipnja|srpnja|kolovoza|rujna|listopada|studenoga|prosinca)\\s*\\d{4}\\./i);
+        const date=dateMatch?dateMatch[0]:"";
         const category=rel.split("/")[1]||"";
         const kicker=((raw.match(/<div class="article-kicker">([\\s\\S]*?)<\\/div>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
         const kickerParts=kicker.split("·").map(x=>x.trim()).filter(Boolean);
         const subcategory=kickerParts.length>1?kickerParts[1]:"";
-        items.push({title,description,image,category,subcategory,url:rel,author:"Čuvari nasljeđa"});
+        items.push({title,description,image,alt,date,category,subcategory,url:rel,author:"Čuvari nasljeđa"});
       }
     }
   }
