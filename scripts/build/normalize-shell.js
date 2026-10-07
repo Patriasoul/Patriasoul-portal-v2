@@ -27,14 +27,12 @@ function walk(dir){
       // Komentari su zadnji dio sadržaja članka: umeću se odmah nakon </main>.
       // Tako Povezano i sav sadržaj članka uvijek dolaze prije komentara,
       // a portal.js potom dodaje jedini footer nakon cijelog dokumenta.
-      html=html.replace(/<\\/main>/i,fallback+'</main>');
-      if(!/<script[^>]+src=["'][^"']*assets\\/js\\/comments\\.js(?:\\?[^"']*)?["']/i.test(html)){
+      html=html.replace(/<\/main>/i,fallback+'</main>');
+      if(!/<script[^>]+src=["'][^"']*assets\/js\/comments\.js(?:\?[^"']*)?["']/i.test(html)){
         const relComments=commentsPath(full);
         const commentTag='<script src="'+relComments+'?v='+VERSION+'" data-ps-comments="true"></script>';
-        html=html.replace(/(<script[^>]+src=["'][^"']*assets\\/js\\/portal\\.js(?:\\?[^"']*)?["'][^>]*><\\/script>)/i,'$1'+commentTag);
+        html=html.replace(/(<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>)/i,'$1'+commentTag);
       }
-      }
-    }
     html=html.replace(/<footer class=["']site-footer["']><\/footer>/gi,"");
     fs.writeFileSync(full,html);
     changed++;
