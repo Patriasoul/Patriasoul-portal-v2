@@ -5,14 +5,17 @@ const commentScript=document.currentScript;
 const portalScript=document.querySelector('script[src*="/assets/js/portal.js"]');
 const authSrc=commentScript?new URL("auth.js",commentScript.src).href:(portalScript?new URL("auth.js",portalScript.src).href:"../assets/js/auth.js");
 const escape=(v)=>String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const loginUrl=()=>{const base=commentScript?.src||location.href;const p=new URL("../../stranice/prijava.html",base);p.searchParams.set("next",location.href);try{sessionStorage.setItem("patriasoul-login-next",location.href)}catch(_){}return p.href};
+const loginUrl=()=>{const base=commentScript?.src||location.href;const p=new URL("../../stranice/prijava.html",base);const target=new URL(location.href);target.hash="komentari";p.searchParams.set("next",target.href);try{sessionStorage.setItem("patriasoul-login-next",target.href)}catch(_){}return p.href};
 async function boot(){
  addStyle();
  const section=document.querySelector(".ps-comments");
+ if(section&&!section.id)section.id="komentari";
  if(!section)return;
  const box=section.querySelector(".ps-comments-content");
  if(!box)return;
  try{if(window.PatriaSoulAuthReady){await window.PatriaSoulAuthReady}else if(!window.PatriaSoulAuth){await loadScript(authSrc)}const auth=window.PatriaSoulAuth;const client=await auth.client();let user=await auth.getUser();
+ if(!user){await new Promise(r=>setTimeout(r,250));user=await auth.getUser().catch(()=>null)}
+ if(!user){await new Promise(r=>setTimeout(r,750));user=await auth.getUser().catch(()=>null)}
  const render=async()=>{
    const path=location.pathname.replace(/^\/+/,"/");
    const {data:rows,error}=await client.from("article_comments").select("id,user_id,author_name,body,created_at").eq("article_path",path).order("created_at",{ascending:false});
@@ -35,6 +38,7 @@ async function boot(){
    }
  };
  await renderGate();await render();
+ if(location.hash==="#komentari"){window.setTimeout(()=>document.getElementById("komentari")?.scrollIntoView({behavior:"smooth",block:"start"}),150)}
  client.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;window.setTimeout(()=>{renderGate();render().catch(console.error)},0)});
  }catch(error){console.error("PatriaSoul komentari:",error);if(user){box.innerHTML='<div class="ps-comments-login"><strong>Prijava je aktivna.</strong><p>Korisnik je prijavljen, ali se komentari trenutačno ne mogu učitati.</p></div>'}else if(!box.querySelector(".ps-comments-login"))box.innerHTML='<div class="ps-comments-login"><strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong><p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p><a href="'+loginUrl()+'">Prijavi se na PatriaSoul</a></div>'}
 }
