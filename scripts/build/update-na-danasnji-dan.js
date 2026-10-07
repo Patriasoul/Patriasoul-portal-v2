@@ -60,9 +60,12 @@ async function fetchBatch(pages){
   const json=await fetchJson(API+"?"+params.toString());
   const result={};
   for(const page of (json.query?.pages || [])){
-    result[page.title]=page.missing
+    const events = page.missing
       ? []
-      : parseEvents(page.revisions?.[0]?.slots?.main?.content || "");
+      : parseEvents(page.revisions?.[0]?.slots?.main?.content || page.revisions?.[0]?.content || "");
+    const normalized = String(page.title || "").replace(/ /g,"_");
+    result[normalized] = events;
+    result[String(page.title || "")] = events;
   }
   return result;
 }
