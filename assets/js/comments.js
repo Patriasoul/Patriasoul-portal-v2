@@ -8,11 +8,10 @@ const escape=(v)=>String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"
 const loginUrl=()=>{const p=new URL("../../stranice/prijava.html",location.href);p.searchParams.set("next",location.href);return p.href};
 async function boot(){
  addStyle();
- const old=document.querySelector(".ps-comments");if(old)old.remove();
- const section=document.createElement("section");section.className="ps-comments";
- section.innerHTML='<div class="ps-comments-head"><span>KOMENTARI</span><h2>Recite što mislite</h2><p>Za komentiranje morate biti prijavljeni na PatriaSoul. Anonimno komentiranje nije omogućeno.</p></div><div class="ps-comments-content"></div>';
- const related=article.querySelector(".article-related");if(related)related.after(section);else article.append(section);
+ const section=document.querySelector(".ps-comments");
+ if(!section)return;
  const box=section.querySelector(".ps-comments-content");
+ if(!box)return;
  try{if(!window.PatriaSoulAuth)await loadScript(authSrc);const auth=window.PatriaSoulAuth;const client=await auth.client();let user=await auth.getUser();
  const render=async()=>{
    const path=location.pathname.replace(/^\/+/,"/");
@@ -36,7 +35,7 @@ async function boot(){
  };
  await renderGate();await render();
  client.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;renderGate();render()});
- }catch(error){box.innerHTML='<div class="ps-comments-login"><strong>Komentari trenutno nisu dostupni.</strong><p>Prijava i komentiranje bit će ponovno dostupni čim se uspostavi korisnička sesija.</p></div>';console.error(error)}
+ }catch(error){console.error("PatriaSoul komentari:",error);if(!box.querySelector(".ps-comments-login"))box.innerHTML='<div class="ps-comments-login"><strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong><p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p><a href="'+loginUrl()+'">Prijavi se na PatriaSoul</a></div>'}
 }
 boot();
 })();
