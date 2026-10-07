@@ -17,7 +17,20 @@ function walk(dir){
       if(/<\/body>/i.test(html)) html=html.replace(/<\/body>/i,'<script src="'+rel+'?v='+VERSION+'"></script></body>');
     }
     if(/<(?:article|main|div)[^>]*class=["'][^"']*article-page/i.test(html)){
-      const fallback='<section class="ps-comments ps-comments-static"><div class="ps-comments-head"><span>KOMENTARI</span><h2>Recite što mislite</h2><p>Za komentiranje morate biti prijavljeni na PatriaSoul. Anonimno komentiranje nije omogućeno.</p></div><div class="ps-comments-content"><div class="ps-comments-login"><strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong><p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p><a href="'+loginPath(full)+'?next='+encodeURIComponent(articlePath(full))">Prijavi se na PatriaSoul</a></div></div></section>';
+      const fallback=[
+        '<section class="ps-comments ps-comments-static">',
+        '<div class="ps-comments-head"><span>KOMENTARI</span><h2>Recite što mislite</h2>',
+        '<p>Za komentiranje morate biti prijavljeni na PatriaSoul. Anonimno komentiranje nije omogućeno.</p></div>',
+        '<div class="ps-comments-content"><div class="ps-comments-login">',
+        '<strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong>',
+        '<p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p>',
+        '<a href="',
+        loginPath(full),
+        '?next=',
+        encodeURIComponent(articlePath(full)),
+        '">Prijavi se na PatriaSoul</a>',
+        '</div></div></section>'
+      ].join("");
       // Na člancima su Povezano i Komentari dio sadržaja članka.
       // Portal.js stvara footer dinamički, zato se mora izvršiti TEK NAKON tih blokova.
       const portalRe=/<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>/gi;
