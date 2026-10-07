@@ -21,5 +21,5 @@ async function load(){
  try{const res=await fetch("../data/dhmz-data.json?"+Date.now(),{cache:"no-store"});if(!res.ok)throw new Error("DHMZ HTTP "+res.status);render(await res.json());}
  catch(e){console.warn("PatriaSoul DHMZ:",e);render(null);}
 }
-document.addEventListener("DOMContentLoaded",()=>{setTimeout(load,0);});
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",load,{once:true});}else{load();}
 })();
