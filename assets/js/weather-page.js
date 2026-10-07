@@ -52,6 +52,17 @@ $("#marine-weather").innerHTML='<div class="ps-weather-quality-grid"><div><small
 
 function apiUrl(c){return API+"?latitude="+encodeURIComponent(c.lat)+"&longitude="+encodeURIComponent(c.lon)+"&timezone=Europe%2FZagreb&forecast_days=9&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m,wind_gusts_10m,surface_pressure,visibility,uv_index&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,sunrise,sunset";}
 async function fetchJson(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);try{const r=await fetch(url,{cache:"no-store",signal:controller.signal});if(!r.ok)throw new Error("HTTP "+r.status);return await r.json();}finally{clearTimeout(timer);}}
+function renderSafety(){
+ const w=$("#weather-safety-warning"),r=$("#weather-safety-rain"),sea=$("#weather-safety-sea");
+ if(!w||!r||!sea)return;
+ const ok=data.filter(Boolean),todayIndex=0;
+ if(!ok.length){w.textContent="Dnevni sigurnosni pregled trenutno nije dostupan.";r.textContent="Dnevni pregled oborine trenutno nije dostupan.";sea.textContent="Dnevni pregled Jadrana trenutno nije dostupan.";return;}
+ let maxWind=0,maxRain=0,minTemp=99,maxTemp=-99,storm=false;
+ ok.forEach(d=>{const c=d.current||{};maxWind=Math.max(maxWind,Number(c.wind_gusts_10m)||0);const q=d.daily||{};maxRain=Math.max(maxRain,Number(q.precipitation_sum?.[todayIndex])||0);minTemp=Math.min(minTemp,Number(q.temperature_2m_min?.[todayIndex]??c.temperature_2m));maxTemp=Math.max(maxTemp,Number(q.temperature_2m_max?.[todayIndex]??c.temperature_2m));if(Number(c.weather_code)>=95)storm=true;});
+ w.innerHTML="<strong>Danas:</strong> "+(storm?"moguća je pojava grmljavine prema dostupnim prognoznim podacima. ":"Bez prognoziranog grmljavinskog nevremena u pregledanim lokacijama. ")+"Najveći prognozirani udari vjetra u pregledu: <strong>"+Math.round(maxWind)+" km/h</strong>. Raspon temperatura: <strong>"+Math.round(minTemp)+"–"+Math.round(maxTemp)+" °C</strong>.";
+ r.innerHTML="<strong>Danas:</strong> najveća prognozirana količina oborine među pregledanim lokacijama iznosi <strong>"+maxRain.toFixed(1)+" mm</strong>. Podatak se automatski osvježava zajedno s vremenskom prognozom.";
+ sea.innerHTML="<strong>Jadran:</strong> stanje mora, valova, temperature mora i vjetra prikazuje se u zasebnom dnevnom pregledu iznad. Ovaj tekst se automatski osvježava svaki dan zajedno s prognozom.";
+}
 async function load(){const status=$("#weather-live-status");status.textContent="Podaci se dohvaćaju…";try{
 const results=[];for(let base=0;base<cities.length;base+=4){const batch=cities.slice(base,base+4).map(c=>fetchJson(apiUrl(c)).catch(e=>{console.warn("PatriaSoul weather city:",c.name,e);return null;}));results.push(...await Promise.all(batch));}
 data=results;if(!data.some(Boolean))throw new Error("Nijedna vremenska lokacija nije dostupna");
