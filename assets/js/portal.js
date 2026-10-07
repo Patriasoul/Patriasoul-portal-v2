@@ -84,9 +84,6 @@
           <a href="${link("stranice/pretraga.html")}">Pretraži</a>
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
           <a href="${link("stranice/racun.html")}">Moj račun</a>
-          <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
-          <a href="${link("stranice/vrijeme.html")}">Vrijeme u Hrvatskoj</a>
-          <a href="${link("stranice/na-danasnji-dan.html")}">Na današnji dan</a>
         </div>
       </div>
     </div></nav>
