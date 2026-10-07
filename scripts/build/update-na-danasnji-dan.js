@@ -48,71 +48,47 @@ function parseEvents(wikitext){
 }
 
 async function fetchBatch(pages){
-  const params = new URLSearchParams({
-    action:"query",
-    prop:"revisions",
-    rvprop:"content",
-    rvslots:"main",
-    format:"json",
-    formatversion:"2",
-    titles:pages.join("|")
-  });
-  const json=await fetchJson(API+"?"+params.toString());
   const result={};
-  for(const page of (json.query?.pages || [])){
-    const events = page.missing
-      ? []
-      : parseEvents(page.revisions?.[0]?.slots?.main?.content || page.revisions?.[0]?.content || "");
-    const normalized = String(page.title || "").replace(/ /g,"_");
-    result[normalized] = events;
-    result[String(page.title || "")] = events;
+
+  for(const page of pages){
+    const [day, monthName] = page.split("._");
+    const month = MONTHS.indexOf(monthName) + 1;
+    let events=[];
+
+    // Prvo pokušaj službeni hrvatski OnThisDay feed.
+    try{
+      const feedUrl="https://hr.wikipedia.org/api/rest_v1/feed/onthisday/events/"+month+"/"+day;
+      const feed=await fetchJson(feedUrl);
+      events=(feed.events || [])
+        .map(e=>({
+          year:Number(e.year),
+          text:clean(e.text || e.pages?.[0]?.extract || "")
+        }))
+        .filter(e=>Number.isFinite(e.year) && e.text);
+    }catch(_){}
+
+    // Ako feed nije dostupan, koristi hrvatski MediaWiki API.
+    if(!events.length){
+      try{
+        const params=new URLSearchParams({
+          action:"query",
+          prop:"revisions",
+          rvprop:"content",
+          rvslots:"main",
+          format:"json",
+          formatversion:"2",
+          titles:page
+        });
+        const json=await fetchJson(API+"?"+params.toString());
+        const p=json.query?.pages?.[0];
+        const content=p?.revisions?.[0]?.slots?.main?.content || p?.revisions?.[0]?.content || "";
+        events=parseEvents(content);
+      }catch(_){}
+    }
+
+    result[page]=events;
   }
+
   return result;
 }
 
-(async()=>{
-  const pages=[];
-  for(let month=1;month<=12;month++){
-    const days=new Date(Date.UTC(2028,month,0)).getUTCDate();
-    for(let day=1;day<=days;day++){
-      pages.push({
-        title: day+"._"+MONTHS[month-1],
-        key: pad(month)+"-"+pad(day)
-      });
-    }
-  }
-
-  const dates={};
-  const BATCH=40;
-
-  for(let i=0;i<pages.length;i+=BATCH){
-    const batch=pages.slice(i,i+BATCH);
-    const data=await fetchBatch(batch.map(x=>x.title));
-
-    for(const item of batch){
-      dates[item.key]={
-        date:item.key,
-        source:"Hrvatska Wikipedija",
-        source_url:"https://hr.wikipedia.org/wiki/"+encodeURIComponent(item.title.replace(/ /g,"_")),
-        events:data[item.title] || []
-      };
-    }
-
-    console.log("Dohvaćeno",Math.min(i+BATCH,pages.length),"/",pages.length);
-  }
-
-  const output={
-    source:"Hrvatska Wikipedija",
-    source_url:"https://hr.wikipedia.org/",
-    updated_at:new Date().toISOString(),
-    dates
-  };
-
-  const target=path.join(process.cwd(),"data","na-danasnji-dan.json");
-  fs.mkdirSync(path.dirname(target),{recursive:true});
-  fs.writeFileSync(target,JSON.stringify(output,null,2)+"\n","utf8");
-  console.log("Zapisano:",target);
-})().catch(error=>{
-  console.error(error);
-  process.exit(1);
-});
