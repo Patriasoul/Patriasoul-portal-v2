@@ -36,8 +36,8 @@ async function fetchLocalEvents(d){
 function eventCard(e, featured=false){
   const year = yearFor(e);
   const category = categoryFor(e);
-  const title = e.localizedTitle || "Događaj";
-  const text = e.localizedText || "";
+  const title = e.localizedTitle || (Number.isFinite(year) ? "Događaj iz " + year : "Događaj");
+  const text = e.localizedText || e.text || "";
   const yearLabel = Number.isFinite(year) ? String(year) : "—";
   return featured
     ? '<div class="ps-event-meta"><span class="ps-event-year">'+yearLabel+'</span><span class="ps-event-category">'+category+'</span></div><h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(text)+'</p>'
