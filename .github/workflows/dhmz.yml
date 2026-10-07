@@ -1,4 +1,4 @@
-name: PatriaSoul · DHMZ upozorenja
+name: PatriaSoul · DHMZ podaci
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - ".github/workflows/dhmz.yml"
   workflow_dispatch:
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "17 */3 * * *"
 
 permissions:
   contents: write
@@ -18,46 +18,71 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Preuzmi i pretvori DHMZ CAP upozorenja
+      - name: Preuzmi DHMZ upozorenja i tekstualne podatke
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import json, urllib.request, xml.etree.ElementTree as ET
+          import json, re, urllib.request, xml.etree.ElementTree as ET
           from datetime import datetime, timezone
 
-          urls = [
-              "https://meteo.hr/upozorenja/cap_hr_today.xml",
-              "https://meteo.hr/upozorenja/cap_hr_tmorrow.xml",
-              "https://meteo.hr/upozorenja/cap_hr_day_after_tomorrow.xml",
-          ]
+          SOURCES = {
+              "today": "https://meteo.hr/upozorenja/cap_hr_today.xml",
+              "tomorrow": "https://meteo.hr/upozorenja/cap_hr_tmorrow.xml",
+              "day_after_tomorrow": "https://meteo.hr/upozorenja/cap_hr_day_after_tomorrow.xml",
+              "rainfall": "https://vrijeme.hr/oborina.xml",
+              "adriatic": "https://prognoza.hr/jadran_h.xml",
+              "sailors": "https://prognoza.hr/pomorci.xml",
+              "croatia_forecast": "https://prognoza.hr/prognoza_danas.xml",
+          }
+
+          def download(url):
+              req = urllib.request.Request(url, headers={"User-Agent": "PatriaSoul-DHMZ/1.0"})
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  return response.read()
+
+          def leaf_texts(root):
+              out = []
+              for node in root.iter():
+                  if len(list(node)) == 0 and node.text:
+                      value = " ".join(node.text.split())
+                      if value and value not in out:
+                          out.append(value)
+              return out
+
+          def useful_text(url):
+              try:
+                  root = ET.fromstring(download(url))
+                  values = leaf_texts(root)
+                  sentences = []
+                  for value in values:
+                      if len(value) >= 45 and value not in sentences:
+                          sentences.append(value)
+                  return sentences[:20]
+              except Exception as exc:
+                  print(f"Upozorenje: {url}: {exc}")
+                  return []
 
           warnings = []
-
-          for url in urls:
+          for key in ("today", "tomorrow", "day_after_tomorrow"):
               try:
-                  req = urllib.request.Request(url, headers={"User-Agent": "PatriaSoul-DHMZ/1.0"})
-                  with urllib.request.urlopen(req, timeout=30) as response:
-                      root = ET.fromstring(response.read())
-
+                  root = ET.fromstring(download(SOURCES[key]))
                   for info in root.findall(".//{*}info"):
                       def text(name):
                           node = info.find(".//{*}" + name)
                           return (node.text or "").strip() if node is not None else ""
-
                       areas = []
                       for node in info.findall(".//{*}areaDesc"):
-                          value = (node.text or "").strip()
+                          value = " ".join((node.text or "").split())
                           if value and value not in areas:
                               areas.append(value)
-
                       event = text("event")
                       description = text("description")
                       severity = text("severity")
                       urgency = text("urgency")
-
                       if event or description or areas:
                           warnings.append({
+                              "day": key,
                               "event": event,
                               "description": description,
                               "severity": severity,
@@ -65,17 +90,14 @@ jobs:
                               "areas": areas
                           })
               except Exception as exc:
-                  print(f"Upozorenje: {url}: {exc}")
+                  print(f"Upozorenje CAP {key}: {exc}")
 
           unique = []
           seen = set()
           for item in warnings:
-              key = (
-                  item.get("event", ""),
-                  item.get("severity", ""),
-                  tuple(item.get("areas", [])),
-                  item.get("description", "")
-              )
+              if item.get("event","").lower().startswith("green") or item.get("description","").lower().startswith("no warnings"):
+                  continue
+              key = (item.get("day"), item.get("event",""), item.get("description",""), tuple(item.get("areas",[])))
               if key not in seen:
                   seen.add(key)
                   unique.append(item)
@@ -83,38 +105,46 @@ jobs:
           payload = {
               "source": "DHMZ",
               "updated_at": datetime.now(timezone.utc).isoformat(),
-              "warnings": unique
+              "warnings": unique,
+              "rainfall_text": useful_text(SOURCES["rainfall"]),
+              "adriatic_text": useful_text(SOURCES["adriatic"]),
+              "sailors_text": useful_text(SOURCES["sailors"]),
+              "croatia_forecast_text": useful_text(SOURCES["croatia_forecast"])
           }
 
-          with open("data/dhmz-warnings.json", "w", encoding="utf-8") as f:
+          with open("data/dhmz-data.json", "w", encoding="utf-8") as f:
               json.dump(payload, f, ensure_ascii=False, indent=2)
               f.write("\n")
           PY
 
-      - name: Provjeri podatke
+      - name: Provjeri DHMZ paket
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           import json
-          with open("data/dhmz-warnings.json", encoding="utf-8") as f:
+          with open("data/dhmz-data.json", encoding="utf-8") as f:
               data=json.load(f)
           assert data.get("source") == "DHMZ"
           assert "warnings" in data
+          assert "rainfall_text" in data
+          assert "adriatic_text" in data
           print("DHMZ upozorenja:", len(data["warnings"]))
+          print("DHMZ oborina tekstova:", len(data["rainfall_text"]))
+          print("DHMZ Jadran tekstova:", len(data["adriatic_text"]))
           print("Ažurirano:", data["updated_at"])
           PY
 
-      - name: Spremi nove podatke
+      - name: Spremi nove DHMZ podatke
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- data/dhmz-warnings.json; then
+          git add data/dhmz-data.json
+          if git diff --cached --quiet -- data/dhmz-data.json; then
             echo "Nema promjene DHMZ podataka."
             exit 0
           fi
           git config user.name "PatriaSoul Bot"
           git config user.email "patriasoul@protonmail.com"
-          git add data/dhmz-warnings.json
-          git commit -m "DHMZ: osvježi upozorenja [skip ci]"
+          git commit -m "DHMZ: osvježi meteorološke podatke [skip ci]"
           git push
