@@ -67,7 +67,7 @@ async function fetchBatch(pages){
     const month=MONTHS.indexOf(monthName)+1;
     let events=[];
     try{
-      const feedUrl="https://hr.wikipedia.org/api/rest_v1/feed/onthisday/events/"+month+"/"+day;
+      const feedUrl="https://api.wikimedia.org/feed/v1/wikipedia/hr/onthisday/events/"+month+"/"+day;
       const feed=await fetchJson(feedUrl);
       events=(feed.events||[]).map(e=>({year:Number(e.year),text:clean(e.text||e.pages?.[0]?.extract||"")})).filter(e=>Number.isFinite(e.year)&&e.text);
     }catch(_){}
