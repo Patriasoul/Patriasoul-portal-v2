@@ -85,6 +85,7 @@
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
           <a href="${link("stranice/racun.html")}">Moj račun</a>
           <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
+          <a href="${link("stranice/vrijeme.html")}">Vrijeme u Hrvatskoj</a>
         </div>
       </div>
     </div></nav>
@@ -94,6 +95,7 @@
       <a href="${link("stranice/najnovije.html")}">Najnovije vijesti</a>
       <a href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
       <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
+      <a href="${link("stranice/vrijeme.html")}">Vrijeme</a>
     </div></div>
   `;
   document.body.prepend(header);
@@ -155,6 +157,7 @@
       <div class="ps-footer-col">
         <h3>Na portalu</h3>
         <a href="${link("stranice/najnovije.html")}">Najnovije</a>
+        <a href="${link("stranice/vrijeme.html")}">Vrijeme</a>
         <a href="${link("kategorije/domovina/")}">Domovina</a>
         <a href="${link("kategorije/povijest/")}">Povijest</a>
         <a href="${link("kategorije/vjera/")}">Vjera</a>
