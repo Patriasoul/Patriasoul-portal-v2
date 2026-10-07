@@ -33,7 +33,6 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p storage
-          supabase link --project-ref "$PROJECT_REF" --password "$SUPABASE_DB_PASSWORD" 2>/dev/null || true
           supabase storage cp "ss:///heritage-submissions" "storage/heritage-submissions" --recursive --experimental
           supabase storage cp "ss:///avatars" "storage/avatars" --recursive --experimental
 
