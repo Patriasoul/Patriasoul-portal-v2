@@ -169,6 +169,18 @@
     const user = await auth.getUser();
     const loginLink = header.querySelector('.ps-more .ps-dropdown a[href*="prijava.html"]');
     const accountLink = header.querySelector('.ps-more .ps-dropdown a[href*="racun.html"]');
+    const roleResult = await auth.getProfile().catch(() => null);
+    const role = String(roleResult?.role || "player").toLowerCase();
+    const canAdmin = ["editor","admin"].includes(role) || String(user?.email || "").toLowerCase() === "patriasoul@protonmail.com";
+    const more = header.querySelector(".ps-more .ps-dropdown");
+    const adminExisting = more?.querySelector('[data-ps-admin-link="true"]');
+    if (canAdmin && more && !adminExisting) {
+      const a = document.createElement("a");
+      a.href = link("stranice/administracija.html");
+      a.textContent = role === "editor" ? "Uredništvo" : "Administracija";
+      a.dataset.psAdminLink = "true";
+      more.append(a);
+    }
     if (user) {
       if (loginLink) { loginLink.textContent = "Odjavi se"; loginLink.href = "#"; loginLink.dataset.psLogout = "true"; }
       if (accountLink) accountLink.textContent = "Moj račun · " + (user.user_metadata?.display_name || user.email?.split("@")[0] || "račun");
