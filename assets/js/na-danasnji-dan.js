@@ -34,33 +34,24 @@ async function fetchJson(url){
 async function localizeEvents(events){
   const sourceEvents=events.filter(e=>e.pages?.[0]?.title);
   if(!sourceEvents.length) return [];
-  const titles=[...new Set(sourceEvents.map(e=>e.pages[0].title))];
-  const enUrl=EN_API+"?action=query&format=json&origin=*&prop=langlinks&lllang=hr&lllimit=1&titles="+encodeURIComponent(titles.join("|"));
-  const enJson=await fetchJson(enUrl);
-  const pages=enJson.query?.pages||{};
-  const localizedByEn={};
-  Object.values(pages).forEach(p=>{
-    const link=p.langlinks?.[0];
-    if(link) localizedByEn[p.title]=link["*"];
-  });
-  const hrTitles=[...new Set(Object.values(localizedByEn))];
-  if(!hrTitles.length) return [];
-  const hrUrl=HR_API+"?action=query&format=json&origin=*&prop=extracts&exintro=1&explaintext=1&exchars=700&titles="+encodeURIComponent(hrTitles.join("|"));
-  const hrJson=await fetchJson(hrUrl);
-  const hrPages=hrJson.query?.pages||{};
-  const summaryByTitle={};
-  Object.values(hrPages).forEach(p=>{
-    if(p.title && p.extract) summaryByTitle[p.title]=cleanText(p.extract);
-  });
-  return sourceEvents.map(e=>{
+  const results=await Promise.all(sourceEvents.map(async e=>{
     const enTitle=e.pages[0].title;
-    const hrTitle=localizedByEn[enTitle];
-    const summary=summaryByTitle[hrTitle];
-    if(!hrTitle || !summary) return null;
-    return {...e, localizedTitle:hrTitle, localizedText:summary};
-  }).filter(Boolean);
+    try{
+      const languageUrl="https://en.wikipedia.org/w/rest.php/v1/page/"+encodeURIComponent(enTitle)+"/links/language";
+      const languages=await fetchJson(languageUrl);
+      const hr=Array.isArray(languages)?languages.find(x=>x.lang==="hr"):null;
+      if(!hr?.title) return null;
+      const summaryUrl="https://hr.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(hr.title);
+      const summary=await fetchJson(summaryUrl);
+      const text=cleanText(summary.extract);
+      if(!text) return null;
+      return {...e,localizedTitle:hr.title,localizedText:text};
+    }catch(_){
+      return null;
+    }
+  }));
+  return results.filter(Boolean);
 }
-
 function eventCard(e, featured=false){
   const year = yearFor(e);
   const category = categoryFor(e);
