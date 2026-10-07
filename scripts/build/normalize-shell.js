@@ -24,16 +24,15 @@ function walk(dir){
       // Stari statični footer uklanjamo. Portal.js je jedini vlasnik footera.
       // Time sprječavamo dva footera i prekrivanje Povezanih priča/komentara.
       html=html.replace(/<footer[^>]*class=["']site-footer["'][\s\S]*?<\/footer>/gi,"");
-      const related=html.match(/<section[^>]*class=["'][^"']*article-related[^"']*["'][\s\S]*?<\/section>/i);
-      if(related){
-        html=html.replace(related[0],related[0]+fallback);
-      }else{
-        html=html.replace(/<\/main>/i,fallback+'</main>');
-      }
-      if(!/<script[^>]+src=["'][^"']*assets\/js\/comments\.js(?:\?[^"']*)?["']/i.test(html)){
+      // Komentari su zadnji dio sadržaja članka: umeću se odmah nakon </main>.
+      // Tako Povezano i sav sadržaj članka uvijek dolaze prije komentara,
+      // a portal.js potom dodaje jedini footer nakon cijelog dokumenta.
+      html=html.replace(/<\\/main>/i,fallback+'</main>');
+      if(!/<script[^>]+src=["'][^"']*assets\\/js\\/comments\\.js(?:\\?[^"']*)?["']/i.test(html)){
         const relComments=commentsPath(full);
         const commentTag='<script src="'+relComments+'?v='+VERSION+'" data-ps-comments="true"></script>';
-        html=html.replace(/(<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>)/i,'$1'+commentTag);
+        html=html.replace(/(<script[^>]+src=["'][^"']*assets\\/js\\/portal\\.js(?:\\?[^"']*)?["'][^>]*><\\/script>)/i,'$1'+commentTag);
+      }
       }
     }
     html=html.replace(/<footer class=["']site-footer["']><\/footer>/gi,"");
