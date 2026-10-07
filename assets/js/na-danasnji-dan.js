@@ -1,7 +1,6 @@
 (() => {
 "use strict";
-const API_HR = "https://hr.wikipedia.org/api/rest_v1/feed/onthisday";
-const API_EN = "https://en.wikipedia.org/api/rest_v1/feed/onthisday";
+const HR_API = "https://hr.wikipedia.org/w/api.php";
 const $ = (s) => document.querySelector(s);
 const pad = (n) => String(n).padStart(2,"0");
 const hrMonths = ["siječnja","veljače","ožujka","travnja","svibnja","lipnja","srpnja","kolovoza","rujna","listopada","studenoga","prosinca"];
@@ -29,27 +28,40 @@ async function fetchJson(url){
   return r.json();
 }
 
-async function localizeEvents(events){
-  const sourceEvents=events.filter(e=>e.pages?.[0]?.title);
-  if(!sourceEvents.length) return [];
-  const results=await Promise.all(sourceEvents.map(async e=>{
-    const enTitle=e.pages[0].title;
-    try{
-      const languageUrl="https://en.wikipedia.org/w/rest.php/v1/page/"+encodeURIComponent(enTitle)+"/links/language";
-      const languages=await fetchJson(languageUrl);
-      const hr=Array.isArray(languages)?languages.find(x=>x.lang==="hr"):null;
-      if(!hr?.title) return null;
-      const summaryUrl="https://hr.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(hr.title);
-      const summary=await fetchJson(summaryUrl);
-      const text=cleanText(summary.extract);
-      if(!text) return null;
-      return {...e,localizedTitle:hr.title,localizedText:text};
-    }catch(_){
-      return null;
+async function fetchCroatianEvents(d){
+  const page = d.getDate() + "._" + hrMonths[d.getMonth()];
+  const url = HR_API + "?action=parse&page=" + encodeURIComponent(page) + "&prop=text&format=json&origin=*";
+  const json = await fetchJson(url);
+  const html = json?.parse?.text?.["*"];
+  if(!html) throw new Error("Hrvatska Wikipedija nije vratila stranicu.");
+
+  const doc = new DOMParser().parseFromString(html,"text/html");
+  const headings = Array.from(doc.querySelectorAll("h2"));
+  const heading = headings.find(h => cleanText(h.textContent).replace("[uredi]","").trim().toLowerCase() === "događaji");
+  if(!heading) return [];
+
+  const events=[];
+  let node=heading.nextElementSibling;
+  while(node && !/^h2$/i.test(node.tagName)){
+    if(node.matches("ul")){
+      node.querySelectorAll(":scope > li").forEach(li=>{
+        const text=cleanText(li.textContent);
+        if(!text) return;
+        const m=text.match(/^(\d{1,4})\.?\s*[–-]\s*(.*)$/);
+        if(!m) return;
+        events.push({
+          year:Number(m[1]),
+          text:m[2],
+          localizedTitle:m[2].split(/[,.]/)[0].trim() || "Događaj",
+          localizedText:m[2]
+        });
+      });
     }
-  }));
-  return results.filter(Boolean);
+    node=node.nextElementSibling;
+  }
+  return events;
 }
+
 function eventCard(e, featured=false){
   const year = yearFor(e);
   const category = categoryFor(e);
@@ -75,21 +87,7 @@ async function load(d){
   $("#events-grid").innerHTML='<div class="ps-event-loading">Učitavanje događaja…</div>';
   $("#featured-event").hidden=true; $("#events-empty").hidden=true;
   try{
-    let localized = [];
-    try {
-      const hrJson = await fetchJson(API_HR + "/events/" + pad(d.getMonth()+1) + "/" + pad(d.getDate()));
-      localized = Array.isArray(hrJson.events) ? hrJson.events.map(e => ({
-        ...e,
-        localizedTitle: e.pages?.[0]?.normalizedtitle || e.pages?.[0]?.title || e.text || "Događaj",
-        localizedText: cleanText(e.text)
-      })).filter(e => e.localizedText) : [];
-    } catch (_) {}
-
-    if (!localized.length) {
-      const enJson = await fetchJson(API_EN + "/events/" + pad(d.getMonth()+1) + "/" + pad(d.getDate()));
-      localized = await localizeEvents(Array.isArray(enJson.events) ? enJson.events : []);
-    }
-
+    const localized = await fetchCroatianEvents(d);
     state.events=localized;
     render(localized);
     $("#today-status").textContent=localized.length
