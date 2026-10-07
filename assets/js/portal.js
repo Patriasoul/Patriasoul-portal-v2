@@ -16,6 +16,18 @@
   const root = new URL("../../", script?.src || location.href).href;
   const link = (p) => root + p;
   const path = location.pathname;
+  const authReady = (() => {
+    if (window.PatriaSoulAuth) return Promise.resolve(window.PatriaSoulAuth);
+    const authSrc = new URL("auth.js?v=20261007-3", script?.src || location.href).href;
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector("script[data-ps-auth]");
+      if (existing) { existing.addEventListener("load", () => resolve(window.PatriaSoulAuth)); existing.addEventListener("error", reject); return; }
+      const el = document.createElement("script"); el.src = authSrc; el.async = true; el.dataset.psAuth = "true";
+      el.onload = () => window.PatriaSoulAuth ? resolve(window.PatriaSoulAuth) : reject(new Error("PatriaSoul prijava nije učitana."));
+      el.onerror = reject; document.head.append(el);
+    });
+  })();
+  window.PatriaSoulAuthReady = authReady;
   const active = (needle) => path.includes(needle) ? " is-active" : "";
   const header = document.createElement("header");
   header.className = "ps-header";
@@ -154,13 +166,25 @@
     <div class="ps-container ps-footer-bottom"><small>© 2026 PatriaSoul — Čuvaj nasljeđe. Sva prava pridržana.</small></div>`;
   document.body.append(footer);
 
+  // Prijavljeno stanje: odmah prikaži račun i odjavu kada je korisnik prijavljen.
+  authReady.then(async (auth) => {
+    const user = await auth.getUser();
+    const loginLink = header.querySelector('.ps-more .ps-dropdown a[href*="prijava.html"]');
+    const accountLink = header.querySelector('.ps-more .ps-dropdown a[href*="racun.html"]');
+    if (user) {
+      if (loginLink) { loginLink.textContent = "Odjavi se"; loginLink.href = "#"; loginLink.dataset.psLogout = "true"; }
+      if (accountLink) accountLink.textContent = "Moj račun · " + (user.user_metadata?.display_name || user.email?.split("@")[0] || "račun");
+    }
+    if (loginLink?.dataset.psLogout === "true") loginLink.addEventListener("click", async (e) => { e.preventDefault(); await auth.signOut(); location.reload(); });
+  }).catch(() => {});
+
   // UX: reading time, sharing, metadata, breadcrumbs and cookie notice
   const style = document.createElement("style");
   style.textContent = ".ps-reading{color:var(--ps-muted);font-size:.82rem;margin:.35rem 0 1rem}.ps-share{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.ps-share button,.ps-share a{border:1px solid var(--ps-border);background:#fff;padding:9px 13px;border-radius:6px;cursor:pointer;font-weight:800;text-decoration:none;color:var(--ps-blue);font-size:.85rem}.ps-share button:hover,.ps-share a:hover{border-color:var(--ps-red);color:var(--ps-red)}.ps-article-tools{width:100%;max-width:820px;margin:54px auto 34px;padding:24px 0;border-top:1px solid var(--ps-border);border-bottom:1px solid var(--ps-border)}.ps-share-title{font:800 1.05rem/1.3 Georgia,serif;color:var(--ps-blue);margin-bottom:7px}.ps-comments{width:100%;max-width:820px;margin:42px auto 20px;padding:28px 0 10px;border-top:4px solid var(--ps-blue)}.ps-comments-head span{color:var(--ps-red);font-size:.7rem;font-weight:900;letter-spacing:.14em}.ps-comments-head h2{margin:7px 0 4px;color:var(--ps-blue);font:800 1.7rem/1.2 Georgia,serif}.ps-comments-head p{margin:0 0 22px;color:var(--ps-muted);font-size:.9rem}.ps-breadcrumb{font-size:.8rem;color:var(--ps-muted);margin-bottom:12px}.ps-breadcrumb a{color:var(--ps-red);text-decoration:none}.ps-cookie{position:fixed;z-index:9999;left:18px;right:18px;bottom:18px;max-width:760px;margin:auto;background:#fff;border:1px solid var(--ps-border);box-shadow:0 12px 40px rgba(0,0,0,.2);padding:18px;border-radius:10px;display:flex;gap:18px;align-items:center;justify-content:space-between}.ps-cookie p{margin:0;font-size:.9rem}.ps-cookie a{color:var(--ps-red);font-weight:800}.ps-cookie button{border:0;background:var(--ps-blue);color:#fff;padding:10px 16px;border-radius:6px;font-weight:800;cursor:pointer}@media(max-width:560px){.ps-cookie{left:10px;right:10px;bottom:10px;display:block}.ps-cookie button{margin-top:10px}}";
   document.head.append(style);
   const article=document.querySelector("article.article-page, .article-page");
   if(article){
-    const commentsScript=new URL("comments.js?v=20261007-2", script?.src || location.href);
+    const commentsScript=new URL("comments.js?v=20261007-4", script?.src || location.href);
     const existing=document.querySelector('script[data-ps-comments]');
     if(!existing){
       const loader=document.createElement("script");
