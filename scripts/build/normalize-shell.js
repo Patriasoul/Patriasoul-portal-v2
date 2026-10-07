@@ -68,7 +68,7 @@ function commentsPath(file){
   return rel.length?"../".repeat(rel.length)+"assets/js/comments.js":"assets/js/comments.js";
 }
 function articlePath(file){
-  const rel=path.relative(path.dirname(file),file).split(path.sep).join("/");
+  const rel=path.relative(ROOT,file).split(path.sep).join("/");
   return "/Patriasoul-portal-v2/"+rel;
 }
 function loginPath(file){
