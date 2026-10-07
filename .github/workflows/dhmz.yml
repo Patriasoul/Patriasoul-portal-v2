@@ -11,6 +11,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: patriasoul-dhmz-main
+  cancel-in-progress: false
+
 jobs:
   update-dhmz:
     runs-on: ubuntu-latest
@@ -139,12 +143,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          git config user.name "PatriaSoul Bot"
+          git config user.email "patriasoul@protonmail.com"
           git add data/dhmz-data.json
           if git diff --cached --quiet -- data/dhmz-data.json; then
             echo "Nema promjene DHMZ podataka."
             exit 0
           fi
-          git config user.name "PatriaSoul Bot"
-          git config user.email "patriasoul@protonmail.com"
           git commit -m "DHMZ: osvježi meteorološke podatke [skip ci]"
-          git push
+          git pull --rebase origin main
+          git push origin HEAD:main
