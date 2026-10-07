@@ -1,6 +1,9 @@
 name: PatriaSoul · DHMZ upozorenja
 
 on:
+  push:
+    paths:
+      - ".github/workflows/dhmz.yml"
   workflow_dispatch:
   schedule:
     - cron: "17 */6 * * *"
