@@ -29,35 +29,34 @@ async function fetchJson(url){
 }
 
 async function fetchCroatianEvents(d){
-  const page = d.getDate() + "._" + hrMonths[d.getMonth()];
-  const url = HR_API + "?action=parse&page=" + encodeURIComponent(page) + "&prop=text&format=json&origin=*";
+  const page = d.getDate() + ". " + hrMonths[d.getMonth()];
+  const url = HR_API + "?action=parse&page=" + encodeURIComponent(page) + "&prop=wikitext&format=json&origin=*";
   const json = await fetchJson(url);
-  const html = json?.parse?.text?.["*"];
-  if(!html) throw new Error("Hrvatska Wikipedija nije vratila stranicu.");
+  const wikitext = json?.parse?.wikitext?.["*"] || "";
+  if(!wikitext) throw new Error("Hrvatska Wikipedija nije vratila sadržaj.");
 
-  const doc = new DOMParser().parseFromString(html,"text/html");
-  const headings = Array.from(doc.querySelectorAll("h2"));
-  const heading = headings.find(h => cleanText(h.textContent).replace("[uredi]","").trim().toLowerCase() === "događaji");
-  if(!heading) return [];
+  const sectionMatch = wikitext.match(/(?:^|\n)==+\s*Događaji\s*==+([\s\S]*?)(?=\n==+\s*[^=]+\s*==+|$)/i);
+  if(!sectionMatch) return [];
 
   const events=[];
-  let node=heading.nextElementSibling;
-  while(node && !/^h2$/i.test(node.tagName)){
-    if(node.matches("ul")){
-      node.querySelectorAll(":scope > li").forEach(li=>{
-        const text=cleanText(li.textContent);
-        if(!text) return;
-        const m=text.match(/^(\d{1,4})\.?\s*[–-]\s*(.*)$/);
-        if(!m) return;
-        events.push({
-          year:Number(m[1]),
-          text:m[2],
-          localizedTitle:m[2].split(/[,.]/)[0].trim() || "Događaj",
-          localizedText:m[2]
-        });
-      });
-    }
-    node=node.nextElementSibling;
+  const lines=sectionMatch[1].split("\n");
+  for(const line of lines){
+    const m=line.match(/^\*+\s*(\d{1,4})\.?\s*[–-]\s*(.+?)\s*$/);
+    if(!m) continue;
+    const text=cleanText(
+      m[2]
+        .replace(/\[\[[^\]|]+\|([^\]]+)\]\]/g,"$1")
+        .replace(/\[\[([^\]]+)\]\]/g,"$1")
+        .replace(/<ref[^>]*>[\s\S]*?<\/ref>/gi,"")
+        .replace(/<ref[^>]*\/>/gi,"")
+    );
+    if(!text) continue;
+    events.push({
+      year:Number(m[1]),
+      text,
+      localizedTitle:text.split(/[,.]/)[0].trim() || "Događaj",
+      localizedText:text
+    });
   }
   return events;
 }
