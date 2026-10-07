@@ -1,8 +1,7 @@
 (() => {
 "use strict";
-const API = "https://en.wikipedia.org/api/rest_v1/feed/onthisday";
-const EN_API = "https://en.wikipedia.org/w/api.php";
-const HR_API = "https://hr.wikipedia.org/w/api.php";
+const API_HR = "https://hr.wikipedia.org/api/rest_v1/feed/onthisday";
+const API_EN = "https://en.wikipedia.org/api/rest_v1/feed/onthisday";
 const $ = (s) => document.querySelector(s);
 const pad = (n) => String(n).padStart(2,"0");
 const hrMonths = ["siječnja","veljače","ožujka","travnja","svibnja","lipnja","srpnja","kolovoza","rujna","listopada","studenoga","prosinca"];
@@ -18,7 +17,6 @@ const yearFor = (e) => Number(e.year);
 const state = { date:new Date(), events:[] };
 
 function dateLabel(d){ return new Intl.DateTimeFormat("hr-HR",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(d); }
-function apiUrl(d){ return API + "/events/" + pad(d.getMonth()+1) + "/" + pad(d.getDate()); }
 function renderDate(d){
   $("#today-date").textContent = dateLabel(d);
   $("#date-picker").value = d.toISOString().slice(0,10);
@@ -77,8 +75,21 @@ async function load(d){
   $("#events-grid").innerHTML='<div class="ps-event-loading">Učitavanje događaja…</div>';
   $("#featured-event").hidden=true; $("#events-empty").hidden=true;
   try{
-    const json=await fetchJson(apiUrl(d));
-    const localized=await localizeEvents(Array.isArray(json.events)?json.events:[]);
+    let localized = [];
+    try {
+      const hrJson = await fetchJson(API_HR + "/events/" + pad(d.getMonth()+1) + "/" + pad(d.getDate()));
+      localized = Array.isArray(hrJson.events) ? hrJson.events.map(e => ({
+        ...e,
+        localizedTitle: e.pages?.[0]?.normalizedtitle || e.pages?.[0]?.title || e.text || "Događaj",
+        localizedText: cleanText(e.text)
+      })).filter(e => e.localizedText) : [];
+    } catch (_) {}
+
+    if (!localized.length) {
+      const enJson = await fetchJson(API_EN + "/events/" + pad(d.getMonth()+1) + "/" + pad(d.getDate()));
+      localized = await localizeEvents(Array.isArray(enJson.events) ? enJson.events : []);
+    }
+
     state.events=localized;
     render(localized);
     $("#today-status").textContent=localized.length
