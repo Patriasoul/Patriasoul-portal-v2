@@ -80,6 +80,9 @@ jobs:
           echo "weather-page.css:"
           test -f assets/css/weather-page.css && echo "POSTOJI" || (echo "NEDOSTAJE"; exit 1)
 
+      - name: QA sitemap i robots
+        run: node scripts/qa/qa-discovery.js
+
       - name: QA linkova
         run: node scripts/qa/qa-links.js
 
