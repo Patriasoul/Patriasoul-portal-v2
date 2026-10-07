@@ -12,11 +12,12 @@ async function boot(){
  if(!section)return;
  const box=section.querySelector(".ps-comments-content");
  if(!box)return;
- try{if(!window.PatriaSoulAuth)await loadScript(authSrc);const auth=window.PatriaSoulAuth;const client=await auth.client();let user=await auth.getUser();
+ try{if(window.PatriaSoulAuthReady){await window.PatriaSoulAuthReady}else if(!window.PatriaSoulAuth){await loadScript(authSrc)}const auth=window.PatriaSoulAuth;const client=await auth.client();let user=await auth.getUser();
  const render=async()=>{
    const path=location.pathname.replace(/^\/+/,"/");
    const {data:rows,error}=await client.from("article_comments").select("id,user_id,author_name,body,created_at").eq("article_path",path).order("created_at",{ascending:false});
-   if(error)throw error;
+   if(error){console.error("PatriaSoul komentari — čitanje:",error); box.querySelector(".ps-comment-list")?.remove(); const info=document.createElement("p"); info.className="ps-comment-error"; info.textContent="Komentari se trenutačno ne mogu učitati. Prijava je i dalje aktivna."; box.append(info); return; }
+   box.querySelector(".ps-comment-error")?.remove();
    const list=(rows||[]).map(c=>'<article class="ps-comment"><div class="ps-comment-top"><span class="ps-comment-author">'+escape(c.author_name)+'</span><time class="ps-comment-date">'+new Intl.DateTimeFormat("hr-HR",{dateStyle:"medium",timeStyle:"short"}).format(new Date(c.created_at))+'</time></div><div class="ps-comment-body">'+escape(c.body)+'</div>'+(user&&user.id===c.user_id?'<button class="ps-comment-delete" data-delete="'+c.id+'">Obriši moj komentar</button>':"")+'</article>').join("");
    box.querySelectorAll(".ps-comment-list").forEach(x=>x.remove());
    const listEl=document.createElement("div");listEl.className="ps-comment-list";listEl.innerHTML=list||'<p>Nema komentara. Budite prvi prijavljeni čitatelj koji će ostaviti komentar.</p>';box.append(listEl);
@@ -34,8 +35,8 @@ async function boot(){
    }
  };
  await renderGate();await render();
- client.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;renderGate();render()});
- }catch(error){console.error("PatriaSoul komentari:",error);if(!box.querySelector(".ps-comments-login"))box.innerHTML='<div class="ps-comments-login"><strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong><p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p><a href="'+loginUrl()+'">Prijavi se na PatriaSoul</a></div>'}
+ client.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;window.setTimeout(()=>{renderGate();render().catch(console.error)},0)});
+ }catch(error){console.error("PatriaSoul komentari:",error);if(user){box.innerHTML='<div class="ps-comments-login"><strong>Prijava je aktivna.</strong><p>Korisnik je prijavljen, ali se komentari trenutačno ne mogu učitati.</p></div>'}else if(!box.querySelector(".ps-comments-login"))box.innerHTML='<div class="ps-comments-login"><strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong><p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p><a href="'+loginUrl()+'">Prijavi se na PatriaSoul</a></div>'}
 }
 boot();
 })();
