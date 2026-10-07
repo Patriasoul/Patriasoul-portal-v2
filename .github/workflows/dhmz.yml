@@ -1,0 +1,117 @@
+name: PatriaSoul · DHMZ upozorenja
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-dhmz:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Preuzmi i pretvori DHMZ CAP upozorenja
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, urllib.request, xml.etree.ElementTree as ET
+          from datetime import datetime, timezone
+
+          urls = [
+              "https://meteo.hr/upozorenja/cap_hr_today.xml",
+              "https://meteo.hr/upozorenja/cap_hr_tmorrow.xml",
+              "https://meteo.hr/upozorenja/cap_hr_day_after_tomorrow.xml",
+          ]
+
+          warnings = []
+
+          for url in urls:
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent": "PatriaSoul-DHMZ/1.0"})
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      root = ET.fromstring(response.read())
+
+                  for info in root.findall(".//{*}info"):
+                      def text(name):
+                          node = info.find(".//{*}" + name)
+                          return (node.text or "").strip() if node is not None else ""
+
+                      areas = []
+                      for node in info.findall(".//{*}areaDesc"):
+                          value = (node.text or "").strip()
+                          if value and value not in areas:
+                              areas.append(value)
+
+                      event = text("event")
+                      description = text("description")
+                      severity = text("severity")
+                      urgency = text("urgency")
+
+                      if event or description or areas:
+                          warnings.append({
+                              "event": event,
+                              "description": description,
+                              "severity": severity,
+                              "urgency": urgency,
+                              "areas": areas
+                          })
+              except Exception as exc:
+                  print(f"Upozorenje: {url}: {exc}")
+
+          unique = []
+          seen = set()
+          for item in warnings:
+              key = (
+                  item.get("event", ""),
+                  item.get("severity", ""),
+                  tuple(item.get("areas", [])),
+                  item.get("description", "")
+              )
+              if key not in seen:
+                  seen.add(key)
+                  unique.append(item)
+
+          payload = {
+              "source": "DHMZ",
+              "updated_at": datetime.now(timezone.utc).isoformat(),
+              "warnings": unique
+          }
+
+          with open("data/dhmz-warnings.json", "w", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False, indent=2)
+              f.write("\n")
+          PY
+
+      - name: Provjeri podatke
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          with open("data/dhmz-warnings.json", encoding="utf-8") as f:
+              data=json.load(f)
+          assert data.get("source") == "DHMZ"
+          assert "warnings" in data
+          print("DHMZ upozorenja:", len(data["warnings"]))
+          print("Ažurirano:", data["updated_at"])
+          PY
+
+      - name: Spremi nove podatke
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/dhmz-warnings.json; then
+            echo "Nema promjene DHMZ podataka."
+            exit 0
+          fi
+          git config user.name "PatriaSoul Bot"
+          git config user.email "patriasoul@protonmail.com"
+          git add data/dhmz-warnings.json
+          git commit -m "DHMZ: osvježi upozorenja [skip ci]"
+          git push
