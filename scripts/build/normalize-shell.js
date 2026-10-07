@@ -1,6 +1,6 @@
 const fs=require("fs"),path=require("path");
 const ROOT=process.cwd();
-const VERSION="20261007-9";
+const VERSION="20261007-10";
 const SKIP=new Set(["kviz"]);
 let changed=0;
 function walk(dir){
@@ -24,10 +24,14 @@ function walk(dir){
       // Stari statični footer uklanjamo. Portal.js je jedini vlasnik footera.
       // Time sprječavamo dva footera i prekrivanje Povezanih priča/komentara.
       html=html.replace(/<footer[^>]*class=["']site-footer["'][\s\S]*?<\/footer>/gi,"");
-      // Komentari su zadnji dio sadržaja članka: umeću se odmah nakon </main>.
-      // Tako Povezano i sav sadržaj članka uvijek dolaze prije komentara,
-      // a portal.js potom dodaje jedini footer nakon cijelog dokumenta.
-      html=html.replace(/<\/main>/i,fallback+'</main>');
+      // Komentari uvijek dolaze odmah nakon bloka Povezano.
+      // Ne oslanjamo se na položaj </main>, jer stariji članci imaju različitu strukturu.
+      const relatedMatch=html.match(/<section[^>]*class=["'][^"']*article-related(?:\\s|["'])[^>]*>[\\s\\S]*?<\\/section>/i);
+      if(relatedMatch){
+        html=html.replace(relatedMatch[0],relatedMatch[0]+fallback);
+      }else{
+        html=html.replace(/<\\/main>/i,fallback+'</main>');
+      }
       if(!/<script[^>]+src=["'][^"']*assets\/js\/comments\.js(?:\?[^"']*)?["']/i.test(html)){
         const relComments=commentsPath(full);
         const commentTag='<script src="'+relComments+'?v='+VERSION+'" data-ps-comments="true"></script>';
