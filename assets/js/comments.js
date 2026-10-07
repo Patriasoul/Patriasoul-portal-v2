@@ -5,7 +5,7 @@ const commentScript=document.currentScript;
 const portalScript=document.querySelector('script[src*="/assets/js/portal.js"]');
 const authSrc=commentScript?new URL("auth.js",commentScript.src).href:(portalScript?new URL("auth.js",portalScript.src).href:"../assets/js/auth.js");
 const escape=(v)=>String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const loginUrl=()=>{const base=commentScript?.src||location.href;const p=new URL("../../stranice/prijava.html",base);p.searchParams.set("next",location.href);return p.href};
+const loginUrl=()=>{const base=commentScript?.src||location.href;const p=new URL("../../stranice/prijava.html",base);p.searchParams.set("next",location.href);try{sessionStorage.setItem("patriasoul-login-next",location.href)}catch(_){}return p.href};
 async function boot(){
  addStyle();
  const section=document.querySelector(".ps-comments");
