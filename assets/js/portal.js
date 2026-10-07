@@ -39,7 +39,7 @@
     <div class="ps-brand-row"><div class="ps-container ps-brand-inner">
       <a class="ps-brand" href="${link("index.html")}"><img class="ps-brand-logo" src="https://raw.githubusercontent.com/Patriasoul/patriasoul/main/images/file_0000000082ec81f4a6fc17bdbd959622_114540.png" alt="PatriaSoul — Krist u srcu, Hrvatska u molitvi."><span class="ps-brand-copy"><strong>PatriaSoul</strong><span>Čuvaj nasljeđe</span></span></a>
       <div class="ps-brand-actions">
-        <a class="ps-search-button" href="${link("stranice/pretraga.html")}" aria-label="Pretraži" title="Pretraži">⌕</a>
+        <a class="ps-search-button" href="${link("stranice/pretraga.html")}" aria-label="Pretraži" title="Pretraži"><span aria-hidden="true">⌕</span><span class="ps-search-label">Pretraži</span></a>
         <a class="ps-tiktok" href="https://www.tiktok.com/@patriasoul" target="_blank" rel="noopener">TikTok</a>
         <a class="ps-quiz-button" href="${link("kviz/")}">Hrvatski kviz</a>
       </div>
@@ -82,7 +82,6 @@
         <a href="${link("stranice/kontakt.html")}">Više <span>⌄</span></a>
         <div class="ps-dropdown ps-dropdown-right">
           <a href="${link("stranice/kontakt.html")}">Kontakt</a>
-          <a href="${link("stranice/pretraga.html")}">Pretraži</a>
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
           <a href="${link("stranice/racun.html")}">Moj račun</a>
         </div>
@@ -194,7 +193,7 @@
 
   // UX: reading time, sharing, metadata, breadcrumbs and cookie notice
   const searchStyle = document.createElement("style");
-  searchStyle.textContent = ".ps-search-button{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid rgba(255,255,255,.35);border-radius:50%;color:#fff;text-decoration:none;font-size:1.55rem;font-weight:700;line-height:1;transition:.2s}.ps-search-button:hover{background:#fff;color:var(--ps-red);border-color:#fff}.ps-search-button:focus-visible{outline:3px solid rgba(255,255,255,.7);outline-offset:2px}";
+  searchStyle.textContent = ".ps-search-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px;padding:0 10px;border:1px solid rgba(255,255,255,.35);border-radius:50%;color:#fff;text-decoration:none;font-size:.95rem;font-weight:700;line-height:1;transition:.2s}.ps-search-button .ps-search-label{font-size:.82rem;font-weight:800}.ps-search-button:hover{background:#fff;color:var(--ps-red);border-color:#fff}.ps-search-button:focus-visible{outline:3px solid rgba(255,255,255,.7);outline-offset:2px}";
   document.head.append(searchStyle);
 
   const style = document.createElement("style");
