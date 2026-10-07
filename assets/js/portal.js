@@ -160,7 +160,7 @@
   document.head.append(style);
   const article=document.querySelector("article.article-page, .article-page");
   if(article){
-    const commentsScript=new URL("comments.js", script?.src || location.href);
+    const commentsScript=new URL("comments.js?v=20261007-2", script?.src || location.href);
     const existing=document.querySelector('script[data-ps-comments]');
     if(!existing){
       const loader=document.createElement("script");
