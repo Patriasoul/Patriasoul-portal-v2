@@ -1,7 +1,7 @@
 {
   "source": "Hrvatska Wikipedija",
   "source_url": "https://hr.wikipedia.org/",
-  "updated_at": "2026-10-07T19:22:43.425Z",
+  "updated_at": "2026-10-07T19:28:27.707Z",
   "dates": {
     "01-01": {
       "date": "01-01",
@@ -55,7 +55,12 @@
       "date": "01-09",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/9._sije%C4%8Dnja",
-      "events": []
+      "events": [
+        {
+          "year": 1960,
+          "text": "Prema knjigama o Harry Potteru, rođen Severus Snape"
+        }
+      ]
     },
     "01-10": {
       "date": "01-10",
@@ -301,7 +306,12 @@
       "date": "02-19",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/19._velja%C4%8De",
-      "events": []
+      "events": [
+        {
+          "year": 1996,
+          "text": "Institut za suvremenu povijest postao dio Hrvatskog instituta za povijest."
+        }
+      ]
     },
     "02-20": {
       "date": "02-20",
@@ -571,7 +581,12 @@
       "date": "04-04",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/4._travnja",
-      "events": []
+      "events": [
+        {
+          "year": 1975,
+          "text": "Osnovan je Microsoft."
+        }
+      ]
     },
     "04-05": {
       "date": "04-05",
@@ -691,7 +706,12 @@
       "date": "04-24",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/24._travnja",
-      "events": []
+      "events": [
+        {
+          "year": 1184,
+          "text": "pr. Kr. – Okončanje opsade Troje grčkom obmanom trojanskim konjem."
+        }
+      ]
     },
     "04-25": {
       "date": "04-25",
@@ -721,7 +741,16 @@
       "date": "04-29",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/29._travnja",
-      "events": []
+      "events": [
+        {
+          "year": 1945,
+          "text": "Jedinice Sedme američke armije oslobodile zloglasni koncentracijski logor Dachau u blizini Münchena, Hitlerovu tvornicu smrti u kojoj je ubijeno na tisuće Židova, Roma i Slavena."
+        },
+        {
+          "year": 1945,
+          "text": "Drugi svjetski rat: Snage nacističke Njemačke kapitulirale u sjevernoj Italiji, Austriji, Štajerskoj i Koruškoj."
+        }
+      ]
     },
     "04-30": {
       "date": "04-30",
@@ -835,7 +864,12 @@
       "date": "05-18",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/18._svibnja",
-      "events": []
+      "events": [
+        {
+          "year": 1996,
+          "text": "Radovan Karadžić, optužen zbog ratnih zločina, povukao se s mjesta predsjednika Republike Srpske."
+        }
+      ]
     },
     "05-19": {
       "date": "05-19",
@@ -1033,7 +1067,12 @@
       "date": "06-20",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/20._lipnja",
-      "events": []
+      "events": [
+        {
+          "year": 1992,
+          "text": "predsjedništvo BiH proglasilo je ratno stanje, objavilo opću mobilizaciju i uvelo radnu obvezu."
+        }
+      ]
     },
     "06-21": {
       "date": "06-21",
@@ -1123,7 +1162,12 @@
       "date": "07-05",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/5._srpnja",
-      "events": []
+      "events": [
+        {
+          "year": 863,
+          "text": "Ćiril i Metod su počeli širiti kršćanstvo po Velikomoravskoj kneževini"
+        }
+      ]
     },
     "07-06": {
       "date": "07-06",
@@ -1165,7 +1209,12 @@
       "date": "07-12",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/12._srpnja",
-      "events": []
+      "events": [
+        {
+          "year": 1806,
+          "text": "16 njemačkih saveznih država izašlo iz Svetog Rimskog Carstva i osnovalo Rajnsku konfederaciju, što je dovelo do njegova raspada"
+        }
+      ]
     },
     "07-13": {
       "date": "07-13",
@@ -1195,7 +1244,12 @@
       "date": "07-17",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/17._srpnja",
-      "events": []
+      "events": [
+        {
+          "year": 1976,
+          "text": "U Montrealu otvorene XXI. Olimpijske igre"
+        }
+      ]
     },
     "07-18": {
       "date": "07-18",
@@ -1447,7 +1501,16 @@
       "date": "08-28",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/28._kolovoza",
-      "events": []
+      "events": [
+        {
+          "year": 1914,
+          "text": "Prvi svjetski rat: njemačke postrojbe zauzele Namur u Belgiji."
+        },
+        {
+          "year": 1916,
+          "text": "Prvi svjetski rat: Italija objavljuje rat Njemačkoj."
+        }
+      ]
     },
     "08-29": {
       "date": "08-29",
@@ -1471,7 +1534,12 @@
       "date": "09-01",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/1._rujna",
-      "events": []
+      "events": [
+        {
+          "year": 1990,
+          "text": "Osnovan Institut Krista Kralja Velikog Svećenika"
+        }
+      ]
     },
     "09-02": {
       "date": "09-02",
