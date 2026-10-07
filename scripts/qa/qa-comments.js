@@ -12,8 +12,11 @@ for(const f of files){
   const relatedPos=s.search(/<section[^>]*class=["'][^"']*article-related(?:\s|["'])[^>]*>/i);
   const commentsPos=s.search(/<section[^>]*class=["'][^"']*ps-comments(?:\s|["'])[^>]*>/i);
   const footerPos=s.search(/<footer[^>]*class=["'][^"']*site-footer/i);
+  const portalPos=s.search(/<script[^>]+assets\/js\/portal\.js/i);
   if(relatedPos>=0 && commentsPos>=0 && commentsPos<relatedPos)bad.push(rel+" comments placed before related stories");
   if(commentsPos>=0 && footerPos>=0 && commentsPos>footerPos)bad.push(rel+" comments are after footer");
+  if(portalPos>=0 && relatedPos>=0 && portalPos<relatedPos)bad.push(rel+" portal.js runs before related stories");
+  if(portalPos>=0 && commentsPos>=0 && portalPos<commentsPos)bad.push(rel+" portal.js runs before comments");
   if(!/<script[^>]+assets\/js\/portal\.js/i.test(s))bad.push(rel+" missing portal.js");
   if(!/modern-articles\.css/i.test(s))bad.push(rel+" missing modern-articles.css");
   if(/utterances|github\.com\/utterance|giscus/i.test(s))bad.push(rel+" contains anonymous/legacy comment system");
