@@ -37,7 +37,7 @@
       <span><time data-ps-date></time> <strong data-ps-clock></strong></span>
     </div></div>
     <div class="ps-brand-row"><div class="ps-container ps-brand-inner">
-      <a class="ps-brand" href="${link("index.html")}"><strong>PatriaSoul</strong><span>Čuvaj nasljeđe</span></a>
+      <a class="ps-brand" href="${link("index.html")}"><img class="ps-brand-logo" src="${link("assets/images/patriasoul-logo.jpg")}" alt="PatriaSoul — Krist u srcu, Hrvatska u molitvi."><span class="ps-brand-copy"><strong>PatriaSoul</strong><span>Čuvaj nasljeđe</span></span></a>
       <div class="ps-brand-actions">
         <a class="ps-tiktok" href="https://www.tiktok.com/@patriasoul" target="_blank" rel="noopener">TikTok</a>
         <a class="ps-quiz-button" href="${link("kviz/")}">Hrvatski kviz</a>
@@ -136,6 +136,7 @@
   footer.innerHTML = `
     <div class="ps-container ps-footer-grid">
       <div class="ps-footer-brand">
+        <img class="ps-footer-logo" src="${link("assets/images/patriasoul-logo.jpg")}" alt="PatriaSoul — Krist u srcu, Hrvatska u molitvi.">
         <strong>PatriaSoul — Čuvaj nasljeđe.</strong>
         <p>Činjenice prije senzacije. Izvor prije tvrdnje.</p>
         <p><a href="mailto:patriasoul@protonmail.com">patriasoul@protonmail.com</a></p>
