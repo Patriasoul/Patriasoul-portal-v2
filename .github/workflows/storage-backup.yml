@@ -14,6 +14,7 @@ jobs:
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
       PROJECT_REF: ijimozjfdffejbczwyzb
     steps:
       - name: Setup Supabase CLI
@@ -27,6 +28,7 @@ jobs:
           set -euo pipefail
           test -n "$SUPABASE_ACCESS_TOKEN"
           test -n "$BACKUP_PASSPHRASE"
+          test -n "$SUPABASE_DB_PASSWORD"
 
       - name: Initialize Supabase CLI project
         shell: bash
@@ -38,7 +40,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          supabase link --project-ref "$PROJECT_REF" <<< ""
+          supabase link --project-ref "$PROJECT_REF" --password "$SUPABASE_DB_PASSWORD"
 
       - name: Download Storage objects
         shell: bash
