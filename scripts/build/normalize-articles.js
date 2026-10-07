@@ -167,7 +167,10 @@ function generateArticleIndex(){
         const description=((raw.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i)||[])[1]||"").trim();
         const image=((raw.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
         const category=rel.split("/")[1]||"";
-        items.push({title,description,image,category,url:rel,author:"Čuvari nasljeđa"});
+        const kicker=((raw.match(/<div class="article-kicker">([\\s\\S]*?)<\\/div>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
+        const kickerParts=kicker.split("·").map(x=>x.trim()).filter(Boolean);
+        const subcategory=kickerParts.length>1?kickerParts[1]:"";
+        items.push({title,description,image,category,subcategory,url:rel,author:"Čuvari nasljeđa"});
       }
     }
   }
