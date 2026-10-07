@@ -193,7 +193,7 @@
 
   // UX: reading time, sharing, metadata, breadcrumbs and cookie notice
   const searchStyle = document.createElement("style");
-  searchStyle.textContent = ".ps-search-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px;padding:0 10px;border:1px solid rgba(255,255,255,.35);border-radius:50%;color:#fff;text-decoration:none;font-size:.95rem;font-weight:700;line-height:1;transition:.2s}.ps-search-button .ps-search-icon{font-size:1.25rem;font-weight:800;line-height:1}.ps-search-button .ps-search-label{font-size:.82rem;font-weight:800;line-height:1}.ps-search-button:hover{background:#fff;color:var(--ps-red);border-color:#fff}.ps-search-button:focus-visible{outline:3px solid rgba(255,255,255,.7);outline-offset:2px}";
+  searchStyle.textContent = ".ps-search-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px;padding:0 12px;border:1px solid var(--ps-blue);border-radius:7px;background:var(--ps-blue);color:#fff!important;text-decoration:none;font-size:.95rem;font-weight:700;line-height:1;transition:.2s}.ps-search-button .ps-search-icon{font-size:1.25rem;font-weight:800;line-height:1}.ps-search-button .ps-search-label{font-size:.82rem;font-weight:800;line-height:1}.ps-search-button:hover{background:var(--ps-red);color:#fff!important;border-color:var(--ps-red)}.ps-search-button:focus-visible{outline:3px solid rgba(255,255,255,.7);outline-offset:2px}";
   document.head.append(searchStyle);
 
   const style = document.createElement("style");
