@@ -86,6 +86,7 @@
           <a href="${link("stranice/racun.html")}">Moj račun</a>
           <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
           <a href="${link("stranice/vrijeme.html")}">Vrijeme u Hrvatskoj</a>
+          <a href="${link("stranice/na-danasnji-dan.html")}">Na današnji dan</a>
         </div>
       </div>
     </div></nav>
@@ -96,6 +97,7 @@
       <a href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
       <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
       <a href="${link("stranice/vrijeme.html")}">Vrijeme</a>
+        <a href="${link("stranice/na-danasnji-dan.html")}">Na današnji dan</a>
     </div></div>
   `;
   document.body.prepend(header);
