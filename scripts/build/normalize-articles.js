@@ -167,8 +167,8 @@ function generateArticleIndex(){
         const description=((raw.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i)||[])[1]||"").trim();
         const image=((raw.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
         const alt=((raw.match(/<img[^>]+alt="([^"]*)"/i)||[])[1]||title).trim();
-        const meta=((raw.match(/<div class="article-meta">([\\s\\S]*?)<\\/div>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
-        const dateMatch=meta.match(/\\b\\d{1,2}\\.\\s*(?:siječnja|veljače|ožujka|travnja|svibnja|lipnja|srpnja|kolovoza|rujna|listopada|studenoga|prosinca)\\s*\\d{4}\\./i);
+        const meta=((raw.match(/<div class="article-meta">([\s\S]*?)<\/div>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
+        const dateMatch=meta.match(/\b\d{1,2}\.\s*(?:siječnja|veljače|ožujka|travnja|svibnja|lipnja|srpnja|kolovoza|rujna|listopada|studenoga|prosinca)\s*\d{4}\./i);
         const date=dateMatch?dateMatch[0]:"";
         const category=rel.split("/")[1]||"";
         const kicker=((raw.match(/<div class="article-kicker">([\\s\\S]*?)<\\/div>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
