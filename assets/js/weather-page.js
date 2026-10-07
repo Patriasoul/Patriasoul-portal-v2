@@ -1,0 +1,37 @@
+(()=>{"use strict";
+const API="https://api.open-meteo.com/v1/forecast";
+const cities=[
+{name:"Zagreb",region:"Središnja Hrvatska",lat:45.815,lon:15.982},
+{name:"Dugo Selo",region:"Zagrebačka regija",lat:45.806,lon:16.244},
+{name:"Krapina",region:"Hrvatsko zagorje",lat:46.160,lon:15.878},
+{name:"Varaždin",region:"Sjeverna Hrvatska",lat:46.305,lon:16.336},
+{name:"Bjelovar",region:"Bilogora",lat:45.898,lon:16.842},
+{name:"Sisak",region:"Banovina",lat:45.487,lon:16.375},
+{name:"Karlovac",region:"Kordun",lat:45.492,lon:15.555},
+{name:"Gospić",region:"Lika",lat:44.546,lon:15.375},
+{name:"Rijeka",region:"Kvarner",lat:45.327,lon:14.442},
+{name:"Pazin",region:"Istra",lat:45.240,lon:13.936},
+{name:"Zadar",region:"Sjeverna Dalmacija",lat:44.119,lon:15.232},
+{name:"Split",region:"Srednja Dalmacija",lat:43.508,lon:16.440},
+{name:"Sinj",region:"Dalmatinska zagora",lat:43.703,lon:16.639},
+{name:"Dubrovnik",region:"Južna Dalmacija",lat:42.650,lon:18.094},
+{name:"Osijek",region:"Slavonija",lat:45.555,lon:18.695},
+{name:"Vukovar",region:"Podunavlje",lat:45.351,lon:19.002}
+];
+const $=s=>document.querySelector(s);let data=[],map,markers=new Map(),mode="temperature";
+const codeMap={0:["Vedro","☀"],1:["Pretežno vedro","🌤"],2:["Djelomično oblačno","⛅"],3:["Oblačno","☁"],45:["Magla","🌫"],48:["Inje i magla","🌫"],51:["Slaba rosulja","🌦"],53:["Rosulja","🌦"],55:["Jaka rosulja","🌧"],61:["Slaba kiša","🌦"],63:["Kiša","🌧"],65:["Jaka kiša","🌧"],71:["Slab snijeg","🌨"],73:["Snijeg","🌨"],75:["Jak snijeg","❄"],80:["Pljuskovi","🌦"],81:["Pljuskovi","🌧"],82:["Jaki pljuskovi","⛈"],95:["Grmljavina","⛈"],96:["Grmljavina i tuča","⛈"],99:["Jaka grmljavina i tuča","⛈"]};
+const desc=c=>codeMap[c]?.[0]||"Promjenjivo vrijeme",icon=c=>codeMap[c]?.[1]||"•",num=v=>Number.isFinite(Number(v))?Math.round(Number(v)):null;
+function apiUrl(){const lat=cities.map(c=>c.lat).join(","),lon=cities.map(c=>c.lon).join(",");return API+"?latitude="+lat+"&longitude="+lon+"&timezone=Europe%2FZagreb&forecast_days=9&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m,wind_gusts_10m,surface_pressure,visibility,uv_index&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,sunrise,sunset";
+}
+function initMap(){if(map)return;map=L.map("weather-map").setView([45.25,16.4],7);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"&copy; OpenStreetMap contributors"}).addTo(map)}
+function markerValue(i){const c=data[i]?.current;if(!c)return"…";if(mode==="wind")return num(c.wind_speed_10m)+" km/h";if(mode==="precipitation")return Number(c.precipitation||0).toFixed(1)+" mm";return num(c.temperature_2m)+"°";}
+function renderMarkers(){initMap();markers.forEach(m=>m.remove());markers.clear();cities.forEach((c,i)=>{const d=data[i],label=markerValue(i),m=L.marker([c.lat,c.lon],{icon:L.divIcon({className:"",html:'<div class="weather-marker"><span class="city">'+c.name+'</span><span class="value">'+label+"</span></div>",iconSize:null})}).addTo(map);m.bindPopup('<strong>'+c.name+"</strong><br>"+(d?num(d.current.temperature_2m)+" °C · "+desc(d.current.weather_code):"Podaci nisu dostupni"));m.on("click",()=>{const s=$("#weather-city-select");s.value=String(i);renderDetail(i);});markers.set(i,m)})}
+function renderRegions(){const box=$("#weather-region-grid");box.innerHTML=data.map((d,i)=>{const c=cities[i],t=num(d.current.temperature_2m);return '<button class="ps-weather-region-card" data-city="'+i+'"><span class="name">'+c.region+"</span><div class="temp">"+(t??"—")+"°C</div><div class="meta">"+c.name+" · "+icon(d.current.weather_code)+" "+desc(d.current.weather_code)+" · vjetar "+(num(d.current.wind_speed_10m)??"—")+" km/h</div></button>"}).join("");box.querySelectorAll("[data-city]").forEach(b=>b.addEventListener("click",()=>{const i=Number(b.dataset.city);$("#weather-city-select").value=String(i);renderDetail(i);document.querySelector(".ps-weather-selector-section").scrollIntoView({behavior:"smooth"})}))}
+function renderSelect(){const s=$("#weather-city-select");s.innerHTML=cities.map((c,i)=>'<option value="'+i+'">'+c.name+" — "+c.region+"</option>").join("");s.addEventListener("change",()=>renderDetail(Number(s.value)))}
+function renderDetail(i){const d=data[i];if(!d)return;const c=cities[i],x=d.current;$("#weather-detail").innerHTML='<div class="ps-weather-detail-head"><div><div class="ps-weather-eyebrow">'+c.region+"</div><h3 style="margin:5px 0;color:var(--ps-blue,#17365d)">"+c.name+'</h3><div class="ps-weather-detail-temp">'+(num(x.temperature_2m)??"—")+"°C</div><div class="ps-weather-detail-desc">"+icon(x.weather_code)+" "+desc(x.weather_code)+"</div></div></div><div class="ps-weather-stats">'+[
+["Osjećaj",num(x.apparent_temperature),"°C"],["Vlaga",num(x.relative_humidity_2m),"%"],["Vjetar",num(x.wind_speed_10m)," km/h"],["Udari",num(x.wind_gusts_10m)," km/h"],["Tlak",Math.round(Number(x.surface_pressure)||0)," hPa"],["UV",Number(x.uv_index??0).toFixed(1),""]].map(a=>'<div class="ps-weather-stat"><small>'+a[0]+'</small><strong>'+((a[1]??"—"))+a[2]+"</strong></div>").join("")+"</div>";
+const h=d.hourly;const start=Math.max(0,h.time.findIndex(t=>new Date(t)>=new Date()));const hs=Math.max(0,start);$("#weather-hourly").innerHTML=h.time.slice(hs,hs+12).map((t,j)=>{const k=hs+j;return '<div class="ps-weather-hour"><small>'+new Intl.DateTimeFormat("hr-HR",{hour:"2-digit",minute:"2-digit"}).format(new Date(t))+"</small><div>"+icon(h.weather_code[k])+"</div><strong>"+num(h.temperature_2m[k])+"°</strong><small>"+Math.round(h.precipitation_probability[k]||0)+"% oborina</small></div>"}).join("");
+const q=d.daily;$("#weather-daily").innerHTML=q.time.map((t,k)=>'<div class="ps-weather-day"><small>'+new Intl.DateTimeFormat("hr-HR",{weekday:"short",day:"2-digit",month:"2-digit"}).format(new Date(t))+"</small><strong>"+icon(q.weather_code[k])+" "+desc(q.weather_code[k])+"</strong><div><b>"+num(q.temperature_2m_max[k])+"°</b> / "+num(q.temperature_2m_min[k])+"°</div><small>Oborine "+Number(q.precipitation_sum[k]||0).toFixed(1)+" mm · vjetar "+num(q.wind_speed_10m_max[k])+" km/h</small></div>").join("")}
+async function load(){const status=$("#weather-live-status");status.textContent="Podaci se dohvaćaju…";try{const r=await fetch(apiUrl(),{cache:"no-store"});if(!r.ok)throw new Error("Open-Meteo HTTP "+r.status);const j=await r.json();data=Array.isArray(j)?j:[j];renderSelect();renderRegions();renderMarkers();renderDetail(0);$("#weather-updated").textContent="Ažurirano: "+new Intl.DateTimeFormat("hr-HR",{dateStyle:"short",timeStyle:"medium"}).format(new Date());status.textContent="Podaci dostupni";}catch(e){console.error(e);status.textContent="Podaci trenutno nisu dostupni";$("#weather-region-grid").innerHTML='<div class="ps-weather-error">Open-Meteo trenutno nije dostupan. Pokušaj ponovno za nekoliko trenutaka.</div>';$("#weather-detail").innerHTML="";}}
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("[data-map-mode]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-map-mode]").forEach(x=>x.classList.remove("is-active"));b.classList.add("is-active");mode=b.dataset.mapMode;renderMarkers()}));$("#weather-refresh")?.addEventListener("click",load);load();});
+})();
