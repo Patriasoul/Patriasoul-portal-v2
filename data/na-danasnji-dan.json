@@ -1,7 +1,7 @@
 {
   "source": "Hrvatska Wikipedija",
   "source_url": "https://hr.wikipedia.org/",
-  "updated_at": "2026-10-07T19:28:27.707Z",
+  "updated_at": "2026-10-07T19:34:01.820Z",
   "dates": {
     "01-01": {
       "date": "01-01",
@@ -1755,7 +1755,44 @@
       "date": "10-07",
       "source": "Hrvatska Wikipedija",
       "source_url": "https://hr.wikipedia.org/wiki/7._listopada",
-      "events": []
+      "events": [
+        {
+          "year": 1571,
+          "text": "U bitci kod Lepanta flota Svete lige porazila je osmansku mornaricu."
+        },
+        {
+          "year": 1865,
+          "text": "U Zadru je otvoreno novo kazalište, važan kulturni prostor grada."
+        },
+        {
+          "year": 1879,
+          "text": "Njemačko Carstvo i Austro-Ugarska sklopili su Dvojni savez."
+        },
+        {
+          "year": 1985,
+          "text": "Tijekom plovidbe brodom Achille Lauro započela je talačka kriza u Sredozemlju."
+        },
+        {
+          "year": 1991,
+          "text": "Zrakoplovi Jugoslavenske narodne armije napali su Banske dvore u Zagrebu."
+        },
+        {
+          "year": 2000,
+          "text": "Vojislav Koštunica preuzeo je dužnost predsjednika Savezne Republike Jugoslavije nakon izbora 2000."
+        },
+        {
+          "year": 2002,
+          "text": "Zvonimir Boban oprostio se od profesionalnog nogometa na utakmici održanoj na Maksimiru."
+        },
+        {
+          "year": 2006,
+          "text": "U Moskvi je ubijena ruska novinarka i istraživačka reporterka Ana Politkovskaja."
+        },
+        {
+          "year": 2023,
+          "text": "Hamas je pokrenuo veliki napad na Izrael, čime je započela nova velika eskalacija izraelsko-palestinskog sukoba."
+        }
+      ]
     },
     "10-08": {
       "date": "10-08",
