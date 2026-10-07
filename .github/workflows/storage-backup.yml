@@ -28,13 +28,19 @@ jobs:
           test -n "$SUPABASE_ACCESS_TOKEN"
           test -n "$BACKUP_PASSPHRASE"
 
+      - name: Link Supabase project
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase link --project-ref "$PROJECT_REF"
+
       - name: Download Storage objects
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p storage
-          supabase storage cp "ss:///heritage-submissions" "storage/heritage-submissions" --recursive --experimental
-          supabase storage cp "ss:///avatars" "storage/avatars" --recursive --experimental
+          supabase storage cp "ss:///heritage-submissions" "storage/heritage-submissions" --recursive --experimental --linked
+          supabase storage cp "ss:///avatars" "storage/avatars" --recursive --experimental --linked
 
       - name: Encrypt Storage backup
         shell: bash
