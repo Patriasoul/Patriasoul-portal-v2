@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Vrijeme u Hrvatskoj — aktualne temperature, interaktivna karta, prognoza po gradovima i regijama, satna i višednevna prognoza.">
+<title>Vrijeme u Hrvatskoj · PatriaSoul</title>
+<link rel="stylesheet" href="../assets/css/weather-page.css?v=20261007-1">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+</head>
+<body>
+<main class="ps-weather-page">
+<section class="ps-weather-hero">
+<div>
+<span class="ps-weather-eyebrow">DOMOVINA · VRIJEME HRVATSKE</span>
+<h1>Vrijeme u Hrvatskoj</h1>
+<p>Aktualne temperature, stanje vremena, interaktivna karta Hrvatske, prognoza po gradovima i regionalni pregled — na jednom mjestu.</p>
+<div class="ps-weather-actions">
+<button id="weather-refresh" class="ps-weather-button" type="button">↻ Osvježi podatke</button>
+<a class="ps-weather-button secondary" href="https://meteo.hr/" target="_blank" rel="noopener">Službeni DHMZ →</a>
+</div>
+</div>
+<aside class="ps-weather-source-card">
+<strong>PatriaSoul vremenski pregled</strong>
+<p>Prognozu i aktualne meteorološke podatke dohvaćamo iz Open-Meteo. Za službena upozorenja, radar i pomorsku prognozu koristi DHMZ.</p>
+<a href="https://meteo.hr/naslovnica-upozorenja-zupanije.php?tab=upozorenja" target="_blank" rel="noopener">DHMZ upozorenja →</a>
+</aside>
+</section>
+
+<div class="ps-weather-status"><strong>VRIJEME UŽIVO</strong><span id="weather-live-status">Podaci se dohvaćaju…</span><span id="weather-updated"></span></div>
+
+<section class="ps-weather-section">
+<div class="ps-weather-heading">
+<div><span class="ps-weather-eyebrow">HRVATSKA NA KARTI</span><h2>Temperature po Hrvatskoj</h2><p>Klikni na grad ili regiju za detaljnu prognozu. Karta se automatski ažurira iz Open-Meteo podataka.</p></div>
+<div class="ps-weather-map-controls" role="group" aria-label="Sloj karte">
+<button type="button" class="is-active" data-map-mode="temperature">Temperatura</button>
+<button type="button" data-map-mode="wind">Vjetar</button>
+<button type="button" data-map-mode="precipitation">Oborine</button>
+</div>
+</div>
+<div id="weather-map" class="ps-weather-map" aria-label="Interaktivna karta vremena u Hrvatskoj"></div>
+<p class="ps-weather-map-note">Karta: OpenStreetMap · vremenski podaci: Open-Meteo.</p>
+</section>
+
+<section class="ps-weather-section">
+<div class="ps-weather-heading"><div><span class="ps-weather-eyebrow">REGIONALNI PREGLED</span><h2>Vrijeme po hrvatskim regijama</h2><p>Brzi pregled trenutnih temperatura na reprezentativnim lokacijama.</p></div></div>
+<div id="weather-region-grid" class="ps-weather-region-grid"></div>
+</section>
+
+<section class="ps-weather-section ps-weather-selector-section">
+<div class="ps-weather-heading"><div><span class="ps-weather-eyebrow">DETALJNA PROGNOZA</span><h2>Odaberi grad</h2></div></div>
+<label class="ps-weather-select"><span>Grad ili područje</span><select id="weather-city-select"></select></label>
+<div id="weather-detail" class="ps-weather-detail-card"></div>
+<div id="weather-hourly" class="ps-weather-hourly"></div>
+<div id="weather-daily" class="ps-weather-daily"></div>
+</section>
+
+<section class="ps-weather-section">
+<div class="ps-weather-heading"><div><span class="ps-weather-eyebrow">DODATNI PODACI</span><h2>Vrijeme i sigurnost</h2></div></div>
+<div class="ps-weather-panels">
+<article><h3>Upozorenja</h3><p>Za službena upozorenja o opasnim vremenskim pojavama uvijek provjeri aktualne objave DHMZ-a.</p><a href="https://meteo.hr/naslovnica-upozorenja-zupanije.php?tab=upozorenja" target="_blank" rel="noopener">DHMZ upozorenja →</a></article>
+<article><h3>Radar i oborina</h3><p>Za radarsku sliku i stvarno stanje oborina iznad Hrvatske koristi službene DHMZ proizvode.</p><a href="https://meteo.hr/" target="_blank" rel="noopener">DHMZ radar →</a></article>
+<article><h3>Jadran i more</h3><p>Za pomorsku prognozu, vjetar, valove i upozorenja koristi službene DHMZ informacije.</p><a href="https://meteo.hr/" target="_blank" rel="noopener">Pomorska prognoza →</a></article>
+</div>
+</section>
+
+<div class="ps-weather-note"><strong>Izvor:</strong> Open-Meteo za vremenske podatke i prognozu; OpenStreetMap za kartografsku podlogu. Za službena meteorološka upozorenja i radarske proizvode PatriaSoul upućuje na DHMZ.</div>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="../assets/js/portal.js?v=20261007-16"></script>
+<script src="../assets/js/weather-page.js?v=20261007-1"></script>
+</body>
+</html>
