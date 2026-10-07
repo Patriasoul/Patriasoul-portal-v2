@@ -13,9 +13,8 @@ async function boot(){
  if(!section)return;
  const box=section.querySelector(".ps-comments-content");
  if(!box)return;
- try{if(window.PatriaSoulAuthReady){await window.PatriaSoulAuthReady}else if(!window.PatriaSoulAuth){await loadScript(authSrc)}const auth=window.PatriaSoulAuth;const client=await auth.client();let user=await auth.getUser();
- if(!user){await new Promise(r=>setTimeout(r,250));user=await auth.getUser().catch(()=>null)}
- if(!user){await new Promise(r=>setTimeout(r,750));user=await auth.getUser().catch(()=>null)}
+ try{if(window.PatriaSoulAuthReady){await window.PatriaSoulAuthReady}else if(!window.PatriaSoulAuth){await loadScript(authSrc)}const auth=window.PatriaSoulAuth;const client=await auth.client();let user=await auth.getUser().catch(()=>null);
+ if(!user && auth.waitForUser) user=await auth.waitForUser(4000);
  const render=async()=>{
    const path=location.pathname.replace(/^\/+/,"/");
    const {data:rows,error}=await client.from("article_comments").select("id,user_id,author_name,body,created_at").eq("article_path",path).order("created_at",{ascending:false});
