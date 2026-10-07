@@ -1,6 +1,6 @@
 const fs=require("fs"),path=require("path");
 const ROOT=process.cwd();
-const VERSION="20261007-14";
+const VERSION="20261007-15";
 const SKIP=new Set(["kviz"]);
 let changed=0;
 function walk(dir){
