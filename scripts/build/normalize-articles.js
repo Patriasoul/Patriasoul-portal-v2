@@ -171,7 +171,7 @@ function generateArticleIndex(){
         const dateMatch=meta.match(/\b\d{1,2}\.\s*(?:siječnja|veljače|ožujka|travnja|svibnja|lipnja|srpnja|kolovoza|rujna|listopada|studenoga|prosinca)\s*\d{4}\./i);
         const date=dateMatch?dateMatch[0]:"";
         const category=rel.split("/")[1]||"";
-        const kicker=((raw.match(/<div class="article-kicker">([\\s\\S]*?)<\\/div>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
+        const kicker=((raw.match(/<div class="article-kicker">([\s\S]*?)<\/div>/i)||[])[1]||"").replace(/<[^>]+>/g,"").trim();
         const kickerParts=kicker.split("·").map(x=>x.trim()).filter(Boolean);
         const subcategory=kickerParts.length>1?kickerParts[1]:"";
         items.push({title,description,image,alt,date,category,subcategory,url:rel,author:"Čuvari nasljeđa"});
