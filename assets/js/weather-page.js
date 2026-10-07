@@ -56,7 +56,7 @@ async function load(){const status=$("#weather-live-status");status.textContent=
 const results=[];for(let base=0;base<cities.length;base+=4){const batch=cities.slice(base,base+4).map(c=>fetchJson(apiUrl(c)).catch(e=>{console.warn("PatriaSoul weather city:",c.name,e);return null;}));results.push(...await Promise.all(batch));}
 data=results;if(!data.some(Boolean))throw new Error("Nijedna vremenska lokacija nije dostupna");
 renderSelect();renderRegions();try{renderMarkers();}catch(e){console.warn("Karta nije dostupna:",e)}try{renderDetail(data.findIndex(Boolean)>=0?data.findIndex(Boolean):0);}catch(e){console.warn("Detalj nije dostupan:",e)}
-renderMarineSelect();renderAirSelect();loadAir(0);loadMarine(4);renderSafety();
+renderMarineSelect();renderAirSelect();loadAir(0);loadMarine(4);
 $("#weather-updated").textContent="Ažurirano: "+new Intl.DateTimeFormat("hr-HR",{dateStyle:"short",timeStyle:"medium"}).format(new Date());status.textContent="Podaci dostupni";
 }catch(e){console.error("PatriaSoul weather:",e);status.textContent="Vremenski podaci trenutno nisu dostupni";$("#weather-region-grid").innerHTML='<div class="ps-weather-error">Vremenski servis trenutno nije dostupan. Pokušaj ponovno.</div>';$("#weather-detail").innerHTML="";}}
 
