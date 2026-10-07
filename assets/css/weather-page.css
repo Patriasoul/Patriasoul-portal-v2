@@ -20,3 +20,8 @@
 /* DHMZ upozorenja — uredan prikaz */
 .ps-dhmz-warning-list{display:grid;gap:10px;margin-top:12px}.ps-dhmz-warning{padding:14px 16px;border:1px solid var(--ps-border,#d9dee7);border-radius:12px;background:#fff}.ps-dhmz-warning-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:7px}.ps-dhmz-warning-top b{display:inline-flex;padding:5px 9px;border-radius:999px;background:#fff3bf;color:#765900;font-size:.78rem}.ps-dhmz-warning-top span{font-size:.8rem;font-weight:700;color:var(--ps-muted,#667085)}.ps-dhmz-warning-title{display:block;font-size:1rem;color:var(--ps-blue,#17365d)}.ps-dhmz-warning-area{margin-top:4px;font-weight:700;color:#344054}.ps-dhmz-warning p{margin:7px 0 0;color:#667085;line-height:1.5}.ps-dhmz-updated{display:block;margin-top:12px;color:var(--ps-muted,#667085);font-size:.78rem;font-weight:600}.ps-dhmz-text-list p{margin:.55rem 0;line-height:1.5}
 @media(max-width:640px){.ps-dhmz-warning{padding:12px}.ps-dhmz-warning-top{align-items:flex-start}.ps-dhmz-warning-top span{white-space:nowrap}}
+
+
+/* Dodatni podaci — puni širinu sadržaja */
+.ps-weather-safety{width:100%;max-width:none}.ps-weather-safety>article{width:100%;max-width:none}.ps-weather-safety .ps-dhmz-warning-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.ps-weather-safety .ps-dhmz-warning{height:100%;box-sizing:border-box}.ps-weather-safety #weather-safety-sea{font-size:.96rem;line-height:1.65}.ps-weather-safety #weather-safety-sea .ps-dhmz-text-list p{max-width:none}
+@media(max-width:800px){.ps-weather-safety .ps-dhmz-warning-list{grid-template-columns:1fr}}
