@@ -18,7 +18,7 @@ for(const u of unique.filter(x=>x.includes("/clanci/"))){
   const title=strip((s.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[])[1]||rel);
   const description=strip((s.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)/i)||[])[1]||"PatriaSoul članak.");
   const category=rel.split("/")[1]||"PatriaSoul";
-  const kicker=strip((s.match(/class=["']article-kicker["'][^>]*>([\s\S]*?)<\/[^>]+>/i)||[])[1]||"");
+  const kicker=strip((s.match(/class=["'][^"']*\b(?:article-kicker|kicker)\b[^"']*["'][^>]*>([\s\S]*?)<\/[^>]+>/i)||[])[1]||"");
   const parts=kicker.split(/[·|]/).map(x=>slug(x.trim())).filter(Boolean);
   const subcategory=parts.find(x=>x!==slug(category))||"";
   const hero=s.match(/<img[^>]+class=["'][^"']*article-hero[^"']*["'][^>]*>/i);
