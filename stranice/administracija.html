@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="hr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administracija — PatriaSoul</title>
+<meta name="description" content="Privatna administratorska nadzorna ploča portala PatriaSoul.">
+<link rel="stylesheet" href="../assets/css/base.css"><link rel="stylesheet" href="../assets/css/admin.css">
+</head><body><main class="ps-admin-page">
+<section class="ps-admin-hero ps-container"><div><p class="ps-kicker">PATRIASOUL · ADMINISTRACIJA</p><h1>Nadzorna ploča</h1><p class="ps-admin-lead">Privatni pregled sadržaja, zajednice, sigurnosnih kopija i stanja sustava.</p></div><div class="ps-admin-status" id="admin-status">Provjera administratorskog pristupa…</div></section>
+<section class="ps-container" id="admin-denied" hidden><div class="ps-admin-panel ps-admin-denied"><h2>Pristup nije dopušten</h2><p>Ova stranica dostupna je samo korisniku s administratorskom ulogom.</p><a class="ps-admin-button" href="prijava.html">Prijava</a></div></section>
+<section class="ps-container" id="admin-dashboard" hidden>
+<div class="ps-admin-grid">
+<article class="ps-admin-card"><span>Članci</span><strong id="stat-articles">—</strong><small id="stat-articles-note">Objavljeni sadržaj</small></article>
+<article class="ps-admin-card"><span>Zadnji članak</span><strong id="stat-latest" class="ps-admin-value">—</strong><small id="stat-latest-note">—</small></article>
+<article class="ps-admin-card"><span>Nacrti</span><strong id="stat-drafts">—</strong><small id="stat-review">—</small></article>
+<article class="ps-admin-card"><span>Prijavljene priče</span><strong id="stat-stories">—</strong><small id="stat-stories-note">—</small></article>
+<article class="ps-admin-card"><span>Komentari</span><strong id="stat-comments">—</strong><small>Registrirani korisnici</small></article>
+<article class="ps-admin-card"><span>Korisnici</span><strong id="stat-users">—</strong><small>Profili u zajednici</small></article>
+<article class="ps-admin-card"><span>Newsletter</span><strong id="stat-newsletter">—</strong><small>Pretplatnici</small></article>
+<article class="ps-admin-card"><span>Zadnji backup</span><strong id="stat-backup">—</strong><small id="stat-backup-note">—</small></article>
+<article class="ps-admin-card"><span>Zadnji deploy</span><strong id="stat-deploy">—</strong><small id="stat-deploy-note">—</small></article>
+<article class="ps-admin-card ps-admin-card-wide"><span>Stanje sustava</span><strong id="stat-system">Provjeravam…</strong><small id="stat-system-note">Provjera ključnih podataka.</small></article>
+<article class="ps-admin-card ps-admin-card-wide ps-admin-errors"><span>Greške sustava</span><strong id="stat-errors">—</strong><small id="stat-errors-note">—</small></article>
+</div>
+<div class="ps-admin-panels">
+<section class="ps-admin-panel"><div class="ps-admin-panel-head"><div><p class="ps-kicker">SADRŽAJ</p><h2>Najnoviji članci</h2></div><a href="najnovije.html">Otvori Najnovije</a></div><div id="latest-list" class="ps-admin-list"><p>Učitavanje…</p></div></section>
+<section class="ps-admin-panel"><div class="ps-admin-panel-head"><div><p class="ps-kicker">SIGURNOST</p><h2>Operativni pregled</h2></div></div><ul class="ps-admin-checks" id="system-checks"></ul></section>
+</div>
+<div class="ps-admin-footer-actions"><a class="ps-admin-button" href="racun.html">Moj račun</a><a class="ps-admin-button ps-admin-button-light" href="../index.html">Naslovnica</a><button class="ps-admin-button ps-admin-button-light" id="refresh-admin" type="button">Osvježi podatke</button></div>
+</section></main>
+<script src="../assets/js/portal.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/admin.js"></script>
+</body></html>
