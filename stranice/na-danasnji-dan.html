@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Na današnji dan — povijesni događaji, znanost, kultura i sport koji su obilježili određeni datum.">
+<title>Na današnji dan · PatriaSoul</title>
+<link rel="stylesheet" href="../assets/css/na-danasnji-dan.css">
+</head>
+<body>
+<main class="ps-today-page">
+<section class="ps-today-hero">
+<div class="ps-container">
+<p class="ps-today-kicker">PATRIASOUL · POVIJEST</p>
+<h1>Na današnji dan</h1>
+<p>Otkrij događaje koji su se dogodili na ovaj datum kroz povijest — uz godinu, kratki opis, kategoriju i izvor.</p>
+<div class="ps-today-date" id="today-date">Učitavanje datuma…</div>
+</div>
+</section>
+
+<section class="ps-today-section">
+<div class="ps-container">
+<div class="ps-today-toolbar">
+<div>
+<span class="ps-today-eyebrow">ODABERI DATUM</span>
+<h2>Putovanje kroz kalendar</h2>
+</div>
+<div class="ps-date-controls">
+<button type="button" id="date-prev" aria-label="Prethodni dan">←</button>
+<input type="date" id="date-picker" aria-label="Odaberi datum">
+<button type="button" id="date-next" aria-label="Sljedeći dan">→</button>
+<button type="button" id="date-today">Danas</button>
+</div>
+</div>
+
+<div class="ps-today-status" id="today-status" role="status">Događaji se automatski dohvaćaju…</div>
+
+<article class="ps-feature-event" id="featured-event" hidden>
+<div class="ps-feature-label">ISTAKNUTI DOGAĐAJ DANA</div>
+<div id="featured-event-content"></div>
+</article>
+
+<div class="ps-today-grid" id="events-grid" aria-live="polite"></div>
+
+<div class="ps-today-empty" id="events-empty" hidden>
+<strong>Za ovaj datum trenutačno nema dostupnih događaja.</strong>
+<p>Pokušaj drugi datum ili provjeri izvor koji se automatski koristi za ovaj pregled.</p>
+</div>
+
+<div class="ps-today-source">
+<div>
+<span class="ps-today-eyebrow">IZVOR I PROVJERA</span>
+<h2>Činjenice prije senzacije</h2>
+<p>Podaci se automatski dohvaćaju iz Wikimedia/Wikipedia projekta. PatriaSoul ih ne izmišlja niti mijenja činjenice iz izvora. Za objavu ili uredničku obradu pojedinog događaja preporučuje se dodatna provjera u pouzdanim primarnim ili institucionalnim izvorima.</p>
+</div>
+<a id="source-link" href="https://www.wikipedia.org/" target="_blank" rel="noopener">Otvori izvor</a>
+</div>
+
+<div class="ps-share">
+<strong>Podijeli ovaj datum</strong>
+<button type="button" id="share-button">Podijeli</button>
+<button type="button" id="copy-button">Kopiraj poveznicu</button>
+<span id="share-status" aria-live="polite"></span>
+</div>
+</div>
+</section>
+</main>
+<script src="../assets/js/portal.js?v=20261007-16"></script>
+<script src="../assets/js/na-danasnji-dan.js?v=20261007-1"></script>
+</body>
+</html>
