@@ -1,0 +1,42 @@
+name: PatriaSoul · Na današnji dan
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 3 * * *"
+  push:
+    paths:
+      - "scripts/build/update-na-danasnji-dan.js"
+      - ".github/workflows/na-danasnji-dan.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: patriasoul-na-danasnji-dan-main
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Ažuriraj podatke s hrvatske Wikipedije
+        run: node scripts/build/update-na-danasnji-dan.js
+
+      - name: Spremi promjene
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "PatriaSoul Bot"
+          git config user.email "patriasoul@protonmail.com"
+          git add data/na-danasnji-dan.json
+          if git diff --cached --quiet -- data/na-danasnji-dan.json; then
+            echo "Nema promjene podataka."
+            exit 0
+          fi
+          git commit -m "Na današnji dan: osvježi podatke [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
