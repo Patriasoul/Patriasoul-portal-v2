@@ -1,6 +1,6 @@
 const fs=require("fs"),path=require("path");
 const ROOT=process.cwd();
-const VERSION="20261007-13";
+const VERSION="20261007-14";
 const SKIP=new Set(["kviz"]);
 let changed=0;
 function walk(dir){
@@ -38,7 +38,8 @@ function walk(dir){
       const relComments=commentsPath(full);
       const portalTag='<script src="'+relPortal+'?v='+VERSION+'"></script>';
       const commentTag='<script src="'+relComments+'?v='+VERSION+'" data-ps-comments="true"></script>';
-      html=html.replace(/<\/body>/i,portalTag+commentTag+"</body>");
+      // Komentari moraju biti učitani prije portal.js jer portal.js odmah stvara footer.
+      html=html.replace(/<\/body>/i,commentTag+portalTag+"</body>");
     }
     html=html.replace(/<footer class=["']site-footer["']><\/footer>/gi,"");
     fs.writeFileSync(full,html);
