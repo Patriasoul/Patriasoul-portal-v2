@@ -1,7 +1,7 @@
 const fs=require("fs"),path=require("path");
 const root=process.cwd(),base="https://patriasoul.github.io/Patriasoul-portal-v2/";
 const urls=[];
-function walk(d){for(const e of fs.readdirSync(d,{withFileTypes:true})){if([".git","node_modules","_site","kviz"].includes(e.name))continue;const p=path.join(d,e.name);if(e.isDirectory())walk(p);else if(e.name.endsWith(".html")&&e.name!=="404.html"&&e.name!=="googlef31b6b8a66adf403.html")urls.push(base+path.relative(root,p).replaceAll(path.sep,"/"));}}
+function walk(d){for(const e of fs.readdirSync(d,{withFileTypes:true})){if([".git","node_modules","_site","kviz"].includes(e.name))continue;const p=path.join(d,e.name);if(e.isDirectory())walk(p);else if(e.name.endsWith(".html")&&e.name!=="404.html"&&e.name!=="googlef31b6b8a66adf403.html"&&e.name!=="index.html"&&e.name!=="prijava.html"&&e.name!=="registracija.html"&&e.name!=="racun.html"&&e.name!=="administracija.html"&&e.name!=="newsletter.html"&&e.name!=="kolacici.html")urls.push(base+path.relative(root,p).replaceAll(path.sep,"/"));}}
 walk(root);
 const unique=[...new Set(urls)].sort();
 const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n' +
