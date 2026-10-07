@@ -55,7 +55,7 @@ function commentsPath(file){
 }
 function articlePath(file){
   const rel=path.relative(path.dirname(file),file).split(path.sep).join("/");
-  return rel;
+  return "/Patriasoul-portal-v2/"+rel;
 }
 function loginPath(file){
   const rel=path.relative(path.dirname(file),ROOT).split(path.sep).filter(Boolean);
