@@ -45,7 +45,6 @@
     </div></div>
     <nav class="ps-nav" aria-label="Glavna navigacija"><div class="ps-container ps-nav-inner">
       <a class="ps-nav-direct" href="${link("index.html")}">Naslovnica</a>
-      <a class="ps-nav-direct${active("/stranice/najnovije.html")}" href="${link("stranice/najnovije.html")}">Najnovije</a>
       <div class="ps-nav-group${active("/kategorije/domovina")}">
         <a href="${link("kategorije/domovina/")}">Domovina <span>⌄</span></a>
         <div class="ps-dropdown">
@@ -77,15 +76,14 @@
         </div>
       </div>
       <a class="ps-nav-direct${active("/cuvari-nasljedja")}" href="${link("cuvari-nasljedja/")}">Čuvari nasljeđa</a>
+      <a class="ps-nav-direct${active("/stranice/o-patriasoul.html")}" href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
       <div class="ps-nav-group ps-more${active("/stranice/")}">
-        <a href="${link("stranice/o-patriasoul.html")}">Više <span>⌄</span></a>
+        <a href="${link("stranice/kontakt.html")}">Više <span>⌄</span></a>
         <div class="ps-dropdown ps-dropdown-right">
-          <a href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
           <a href="${link("stranice/kontakt.html")}">Kontakt</a>
           <a href="${link("stranice/pretraga.html")}">Pretraži</a>
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
           <a href="${link("stranice/racun.html")}">Moj račun</a>
-          <a href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
           <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
         </div>
       </div>
