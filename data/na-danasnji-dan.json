@@ -1,6 +1,2203 @@
 {
-  "source":"Hrvatska Wikipedija",
-  "source_url":"https://hr.wikipedia.org/",
-  "updated_at":null,
-  "dates":{}
+  "source": "Hrvatska Wikipedija",
+  "source_url": "https://hr.wikipedia.org/",
+  "updated_at": "2026-10-07T19:22:43.425Z",
+  "dates": {
+    "01-01": {
+      "date": "01-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-02": {
+      "date": "01-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-03": {
+      "date": "01-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-04": {
+      "date": "01-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-05": {
+      "date": "01-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-06": {
+      "date": "01-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-07": {
+      "date": "01-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-08": {
+      "date": "01-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-09": {
+      "date": "01-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-10": {
+      "date": "01-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-11": {
+      "date": "01-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-12": {
+      "date": "01-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-13": {
+      "date": "01-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-14": {
+      "date": "01-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-15": {
+      "date": "01-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-16": {
+      "date": "01-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-17": {
+      "date": "01-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-18": {
+      "date": "01-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-19": {
+      "date": "01-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-20": {
+      "date": "01-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-21": {
+      "date": "01-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-22": {
+      "date": "01-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-23": {
+      "date": "01-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-24": {
+      "date": "01-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-25": {
+      "date": "01-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-26": {
+      "date": "01-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-27": {
+      "date": "01-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-28": {
+      "date": "01-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-29": {
+      "date": "01-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-30": {
+      "date": "01-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._sije%C4%8Dnja",
+      "events": []
+    },
+    "01-31": {
+      "date": "01-31",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/31._sije%C4%8Dnja",
+      "events": []
+    },
+    "02-01": {
+      "date": "02-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._velja%C4%8De",
+      "events": []
+    },
+    "02-02": {
+      "date": "02-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._velja%C4%8De",
+      "events": []
+    },
+    "02-03": {
+      "date": "02-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._velja%C4%8De",
+      "events": []
+    },
+    "02-04": {
+      "date": "02-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._velja%C4%8De",
+      "events": []
+    },
+    "02-05": {
+      "date": "02-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._velja%C4%8De",
+      "events": []
+    },
+    "02-06": {
+      "date": "02-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._velja%C4%8De",
+      "events": []
+    },
+    "02-07": {
+      "date": "02-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._velja%C4%8De",
+      "events": []
+    },
+    "02-08": {
+      "date": "02-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._velja%C4%8De",
+      "events": []
+    },
+    "02-09": {
+      "date": "02-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._velja%C4%8De",
+      "events": []
+    },
+    "02-10": {
+      "date": "02-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._velja%C4%8De",
+      "events": []
+    },
+    "02-11": {
+      "date": "02-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._velja%C4%8De",
+      "events": []
+    },
+    "02-12": {
+      "date": "02-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._velja%C4%8De",
+      "events": []
+    },
+    "02-13": {
+      "date": "02-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._velja%C4%8De",
+      "events": []
+    },
+    "02-14": {
+      "date": "02-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._velja%C4%8De",
+      "events": []
+    },
+    "02-15": {
+      "date": "02-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._velja%C4%8De",
+      "events": []
+    },
+    "02-16": {
+      "date": "02-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._velja%C4%8De",
+      "events": []
+    },
+    "02-17": {
+      "date": "02-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._velja%C4%8De",
+      "events": []
+    },
+    "02-18": {
+      "date": "02-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._velja%C4%8De",
+      "events": []
+    },
+    "02-19": {
+      "date": "02-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._velja%C4%8De",
+      "events": []
+    },
+    "02-20": {
+      "date": "02-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._velja%C4%8De",
+      "events": []
+    },
+    "02-21": {
+      "date": "02-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._velja%C4%8De",
+      "events": []
+    },
+    "02-22": {
+      "date": "02-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._velja%C4%8De",
+      "events": []
+    },
+    "02-23": {
+      "date": "02-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._velja%C4%8De",
+      "events": []
+    },
+    "02-24": {
+      "date": "02-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._velja%C4%8De",
+      "events": []
+    },
+    "02-25": {
+      "date": "02-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._velja%C4%8De",
+      "events": []
+    },
+    "02-26": {
+      "date": "02-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._velja%C4%8De",
+      "events": []
+    },
+    "02-27": {
+      "date": "02-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._velja%C4%8De",
+      "events": []
+    },
+    "02-28": {
+      "date": "02-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._velja%C4%8De",
+      "events": []
+    },
+    "02-29": {
+      "date": "02-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._velja%C4%8De",
+      "events": []
+    },
+    "03-01": {
+      "date": "03-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._o%C5%BEujka",
+      "events": []
+    },
+    "03-02": {
+      "date": "03-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._o%C5%BEujka",
+      "events": []
+    },
+    "03-03": {
+      "date": "03-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._o%C5%BEujka",
+      "events": []
+    },
+    "03-04": {
+      "date": "03-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._o%C5%BEujka",
+      "events": []
+    },
+    "03-05": {
+      "date": "03-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._o%C5%BEujka",
+      "events": []
+    },
+    "03-06": {
+      "date": "03-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._o%C5%BEujka",
+      "events": []
+    },
+    "03-07": {
+      "date": "03-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._o%C5%BEujka",
+      "events": []
+    },
+    "03-08": {
+      "date": "03-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._o%C5%BEujka",
+      "events": []
+    },
+    "03-09": {
+      "date": "03-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._o%C5%BEujka",
+      "events": []
+    },
+    "03-10": {
+      "date": "03-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._o%C5%BEujka",
+      "events": []
+    },
+    "03-11": {
+      "date": "03-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._o%C5%BEujka",
+      "events": []
+    },
+    "03-12": {
+      "date": "03-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._o%C5%BEujka",
+      "events": []
+    },
+    "03-13": {
+      "date": "03-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._o%C5%BEujka",
+      "events": []
+    },
+    "03-14": {
+      "date": "03-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._o%C5%BEujka",
+      "events": []
+    },
+    "03-15": {
+      "date": "03-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._o%C5%BEujka",
+      "events": []
+    },
+    "03-16": {
+      "date": "03-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._o%C5%BEujka",
+      "events": []
+    },
+    "03-17": {
+      "date": "03-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._o%C5%BEujka",
+      "events": []
+    },
+    "03-18": {
+      "date": "03-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._o%C5%BEujka",
+      "events": []
+    },
+    "03-19": {
+      "date": "03-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._o%C5%BEujka",
+      "events": []
+    },
+    "03-20": {
+      "date": "03-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._o%C5%BEujka",
+      "events": []
+    },
+    "03-21": {
+      "date": "03-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._o%C5%BEujka",
+      "events": []
+    },
+    "03-22": {
+      "date": "03-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._o%C5%BEujka",
+      "events": []
+    },
+    "03-23": {
+      "date": "03-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._o%C5%BEujka",
+      "events": []
+    },
+    "03-24": {
+      "date": "03-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._o%C5%BEujka",
+      "events": []
+    },
+    "03-25": {
+      "date": "03-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._o%C5%BEujka",
+      "events": []
+    },
+    "03-26": {
+      "date": "03-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._o%C5%BEujka",
+      "events": []
+    },
+    "03-27": {
+      "date": "03-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._o%C5%BEujka",
+      "events": []
+    },
+    "03-28": {
+      "date": "03-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._o%C5%BEujka",
+      "events": []
+    },
+    "03-29": {
+      "date": "03-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._o%C5%BEujka",
+      "events": []
+    },
+    "03-30": {
+      "date": "03-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._o%C5%BEujka",
+      "events": []
+    },
+    "03-31": {
+      "date": "03-31",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/31._o%C5%BEujka",
+      "events": []
+    },
+    "04-01": {
+      "date": "04-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._travnja",
+      "events": []
+    },
+    "04-02": {
+      "date": "04-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._travnja",
+      "events": []
+    },
+    "04-03": {
+      "date": "04-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._travnja",
+      "events": []
+    },
+    "04-04": {
+      "date": "04-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._travnja",
+      "events": []
+    },
+    "04-05": {
+      "date": "04-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._travnja",
+      "events": []
+    },
+    "04-06": {
+      "date": "04-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._travnja",
+      "events": []
+    },
+    "04-07": {
+      "date": "04-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._travnja",
+      "events": []
+    },
+    "04-08": {
+      "date": "04-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._travnja",
+      "events": []
+    },
+    "04-09": {
+      "date": "04-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._travnja",
+      "events": []
+    },
+    "04-10": {
+      "date": "04-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._travnja",
+      "events": []
+    },
+    "04-11": {
+      "date": "04-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._travnja",
+      "events": []
+    },
+    "04-12": {
+      "date": "04-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._travnja",
+      "events": []
+    },
+    "04-13": {
+      "date": "04-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._travnja",
+      "events": []
+    },
+    "04-14": {
+      "date": "04-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._travnja",
+      "events": []
+    },
+    "04-15": {
+      "date": "04-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._travnja",
+      "events": []
+    },
+    "04-16": {
+      "date": "04-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._travnja",
+      "events": []
+    },
+    "04-17": {
+      "date": "04-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._travnja",
+      "events": []
+    },
+    "04-18": {
+      "date": "04-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._travnja",
+      "events": []
+    },
+    "04-19": {
+      "date": "04-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._travnja",
+      "events": []
+    },
+    "04-20": {
+      "date": "04-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._travnja",
+      "events": []
+    },
+    "04-21": {
+      "date": "04-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._travnja",
+      "events": []
+    },
+    "04-22": {
+      "date": "04-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._travnja",
+      "events": []
+    },
+    "04-23": {
+      "date": "04-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._travnja",
+      "events": []
+    },
+    "04-24": {
+      "date": "04-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._travnja",
+      "events": []
+    },
+    "04-25": {
+      "date": "04-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._travnja",
+      "events": []
+    },
+    "04-26": {
+      "date": "04-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._travnja",
+      "events": []
+    },
+    "04-27": {
+      "date": "04-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._travnja",
+      "events": []
+    },
+    "04-28": {
+      "date": "04-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._travnja",
+      "events": []
+    },
+    "04-29": {
+      "date": "04-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._travnja",
+      "events": []
+    },
+    "04-30": {
+      "date": "04-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._travnja",
+      "events": []
+    },
+    "05-01": {
+      "date": "05-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._svibnja",
+      "events": []
+    },
+    "05-02": {
+      "date": "05-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._svibnja",
+      "events": []
+    },
+    "05-03": {
+      "date": "05-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._svibnja",
+      "events": []
+    },
+    "05-04": {
+      "date": "05-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._svibnja",
+      "events": []
+    },
+    "05-05": {
+      "date": "05-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._svibnja",
+      "events": []
+    },
+    "05-06": {
+      "date": "05-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._svibnja",
+      "events": []
+    },
+    "05-07": {
+      "date": "05-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._svibnja",
+      "events": []
+    },
+    "05-08": {
+      "date": "05-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._svibnja",
+      "events": []
+    },
+    "05-09": {
+      "date": "05-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._svibnja",
+      "events": []
+    },
+    "05-10": {
+      "date": "05-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._svibnja",
+      "events": []
+    },
+    "05-11": {
+      "date": "05-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._svibnja",
+      "events": []
+    },
+    "05-12": {
+      "date": "05-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._svibnja",
+      "events": []
+    },
+    "05-13": {
+      "date": "05-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._svibnja",
+      "events": []
+    },
+    "05-14": {
+      "date": "05-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._svibnja",
+      "events": []
+    },
+    "05-15": {
+      "date": "05-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._svibnja",
+      "events": []
+    },
+    "05-16": {
+      "date": "05-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._svibnja",
+      "events": []
+    },
+    "05-17": {
+      "date": "05-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._svibnja",
+      "events": []
+    },
+    "05-18": {
+      "date": "05-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._svibnja",
+      "events": []
+    },
+    "05-19": {
+      "date": "05-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._svibnja",
+      "events": []
+    },
+    "05-20": {
+      "date": "05-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._svibnja",
+      "events": []
+    },
+    "05-21": {
+      "date": "05-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._svibnja",
+      "events": []
+    },
+    "05-22": {
+      "date": "05-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._svibnja",
+      "events": []
+    },
+    "05-23": {
+      "date": "05-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._svibnja",
+      "events": []
+    },
+    "05-24": {
+      "date": "05-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._svibnja",
+      "events": []
+    },
+    "05-25": {
+      "date": "05-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._svibnja",
+      "events": []
+    },
+    "05-26": {
+      "date": "05-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._svibnja",
+      "events": []
+    },
+    "05-27": {
+      "date": "05-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._svibnja",
+      "events": []
+    },
+    "05-28": {
+      "date": "05-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._svibnja",
+      "events": []
+    },
+    "05-29": {
+      "date": "05-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._svibnja",
+      "events": []
+    },
+    "05-30": {
+      "date": "05-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._svibnja",
+      "events": []
+    },
+    "05-31": {
+      "date": "05-31",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/31._svibnja",
+      "events": []
+    },
+    "06-01": {
+      "date": "06-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._lipnja",
+      "events": []
+    },
+    "06-02": {
+      "date": "06-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._lipnja",
+      "events": []
+    },
+    "06-03": {
+      "date": "06-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._lipnja",
+      "events": []
+    },
+    "06-04": {
+      "date": "06-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._lipnja",
+      "events": []
+    },
+    "06-05": {
+      "date": "06-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._lipnja",
+      "events": []
+    },
+    "06-06": {
+      "date": "06-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._lipnja",
+      "events": []
+    },
+    "06-07": {
+      "date": "06-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._lipnja",
+      "events": []
+    },
+    "06-08": {
+      "date": "06-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._lipnja",
+      "events": []
+    },
+    "06-09": {
+      "date": "06-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._lipnja",
+      "events": []
+    },
+    "06-10": {
+      "date": "06-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._lipnja",
+      "events": []
+    },
+    "06-11": {
+      "date": "06-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._lipnja",
+      "events": []
+    },
+    "06-12": {
+      "date": "06-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._lipnja",
+      "events": []
+    },
+    "06-13": {
+      "date": "06-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._lipnja",
+      "events": []
+    },
+    "06-14": {
+      "date": "06-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._lipnja",
+      "events": []
+    },
+    "06-15": {
+      "date": "06-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._lipnja",
+      "events": []
+    },
+    "06-16": {
+      "date": "06-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._lipnja",
+      "events": []
+    },
+    "06-17": {
+      "date": "06-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._lipnja",
+      "events": []
+    },
+    "06-18": {
+      "date": "06-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._lipnja",
+      "events": []
+    },
+    "06-19": {
+      "date": "06-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._lipnja",
+      "events": []
+    },
+    "06-20": {
+      "date": "06-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._lipnja",
+      "events": []
+    },
+    "06-21": {
+      "date": "06-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._lipnja",
+      "events": []
+    },
+    "06-22": {
+      "date": "06-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._lipnja",
+      "events": []
+    },
+    "06-23": {
+      "date": "06-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._lipnja",
+      "events": []
+    },
+    "06-24": {
+      "date": "06-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._lipnja",
+      "events": []
+    },
+    "06-25": {
+      "date": "06-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._lipnja",
+      "events": []
+    },
+    "06-26": {
+      "date": "06-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._lipnja",
+      "events": []
+    },
+    "06-27": {
+      "date": "06-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._lipnja",
+      "events": []
+    },
+    "06-28": {
+      "date": "06-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._lipnja",
+      "events": []
+    },
+    "06-29": {
+      "date": "06-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._lipnja",
+      "events": []
+    },
+    "06-30": {
+      "date": "06-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._lipnja",
+      "events": []
+    },
+    "07-01": {
+      "date": "07-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._srpnja",
+      "events": []
+    },
+    "07-02": {
+      "date": "07-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._srpnja",
+      "events": []
+    },
+    "07-03": {
+      "date": "07-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._srpnja",
+      "events": []
+    },
+    "07-04": {
+      "date": "07-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._srpnja",
+      "events": []
+    },
+    "07-05": {
+      "date": "07-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._srpnja",
+      "events": []
+    },
+    "07-06": {
+      "date": "07-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._srpnja",
+      "events": []
+    },
+    "07-07": {
+      "date": "07-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._srpnja",
+      "events": []
+    },
+    "07-08": {
+      "date": "07-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._srpnja",
+      "events": []
+    },
+    "07-09": {
+      "date": "07-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._srpnja",
+      "events": []
+    },
+    "07-10": {
+      "date": "07-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._srpnja",
+      "events": []
+    },
+    "07-11": {
+      "date": "07-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._srpnja",
+      "events": []
+    },
+    "07-12": {
+      "date": "07-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._srpnja",
+      "events": []
+    },
+    "07-13": {
+      "date": "07-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._srpnja",
+      "events": []
+    },
+    "07-14": {
+      "date": "07-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._srpnja",
+      "events": []
+    },
+    "07-15": {
+      "date": "07-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._srpnja",
+      "events": []
+    },
+    "07-16": {
+      "date": "07-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._srpnja",
+      "events": []
+    },
+    "07-17": {
+      "date": "07-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._srpnja",
+      "events": []
+    },
+    "07-18": {
+      "date": "07-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._srpnja",
+      "events": []
+    },
+    "07-19": {
+      "date": "07-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._srpnja",
+      "events": []
+    },
+    "07-20": {
+      "date": "07-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._srpnja",
+      "events": []
+    },
+    "07-21": {
+      "date": "07-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._srpnja",
+      "events": []
+    },
+    "07-22": {
+      "date": "07-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._srpnja",
+      "events": []
+    },
+    "07-23": {
+      "date": "07-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._srpnja",
+      "events": []
+    },
+    "07-24": {
+      "date": "07-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._srpnja",
+      "events": []
+    },
+    "07-25": {
+      "date": "07-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._srpnja",
+      "events": []
+    },
+    "07-26": {
+      "date": "07-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._srpnja",
+      "events": []
+    },
+    "07-27": {
+      "date": "07-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._srpnja",
+      "events": []
+    },
+    "07-28": {
+      "date": "07-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._srpnja",
+      "events": []
+    },
+    "07-29": {
+      "date": "07-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._srpnja",
+      "events": []
+    },
+    "07-30": {
+      "date": "07-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._srpnja",
+      "events": []
+    },
+    "07-31": {
+      "date": "07-31",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/31._srpnja",
+      "events": []
+    },
+    "08-01": {
+      "date": "08-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._kolovoza",
+      "events": []
+    },
+    "08-02": {
+      "date": "08-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._kolovoza",
+      "events": []
+    },
+    "08-03": {
+      "date": "08-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._kolovoza",
+      "events": []
+    },
+    "08-04": {
+      "date": "08-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._kolovoza",
+      "events": []
+    },
+    "08-05": {
+      "date": "08-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._kolovoza",
+      "events": []
+    },
+    "08-06": {
+      "date": "08-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._kolovoza",
+      "events": []
+    },
+    "08-07": {
+      "date": "08-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._kolovoza",
+      "events": []
+    },
+    "08-08": {
+      "date": "08-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._kolovoza",
+      "events": []
+    },
+    "08-09": {
+      "date": "08-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._kolovoza",
+      "events": []
+    },
+    "08-10": {
+      "date": "08-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._kolovoza",
+      "events": []
+    },
+    "08-11": {
+      "date": "08-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._kolovoza",
+      "events": []
+    },
+    "08-12": {
+      "date": "08-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._kolovoza",
+      "events": []
+    },
+    "08-13": {
+      "date": "08-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._kolovoza",
+      "events": []
+    },
+    "08-14": {
+      "date": "08-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._kolovoza",
+      "events": []
+    },
+    "08-15": {
+      "date": "08-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._kolovoza",
+      "events": []
+    },
+    "08-16": {
+      "date": "08-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._kolovoza",
+      "events": []
+    },
+    "08-17": {
+      "date": "08-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._kolovoza",
+      "events": []
+    },
+    "08-18": {
+      "date": "08-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._kolovoza",
+      "events": []
+    },
+    "08-19": {
+      "date": "08-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._kolovoza",
+      "events": []
+    },
+    "08-20": {
+      "date": "08-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._kolovoza",
+      "events": []
+    },
+    "08-21": {
+      "date": "08-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._kolovoza",
+      "events": []
+    },
+    "08-22": {
+      "date": "08-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._kolovoza",
+      "events": []
+    },
+    "08-23": {
+      "date": "08-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._kolovoza",
+      "events": []
+    },
+    "08-24": {
+      "date": "08-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._kolovoza",
+      "events": []
+    },
+    "08-25": {
+      "date": "08-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._kolovoza",
+      "events": []
+    },
+    "08-26": {
+      "date": "08-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._kolovoza",
+      "events": []
+    },
+    "08-27": {
+      "date": "08-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._kolovoza",
+      "events": []
+    },
+    "08-28": {
+      "date": "08-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._kolovoza",
+      "events": []
+    },
+    "08-29": {
+      "date": "08-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._kolovoza",
+      "events": []
+    },
+    "08-30": {
+      "date": "08-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._kolovoza",
+      "events": []
+    },
+    "08-31": {
+      "date": "08-31",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/31._kolovoza",
+      "events": []
+    },
+    "09-01": {
+      "date": "09-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._rujna",
+      "events": []
+    },
+    "09-02": {
+      "date": "09-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._rujna",
+      "events": []
+    },
+    "09-03": {
+      "date": "09-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._rujna",
+      "events": []
+    },
+    "09-04": {
+      "date": "09-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._rujna",
+      "events": []
+    },
+    "09-05": {
+      "date": "09-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._rujna",
+      "events": []
+    },
+    "09-06": {
+      "date": "09-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._rujna",
+      "events": []
+    },
+    "09-07": {
+      "date": "09-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._rujna",
+      "events": []
+    },
+    "09-08": {
+      "date": "09-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._rujna",
+      "events": []
+    },
+    "09-09": {
+      "date": "09-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._rujna",
+      "events": []
+    },
+    "09-10": {
+      "date": "09-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._rujna",
+      "events": []
+    },
+    "09-11": {
+      "date": "09-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._rujna",
+      "events": []
+    },
+    "09-12": {
+      "date": "09-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._rujna",
+      "events": []
+    },
+    "09-13": {
+      "date": "09-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._rujna",
+      "events": []
+    },
+    "09-14": {
+      "date": "09-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._rujna",
+      "events": []
+    },
+    "09-15": {
+      "date": "09-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._rujna",
+      "events": []
+    },
+    "09-16": {
+      "date": "09-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._rujna",
+      "events": []
+    },
+    "09-17": {
+      "date": "09-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._rujna",
+      "events": []
+    },
+    "09-18": {
+      "date": "09-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._rujna",
+      "events": []
+    },
+    "09-19": {
+      "date": "09-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._rujna",
+      "events": []
+    },
+    "09-20": {
+      "date": "09-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._rujna",
+      "events": []
+    },
+    "09-21": {
+      "date": "09-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._rujna",
+      "events": []
+    },
+    "09-22": {
+      "date": "09-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._rujna",
+      "events": []
+    },
+    "09-23": {
+      "date": "09-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._rujna",
+      "events": []
+    },
+    "09-24": {
+      "date": "09-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._rujna",
+      "events": []
+    },
+    "09-25": {
+      "date": "09-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._rujna",
+      "events": []
+    },
+    "09-26": {
+      "date": "09-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._rujna",
+      "events": []
+    },
+    "09-27": {
+      "date": "09-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._rujna",
+      "events": []
+    },
+    "09-28": {
+      "date": "09-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._rujna",
+      "events": []
+    },
+    "09-29": {
+      "date": "09-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._rujna",
+      "events": []
+    },
+    "09-30": {
+      "date": "09-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._rujna",
+      "events": []
+    },
+    "10-01": {
+      "date": "10-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._listopada",
+      "events": []
+    },
+    "10-02": {
+      "date": "10-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._listopada",
+      "events": []
+    },
+    "10-03": {
+      "date": "10-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._listopada",
+      "events": []
+    },
+    "10-04": {
+      "date": "10-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._listopada",
+      "events": []
+    },
+    "10-05": {
+      "date": "10-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._listopada",
+      "events": []
+    },
+    "10-06": {
+      "date": "10-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._listopada",
+      "events": []
+    },
+    "10-07": {
+      "date": "10-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._listopada",
+      "events": []
+    },
+    "10-08": {
+      "date": "10-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._listopada",
+      "events": []
+    },
+    "10-09": {
+      "date": "10-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._listopada",
+      "events": []
+    },
+    "10-10": {
+      "date": "10-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._listopada",
+      "events": []
+    },
+    "10-11": {
+      "date": "10-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._listopada",
+      "events": []
+    },
+    "10-12": {
+      "date": "10-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._listopada",
+      "events": []
+    },
+    "10-13": {
+      "date": "10-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._listopada",
+      "events": []
+    },
+    "10-14": {
+      "date": "10-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._listopada",
+      "events": []
+    },
+    "10-15": {
+      "date": "10-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._listopada",
+      "events": []
+    },
+    "10-16": {
+      "date": "10-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._listopada",
+      "events": []
+    },
+    "10-17": {
+      "date": "10-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._listopada",
+      "events": []
+    },
+    "10-18": {
+      "date": "10-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._listopada",
+      "events": []
+    },
+    "10-19": {
+      "date": "10-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._listopada",
+      "events": []
+    },
+    "10-20": {
+      "date": "10-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._listopada",
+      "events": []
+    },
+    "10-21": {
+      "date": "10-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._listopada",
+      "events": []
+    },
+    "10-22": {
+      "date": "10-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._listopada",
+      "events": []
+    },
+    "10-23": {
+      "date": "10-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._listopada",
+      "events": []
+    },
+    "10-24": {
+      "date": "10-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._listopada",
+      "events": []
+    },
+    "10-25": {
+      "date": "10-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._listopada",
+      "events": []
+    },
+    "10-26": {
+      "date": "10-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._listopada",
+      "events": []
+    },
+    "10-27": {
+      "date": "10-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._listopada",
+      "events": []
+    },
+    "10-28": {
+      "date": "10-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._listopada",
+      "events": []
+    },
+    "10-29": {
+      "date": "10-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._listopada",
+      "events": []
+    },
+    "10-30": {
+      "date": "10-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._listopada",
+      "events": []
+    },
+    "10-31": {
+      "date": "10-31",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/31._listopada",
+      "events": []
+    },
+    "11-01": {
+      "date": "11-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._studenoga",
+      "events": []
+    },
+    "11-02": {
+      "date": "11-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._studenoga",
+      "events": []
+    },
+    "11-03": {
+      "date": "11-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._studenoga",
+      "events": []
+    },
+    "11-04": {
+      "date": "11-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._studenoga",
+      "events": []
+    },
+    "11-05": {
+      "date": "11-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._studenoga",
+      "events": []
+    },
+    "11-06": {
+      "date": "11-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._studenoga",
+      "events": []
+    },
+    "11-07": {
+      "date": "11-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._studenoga",
+      "events": []
+    },
+    "11-08": {
+      "date": "11-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._studenoga",
+      "events": []
+    },
+    "11-09": {
+      "date": "11-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._studenoga",
+      "events": []
+    },
+    "11-10": {
+      "date": "11-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._studenoga",
+      "events": []
+    },
+    "11-11": {
+      "date": "11-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._studenoga",
+      "events": []
+    },
+    "11-12": {
+      "date": "11-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._studenoga",
+      "events": []
+    },
+    "11-13": {
+      "date": "11-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._studenoga",
+      "events": []
+    },
+    "11-14": {
+      "date": "11-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._studenoga",
+      "events": []
+    },
+    "11-15": {
+      "date": "11-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._studenoga",
+      "events": []
+    },
+    "11-16": {
+      "date": "11-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._studenoga",
+      "events": []
+    },
+    "11-17": {
+      "date": "11-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._studenoga",
+      "events": []
+    },
+    "11-18": {
+      "date": "11-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._studenoga",
+      "events": []
+    },
+    "11-19": {
+      "date": "11-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._studenoga",
+      "events": []
+    },
+    "11-20": {
+      "date": "11-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._studenoga",
+      "events": []
+    },
+    "11-21": {
+      "date": "11-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._studenoga",
+      "events": []
+    },
+    "11-22": {
+      "date": "11-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._studenoga",
+      "events": []
+    },
+    "11-23": {
+      "date": "11-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._studenoga",
+      "events": []
+    },
+    "11-24": {
+      "date": "11-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._studenoga",
+      "events": []
+    },
+    "11-25": {
+      "date": "11-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._studenoga",
+      "events": []
+    },
+    "11-26": {
+      "date": "11-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._studenoga",
+      "events": []
+    },
+    "11-27": {
+      "date": "11-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._studenoga",
+      "events": []
+    },
+    "11-28": {
+      "date": "11-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._studenoga",
+      "events": []
+    },
+    "11-29": {
+      "date": "11-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._studenoga",
+      "events": []
+    },
+    "11-30": {
+      "date": "11-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._studenoga",
+      "events": []
+    },
+    "12-01": {
+      "date": "12-01",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/1._prosinca",
+      "events": []
+    },
+    "12-02": {
+      "date": "12-02",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/2._prosinca",
+      "events": []
+    },
+    "12-03": {
+      "date": "12-03",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/3._prosinca",
+      "events": []
+    },
+    "12-04": {
+      "date": "12-04",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/4._prosinca",
+      "events": []
+    },
+    "12-05": {
+      "date": "12-05",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/5._prosinca",
+      "events": []
+    },
+    "12-06": {
+      "date": "12-06",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/6._prosinca",
+      "events": []
+    },
+    "12-07": {
+      "date": "12-07",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/7._prosinca",
+      "events": []
+    },
+    "12-08": {
+      "date": "12-08",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/8._prosinca",
+      "events": []
+    },
+    "12-09": {
+      "date": "12-09",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/9._prosinca",
+      "events": []
+    },
+    "12-10": {
+      "date": "12-10",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/10._prosinca",
+      "events": []
+    },
+    "12-11": {
+      "date": "12-11",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/11._prosinca",
+      "events": []
+    },
+    "12-12": {
+      "date": "12-12",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/12._prosinca",
+      "events": []
+    },
+    "12-13": {
+      "date": "12-13",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/13._prosinca",
+      "events": []
+    },
+    "12-14": {
+      "date": "12-14",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/14._prosinca",
+      "events": []
+    },
+    "12-15": {
+      "date": "12-15",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/15._prosinca",
+      "events": []
+    },
+    "12-16": {
+      "date": "12-16",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/16._prosinca",
+      "events": []
+    },
+    "12-17": {
+      "date": "12-17",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/17._prosinca",
+      "events": []
+    },
+    "12-18": {
+      "date": "12-18",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/18._prosinca",
+      "events": []
+    },
+    "12-19": {
+      "date": "12-19",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/19._prosinca",
+      "events": []
+    },
+    "12-20": {
+      "date": "12-20",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/20._prosinca",
+      "events": []
+    },
+    "12-21": {
+      "date": "12-21",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/21._prosinca",
+      "events": []
+    },
+    "12-22": {
+      "date": "12-22",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/22._prosinca",
+      "events": []
+    },
+    "12-23": {
+      "date": "12-23",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/23._prosinca",
+      "events": []
+    },
+    "12-24": {
+      "date": "12-24",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/24._prosinca",
+      "events": []
+    },
+    "12-25": {
+      "date": "12-25",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/25._prosinca",
+      "events": []
+    },
+    "12-26": {
+      "date": "12-26",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/26._prosinca",
+      "events": []
+    },
+    "12-27": {
+      "date": "12-27",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/27._prosinca",
+      "events": []
+    },
+    "12-28": {
+      "date": "12-28",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/28._prosinca",
+      "events": []
+    },
+    "12-29": {
+      "date": "12-29",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/29._prosinca",
+      "events": []
+    },
+    "12-30": {
+      "date": "12-30",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/30._prosinca",
+      "events": []
+    },
+    "12-31": {
+      "date": "12-31",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/wiki/31._prosinca",
+      "events": []
+    }
+  }
 }
