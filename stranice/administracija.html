@@ -39,6 +39,25 @@
 </section>
 </div>
 
+<section class="ps-admin-panel ps-admin-editor" id="article-editor">
+<div class="ps-admin-panel-head"><div><p class="ps-kicker">CMS UREDNIK</p><h2>Uredi članak</h2></div><span class="ps-admin-muted">Sprema se u portal_articles</span></div>
+<input id="article-id" type="hidden">
+<div class="ps-editor-grid">
+<label>Naslov<input id="article-title" type="text" maxlength="220"></label>
+<label>Rubrika<input id="article-kicker" type="text" maxlength="120"></label>
+<label>Kategorija<input id="article-category" type="text" maxlength="120"></label>
+<label>Podkategorija<input id="article-subcategory" type="text" maxlength="120"></label>
+<label>Putanja / slug<input id="article-path" type="text" maxlength="300" placeholder="clanci/domovina/novi-clanak.html"></label>
+<label>Fotografija URL<input id="article-image-url" type="url"></label>
+<label>Alt tekst fotografije<input id="article-image-alt" type="text" maxlength="220"></label>
+<label>Status<select id="article-status"><option value="draft">Nacrt</option><option value="review">Za provjeru</option><option value="published">Objavljeno</option><option value="archived">Arhivirano</option></select></label>
+<label class="ps-editor-full">Sažetak<textarea id="article-excerpt" rows="3" maxlength="500"></textarea></label>
+<label class="ps-editor-full">Tekst članka (HTML)<textarea id="article-body" rows="16"></textarea></label>
+<label class="ps-editor-full">Izvori — jedan po retku<textarea id="article-sources" rows="6" placeholder="https://..."></textarea></label>
+</div>
+<div class="ps-admin-footer-actions"><button class="ps-admin-button" id="article-save" type="button">Spremi članak</button><button class="ps-admin-button ps-admin-button-light" id="article-clear" type="button">Novi / očisti</button><span id="article-editor-message" class="ps-editor-message">Odaberi članak ili pokreni novi.</span></div>
+</section>
+
 <section class="ps-admin-panel ps-admin-comments-panel">
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">ZAJEDNICA</p><h2>Komentari</h2></div><span class="ps-admin-muted">Moderacija dostupna urednicima i administratorima</span></div>
 <div id="comments-manage" class="ps-admin-list"><p>Učitavanje komentara…</p></div>
@@ -50,5 +69,5 @@
 </div>
 <div class="ps-admin-footer-actions"><a class="ps-admin-button" href="racun.html">Moj račun</a><a class="ps-admin-button ps-admin-button-light" href="../index.html">Naslovnica</a><button class="ps-admin-button ps-admin-button-light" id="refresh-admin" type="button">Osvježi podatke</button></div>
 </section></main>
-<script src="../assets/js/portal.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/admin.js"></script>
+<script src="../assets/js/portal.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/article-editor.js"></script><script src="../assets/js/admin.js"></script>
 </body></html>
