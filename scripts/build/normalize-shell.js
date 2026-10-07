@@ -31,14 +31,14 @@ function walk(dir){
       if(relatedMatch){
         html=html.replace(relatedMatch[0],relatedMatch[0]+fallback);
       }else{
-        html=html.replace(/<\\/main>/i,fallback+"</main>");
+        html=html.replace(/<\/main>/i,fallback+"</main>");
       }
 
       const relPortal=portalPath(full);
       const relComments=commentsPath(full);
       const portalTag='<script src="'+relPortal+'?v='+VERSION+'"></script>';
       const commentTag='<script src="'+relComments+'?v='+VERSION+'" data-ps-comments="true"></script>';
-      html=html.replace(/<\\/body>/i,portalTag+commentTag+"</body>");
+      html=html.replace(/<\/body>/i,portalTag+commentTag+"</body>");
     }
     html=html.replace(/<footer class=["']site-footer["']><\/footer>/gi,"");
     fs.writeFileSync(full,html);
