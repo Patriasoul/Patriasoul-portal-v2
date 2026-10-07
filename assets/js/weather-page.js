@@ -56,13 +56,43 @@ function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;",
 async function fetchText(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);try{const r=await fetch(url,{cache:"no-store",signal:controller.signal});if(!r.ok)throw new Error("HTTP "+r.status);return await r.text();}finally{clearTimeout(timer);}}
 function parseDhmzCap(xml){const doc=new DOMParser().parseFromString(xml,"application/xml");if(doc.querySelector("parsererror"))throw new Error("DHMZ CAP XML nije valjan");const infos=[...doc.querySelectorAll("info")];return infos.map(info=>{const text=n=>info.querySelector(n)?.textContent?.trim()||"";const areas=[...info.querySelectorAll("areaDesc")].map(x=>x.textContent.trim()).filter(Boolean);return{event:text("event"),severity:text("severity"),urgency:text("urgency"),description:text("description"),areas};}).filter(x=>x.event||x.description||x.areas.length);}
 async function loadDhmzData(){try{const r=await fetch("../data/dhmz-data.json?"+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error("DHMZ lokalni podaci HTTP "+r.status);return await r.json();}catch(e){console.warn("Lokalni DHMZ podaci nisu dostupni:",e);return null;}}
-function renderDhmzSafety(j){const w=$("#weather-safety-warning"),r=$("#weather-safety-rain"),sea=$("#weather-safety-sea");if(!w||!r||!sea)return;if(!j){w.textContent="DHMZ podaci se trenutno osvježavaju.";return;}
-const warnings=Array.isArray(j.warnings)?j.warnings:[];const visible=warnings.filter(x=>x.event&&!/^green/i.test(x.event)&&!/^zeleno/i.test(x.event)&&!/^no warnings/i.test(x.description||"")).slice(0,8);
-w.innerHTML=visible.length?"<strong>DHMZ upozorenja:</strong> "+visible.map(x=>"<div class=\"ps-dhmz-warning\"><b>"+escapeHtml(x.event)+"</b>"+(x.areas?.length?" — "+escapeHtml(x.areas.slice(0,4).join(", ")):"")+(x.description?"<br>"+escapeHtml(x.description):"")+"</div>").join(""):"<strong>DHMZ:</strong> Trenutno nema aktivnih upozorenja u automatski preuzetom službenom zapisu.";
-const rain=(j.rainfall_text||[]).filter(Boolean).slice(0,4);r.innerHTML=rain.length?"<strong>DHMZ oborina:</strong> "+rain.map(escapeHtml).join(" "):"<strong>DHMZ oborina:</strong> Trenutni tekstualni zapis oborine nije dostupan.";
-const ad=(j.adriatic_text||[]).filter(Boolean).slice(0,2),sa=(j.sailors_text||[]).filter(Boolean).slice(0,2);sea.innerHTML=ad.length||sa.length?"<strong>DHMZ Jadran:</strong> "+ad.map(escapeHtml).concat(sa.map(escapeHtml)).join(" "):"<strong>DHMZ Jadran:</strong> Trenutni službeni tekst nije dostupan.";
+function dhmzDayLabel(day){return day==="today"?"Danas":day==="tomorrow"?"Sutra":"Prekosutra";}
+function dhmzSeverityLabel(v){const x=String(v||"").toLowerCase();if(x==="minor")return"Žuto upozorenje";if(x==="moderate")return"Narančasto upozorenje";if(x==="severe")return"Crveno upozorenje";if(x==="extreme")return"Crveno upozorenje";return v||"Upozorenje";}
+function renderDhmzSafety(j){
+const w=$("#weather-safety-warning"),r=$("#weather-safety-rain"),sea=$("#weather-safety-sea");
+if(!w||!r||!sea)return;
+if(!j){
+w.innerHTML="<strong>DHMZ:</strong> Službeni podaci trenutno se osvježavaju. Pokušaj ponovno za nekoliko trenutaka.";
+r.innerHTML="<strong>DHMZ oborina:</strong> Službeni zapis trenutno se osvježava.";
+sea.innerHTML="<strong>DHMZ Jadran:</strong> Službeni zapis trenutno se osvježava.";
+return;
 }
-async function renderSafety(){renderSafetyFallback();const j=await loadDhmzData();renderDhmzSafety(j);}
+const warnings=Array.isArray(j.warnings)?j.warnings:[];
+const visible=warnings.filter(x=>x.event&&!/^green/i.test(x.event)&&!/^zeleno/i.test(x.event)&&!/^no warnings/i.test(x.description||"")).slice(0,12);
+if(visible.length){
+w.innerHTML="<strong>Aktivna DHMZ upozorenja</strong><div class="ps-dhmz-warning-list">"+visible.map(x=>"<div class="ps-dhmz-warning"><b>"+escapeHtml(dhmzSeverityLabel(x.severity))+"</b><span>"+escapeHtml(x.event)+" · "+escapeHtml(dhmzDayLabel(x.day))+"</span>"+(x.areas?.length?"<small>"+escapeHtml(x.areas.slice(0,5).join(", "))+"</small>":"")+(x.description?"<p>"+escapeHtml(x.description)+"</p>":"")+"</div>").join("")+"</div>";
+}else{
+w.innerHTML="<strong>DHMZ:</strong> Trenutno nema aktivnih upozorenja u automatski preuzetom službenom zapisu.";
+}
+const rain=(j.rainfall_text||[]).filter(Boolean).slice(0,5);
+r.innerHTML=rain.length?"<strong>DHMZ oborina</strong><div class="ps-dhmz-text-list">"+rain.map(x=>"<p>"+escapeHtml(x)+"</p>").join("")+"</div>":"<strong>DHMZ oborina:</strong> Trenutni službeni tekstualni zapis oborine nije dostupan.";
+const ad=(j.adriatic_text||[]).filter(Boolean).slice(0,3),sa=(j.sailors_text||[]).filter(Boolean).slice(0,3);
+sea.innerHTML=ad.length||sa.length?"<strong>DHMZ Jadran i more</strong><div class="ps-dhmz-text-list">"+ad.concat(sa).map(x=>"<p>"+escapeHtml(x)+"</p>").join("")+"</div>":"<strong>DHMZ Jadran:</strong> Trenutni službeni tekst nije dostupan.";
+if(j.updated_at){
+const stamp=new Date(j.updated_at);
+if(!Number.isNaN(stamp.getTime())){
+const t=new Intl.DateTimeFormat("hr-HR",{dateStyle:"short",timeStyle:"short"}).format(stamp);
+[w,r,sea].forEach(el=>{const small=document.createElement("small");small.className="ps-dhmz-updated";small.textContent="DHMZ zapis: "+t;el.appendChild(small);});
+}}
+}
+async function renderSafety(){
+const w=$("#weather-safety-warning"),r=$("#weather-safety-rain"),sea=$("#weather-safety-sea");
+if(w)w.innerHTML="Dohvaćam službena DHMZ upozorenja…";
+if(r)r.innerHTML="Dohvaćam službeni DHMZ zapis oborine…";
+if(sea)sea.innerHTML="Dohvaćam službeni DHMZ pregled Jadrana…";
+const j=await loadDhmzData();
+renderDhmzSafety(j);
+}
 async function load(){const status=$("#weather-live-status");status.textContent="Podaci se dohvaćaju…";try{
 const results=[];for(let base=0;base<cities.length;base+=4){const batch=cities.slice(base,base+4).map(c=>fetchJson(apiUrl(c)).catch(e=>{console.warn("PatriaSoul weather city:",c.name,e);return null;}));results.push(...await Promise.all(batch));}
 data=results;if(!data.some(Boolean))throw new Error("Nijedna vremenska lokacija nije dostupna");
