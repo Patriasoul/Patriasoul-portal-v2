@@ -35,6 +35,20 @@ jobs:
       - name: Normaliziraj članke
         run: node scripts/build/normalize-articles.js
 
+      - name: Sinkroniziraj indeks članaka u repozitorij
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/articles.json
+          if git diff --cached --quiet; then
+            echo "Indeks članaka nije promijenjen."
+          else
+            git commit -m "Ažuriraj indeks članaka [skip ci]"
+            git push
+          fi
+
       - name: Ujednaci portal shell na svim HTML stranicama
         run: node scripts/build/normalize-shell.js
 
