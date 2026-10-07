@@ -28,11 +28,17 @@ jobs:
           test -n "$SUPABASE_ACCESS_TOKEN"
           test -n "$BACKUP_PASSPHRASE"
 
+      - name: Initialize Supabase CLI project
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase init --force
+
       - name: Link Supabase project
         shell: bash
         run: |
           set -euo pipefail
-          supabase link --project-ref "$PROJECT_REF"
+          supabase link --project-ref "$PROJECT_REF" <<< ""
 
       - name: Download Storage objects
         shell: bash
