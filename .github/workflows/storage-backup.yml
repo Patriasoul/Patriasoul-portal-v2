@@ -26,6 +26,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          echo "SUPABASE_ACCESS_TOKEN: ${SUPABASE_ACCESS_TOKEN:+SET}"
+          echo "BACKUP_PASSPHRASE: ${BACKUP_PASSPHRASE:+SET}"
+          echo "SUPABASE_DB_PASSWORD: ${SUPABASE_DB_PASSWORD:+SET}"
           test -n "$SUPABASE_ACCESS_TOKEN"
           test -n "$BACKUP_PASSPHRASE"
           test -n "$SUPABASE_DB_PASSWORD"
