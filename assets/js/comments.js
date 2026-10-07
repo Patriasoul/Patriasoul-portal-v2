@@ -7,13 +7,13 @@ const authSrc=commentScript?new URL("auth.js",commentScript.src).href:(portalScr
 const escape=(v)=>String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const loginUrl=()=>{const base=commentScript?.src||location.href;const p=new URL("../../stranice/prijava.html",base);const target=new URL(location.href);target.hash="komentari";p.searchParams.set("next",target.href);try{sessionStorage.setItem("patriasoul-login-next",target.href)}catch(_){}return p.href};
 async function boot(){
- addStyle();
+ let user=null;
  const section=document.querySelector(".ps-comments");
  if(section&&!section.id)section.id="komentari";
  if(!section)return;
  const box=section.querySelector(".ps-comments-content");
  if(!box)return;
- try{if(window.PatriaSoulAuthReady){await window.PatriaSoulAuthReady}else if(!window.PatriaSoulAuth){await loadScript(authSrc)}const auth=window.PatriaSoulAuth;const client=await auth.client();let user=await auth.getUser().catch(()=>null);
+ try{if(window.PatriaSoulAuthReady){await window.PatriaSoulAuthReady}else if(!window.PatriaSoulAuth){await loadScript(authSrc)}const auth=window.PatriaSoulAuth;const client=await auth.client();user=await auth.getUser().catch(()=>null);
  if(!user && auth.waitForUser) user=await auth.waitForUser(4000);
  const render=async()=>{
    const path=location.pathname.replace(/^\/+/,"/");
