@@ -72,6 +72,7 @@
           <a href="${link("stranice/kontakt.html")}">Kontakt</a>
           <a href="${link("stranice/pretraga.html")}">Pretraži</a>
           <a href="${link("stranice/prijava.html")}">Prijava / Registracija</a>
+          <a href="${link("stranice/racun.html")}">Moj račun</a>
           <a href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
           <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
         </div>
