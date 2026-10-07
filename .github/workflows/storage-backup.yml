@@ -1,0 +1,53 @@
+name: PatriaSoul · Storage Backup
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 2 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  storage-backup:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+      PROJECT_REF: ijimozjfdffejbczwyzb
+    steps:
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Validate secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$SUPABASE_ACCESS_TOKEN"
+          test -n "$BACKUP_PASSPHRASE"
+
+      - name: Download Storage objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p storage
+          supabase link --project-ref "$PROJECT_REF" --password "$SUPABASE_DB_PASSWORD" 2>/dev/null || true
+          supabase storage cp "ss:///heritage-submissions" "storage/heritage-submissions" --recursive --experimental
+          supabase storage cp "ss:///avatars" "storage/avatars" --recursive --experimental
+
+      - name: Encrypt Storage backup
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -czf storage-backup.tar.gz storage
+          openssl enc -aes-256-cbc -pbkdf2 -salt -in storage-backup.tar.gz -out patriasoul-storage-backup.tar.gz.enc -pass env:BACKUP_PASSPHRASE
+          rm -rf storage storage-backup.tar.gz
+
+      - name: Upload encrypted Storage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: patriasoul-storage-backup-${{ github.run_id }}
+          path: patriasoul-storage-backup.tar.gz.enc
+          retention-days: 30
