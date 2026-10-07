@@ -1,1 +1,22 @@
-{"main":["Naslovnica","Najnovije","Domovina","Povijest","Vjera","Čuvari nasljeđa","Kontakt"],"secondary":["Hrvatski kviz","Vrijeme u Hrvatskoj","Prijava / Registracija","Pretraži","Prati PatriaSoul","Pošalji priču","Administracija"]}
+{
+  "main": [
+    "Naslovnica",
+    "Domovina",
+    "Povijest",
+    "Vjera",
+    "Čuvari nasljeđa",
+    "O PatriaSoul",
+    "Više"
+  ],
+  "secondary": [
+    "Hrvatski kviz",
+    "Najnovije vijesti",
+    "Vrijeme u Hrvatskoj",
+    "Pošalji priču",
+    "Prati PatriaSoul",
+    "Pretraži",
+    "Prijava / Registracija",
+    "Moj račun",
+    "Administracija"
+  ]
+}
