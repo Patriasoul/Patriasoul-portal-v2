@@ -47,6 +47,17 @@ jobs:
       - name: QA slika
         run: node scripts/qa/qa-images.js
 
+      - name: Dijagnostika verzije i vremenske stranice
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "GITHUB_SHA=$GITHUB_SHA"
+          echo "GITHUB_REF=$GITHUB_REF"
+          echo "vrijeme.html CSS link:"
+          grep -n "weather-page.css" stranice/vrijeme.html || true
+          echo "weather-page.css:"
+          test -f assets/css/weather-page.css && echo "POSTOJI" || (echo "NEDOSTAJE"; exit 1)
+
       - name: QA linkova
         run: node scripts/qa/qa-links.js
 
