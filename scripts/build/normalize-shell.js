@@ -20,14 +20,14 @@ function walk(dir){
       const fallback='<section class="ps-comments ps-comments-static"><div class="ps-comments-head"><span>KOMENTARI</span><h2>Recite što mislite</h2><p>Za komentiranje morate biti prijavljeni na PatriaSoul. Anonimno komentiranje nije omogućeno.</p></div><div class="ps-comments-content"><div class="ps-comments-login"><strong>Komentiranje je dostupno samo prijavljenim korisnicima.</strong><p>Prijavite se svojim PatriaSoul računom kako biste mogli objaviti komentar.</p><a href="'+loginPath(full)+'">Prijavi se na PatriaSoul</a></div></div></section>';
       // Na člancima su Povezano i Komentari dio sadržaja članka.
       // Portal.js stvara footer dinamički, zato se mora izvršiti TEK NAKON tih blokova.
-      const portalRe=/<script[^>]+src=["'][^"']*assets\\/js\\/portal\\.js(?:\\?[^"']*)?["'][^>]*><\\/script>/gi;
-      const commentsRe=/<script[^>]+src=["'][^"']*assets\\/js\\/comments\\.js(?:\\?[^"']*)?["'][^>]*><\\/script>/gi;
+      const portalRe=/<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>/gi;
+      const commentsRe=/<script[^>]+src=["'][^"']*assets\/js\/comments\.js(?:\?[^"']*)?["'][^>]*><\/script>/gi;
       html=html.replace(portalRe,"");
       html=html.replace(commentsRe,"");
-      html=html.replace(/<section[^>]*class=["'][^"']*ps-comments[^"']*["'][\\s\\S]*?<\\/section>/gi,"");
-      html=html.replace(/<footer[^>]*class=["']site-footer["'][\\s\\S]*?<\\/footer>/gi,"");
+      html=html.replace(/<section[^>]*class=["'][^"']*ps-comments[^"']*["'][\s\S]*?<\/section>/gi,"");
+      html=html.replace(/<footer[^>]*class=["']site-footer["'][\s\S]*?<\/footer>/gi,"");
 
-      const relatedMatch=html.match(/<section[^>]*class=["'][^"']*article-related(?:\\s|["'])[^>]*>[\\s\\S]*?<\\/section>/i);
+      const relatedMatch=html.match(/<section[^>]*class=["'][^"']*article-related(?:\s|["'])[^>]*>[\s\S]*?<\/section>/i);
       if(relatedMatch){
         html=html.replace(relatedMatch[0],relatedMatch[0]+fallback);
       }else{
