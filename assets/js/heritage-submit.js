@@ -37,7 +37,7 @@ form.addEventListener("submit",async event=>{
   };
   const {data:mailResult,error:mailError}=await supabase.functions.invoke("heritage-submit",{body:payload});
   if(mailError)throw mailError;
-  if(!mailResult?.ok || !mailResult?.email_sent)throw new Error("E-mail nije potvrđen kao poslan.");
+  if(!mailResult?.ok || !mailResult?.email_sent || !mailResult?.confirmation_sent)throw new Error("Potvrda e-pošte nije potvrđena kao poslana.");
   form.hidden=true;success.hidden=false;success.scrollIntoView({behavior:"smooth",block:"center"});
  }catch(error){console.error("PatriaSoul prijava:",error);setStatus("Prijavu nije bilo moguće poslati. Provjeri vezu i pokušaj ponovno.","error")}
  finally{button.disabled=false;button.classList.remove("is-loading")}
