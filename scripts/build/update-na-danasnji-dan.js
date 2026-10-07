@@ -31,13 +31,12 @@ function clean(value){
 }
 
 function parseEvents(wikitext){
-  const source=String(wikitext||"");
-  const match=source.match(/(?:^|\\n)==+\\s*Događaji\\s*==+[\\s\\S]*?(?=\\n==+\\s*[^=]+\\s*==+|$)/i);
+  const source=String(wikitext || "");
+  const match=source.match(/(?:^|\n)==+\s*Događaji\s*==+[\s\S]*?(?=\n==+\s*[^=]+\s*==+|$)/i);
   if(!match) return [];
-  const section=match[0];
   const events=[];
-  for(const line of section.split("\\n")){
-    const m=line.match(/^\\*+\\s*(\\d{1,4})\\.?\\s*(?:[-–—:.]|\\s{2,})(.+?)\\s*$/);
+  for(const line of match[0].split("\n")){
+    const m=line.match(/^\*+\s*(\d{1,4})\.?\s*(?:[-–—:.]|\s{2,})(.+?)\s*$/);
     if(!m) continue;
     const text=clean(m[2]);
     if(text) events.push({year:Number(m[1]),text});
@@ -46,16 +45,16 @@ function parseEvents(wikitext){
 }
 
 function parseHtmlEvents(html){
-  const source=String(html||"");
-  const heading=source.search(/<span[^>]+id=["']Događaji["'][^>]*>\\s*Događaji\\s*<\\/span>/i);
+  const source=String(html || "");
+  const heading=source.search(/<span[^>]+id=["']Događaji["'][^>]*>\s*Događaji\s*<\/span>/i);
   if(heading<0) return [];
   const after=source.slice(heading);
   const end=after.search(/<h[2-6][^>]*>.*?<span[^>]+class=["']mw-headline/i);
-  const section=end>0?after.slice(0,end):after;
+  const section=end>0 ? after.slice(0,end) : after;
   const events=[];
-  for(const li of section.matchAll(/<li[^>]*>([\\s\\S]*?)<\\/li>/gi)){
+  for(const li of section.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)){
     const text=clean(li[1].replace(/<[^>]+>/g," "));
-    const m=text.match(/^(\\d{1,4})\\.?\\s*(?:[-–—:.]|\\s{2,})(.+)$/);
+    const m=text.match(/^(\d{1,4})\.?\s*(?:[-–—:.]|\s{2,})(.+)$/);
     if(m) events.push({year:Number(m[1]),text:clean(m[2])});
   }
   return events;
@@ -63,55 +62,79 @@ function parseHtmlEvents(html){
 
 async function fetchBatch(pages){
   const result={};
-
   for(const page of pages){
-    const [day, monthName] = page.split("._");
-    const month = MONTHS.indexOf(monthName) + 1;
+    const [day,monthName]=page.split("._");
+    const month=MONTHS.indexOf(monthName)+1;
     let events=[];
-
-    // Prvo pokušaj službeni hrvatski OnThisDay feed.
     try{
       const feedUrl="https://hr.wikipedia.org/api/rest_v1/feed/onthisday/events/"+month+"/"+day;
       const feed=await fetchJson(feedUrl);
-      events=(feed.events || [])
-        .map(e=>({
-          year:Number(e.year),
-          text:clean(e.text || e.pages?.[0]?.extract || "")
-        }))
-        .filter(e=>Number.isFinite(e.year) && e.text);
+      events=(feed.events||[]).map(e=>({year:Number(e.year),text:clean(e.text||e.pages?.[0]?.extract||"")})).filter(e=>Number.isFinite(e.year)&&e.text);
     }catch(_){}
-
-    // Ako feed nije dostupan, koristi hrvatski MediaWiki API.
     if(!events.length){
       try{
-        const params=new URLSearchParams({
-          action:"parse",
-          page,
-          prop:"wikitext",
-          format:"json",
-          formatversion:"2"
-        });
+        const params=new URLSearchParams({action:"parse",page,prop:"wikitext",format:"json",formatversion:"2"});
         const json=await fetchJson(API+"?"+params.toString());
-        const content=json.parse?.wikitext || "";
-        events=parseEvents(content);
+        events=parseEvents(json.parse?.wikitext||"");
         if(!events.length){
-          const htmlParams=new URLSearchParams({
-            action:"parse",
-            page,
-            prop:"text",
-            format:"json",
-            formatversion:"2"
-          });
+          const htmlParams=new URLSearchParams({action:"parse",page,prop:"text",format:"json",formatversion:"2"});
           const htmlJson=await fetchJson(API+"?"+htmlParams.toString());
-          events=parseHtmlEvents(htmlJson.parse?.text || "");
+          events=parseHtmlEvents(htmlJson.parse?.text||"");
         }
       }catch(_){}
     }
-
     result[page]=events;
     console.log(page+": "+events.length+" događaja");
   }
-
   return result;
 }
 
+(async()=>{
+  const pages=[];
+  for(let month=1;month<=12;month++){
+    const days=new Date(Date.UTC(2028,month,0)).getUTCDate();
+    for(let day=1;day<=days;day++){
+      pages.push({
+        title: day+"._"+MONTHS[month-1],
+        key: pad(month)+"-"+pad(day)
+      });
+    }
+  }
+
+  const dates={};
+  const BATCH=1;
+
+  for(let i=0;i<pages.length;i+=BATCH){
+    const batch=pages.slice(i,i+BATCH);
+    const data=await fetchBatch(batch.map(x=>x.title));
+
+    for(const item of batch){
+      dates[item.key]={
+        date:item.key,
+        source:"Hrvatska Wikipedija",
+        source_url:"https://hr.wikipedia.org/wiki/"+encodeURIComponent(item.title.replace(/ /g,"_")),
+        events:data[item.title] || []
+      };
+    }
+
+    console.log("Dohvaćeno",Math.min(i+BATCH,pages.length),"/",pages.length);
+  }
+
+  const nonEmpty=Object.values(dates).filter(d=>d.events.length>0).length;
+  if(nonEmpty<100) throw new Error("Premalo dohvaćenih datuma: "+nonEmpty+". Prekid kako se ne bi objavio prazan kalendar.");
+
+  const output={
+    source:"Hrvatska Wikipedija",
+    source_url:"https://hr.wikipedia.org/",
+    updated_at:new Date().toISOString(),
+    dates
+  };
+
+  const target=path.join(process.cwd(),"data","na-danasnji-dan.json");
+  fs.mkdirSync(path.dirname(target),{recursive:true});
+  fs.writeFileSync(target,JSON.stringify(output,null,2)+"\n","utf8");
+  console.log("Zapisano:",target);
+})().catch(error=>{
+  console.error(error);
+  process.exit(1);
+});
