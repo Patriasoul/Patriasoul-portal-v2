@@ -31,18 +31,32 @@ function clean(value){
 }
 
 function parseEvents(wikitext){
-  const match = String(wikitext || "").match(
-    /(?:^|\n)==+\s*Događaji\s*==+([\s\S]*?)(?=\n==+\s*[^=]+\s*==+|$)/i
-  );
+  const source=String(wikitext||"");
+  const match=source.match(/(?:^|\\n)==+\\s*Događaji\\s*==+[\\s\\S]*?(?=\\n==+\\s*[^=]+\\s*==+|$)/i);
   if(!match) return [];
-
+  const section=match[0];
   const events=[];
-  for(const line of match[1].split("\n")){
-    const m=line.match(/^\*+\s*(\d{1,4})\.?\s*[.\-–—:]\s*(.+?)\s*$/);
+  for(const line of section.split("\\n")){
+    const m=line.match(/^\\*+\\s*(\\d{1,4})\\.?\\s*(?:[-–—:.]|\\s{2,})(.+?)\\s*$/);
     if(!m) continue;
     const text=clean(m[2]);
-    if(!text) continue;
-    events.push({year:Number(m[1]),text});
+    if(text) events.push({year:Number(m[1]),text});
+  }
+  return events;
+}
+
+function parseHtmlEvents(html){
+  const source=String(html||"");
+  const heading=source.search(/<span[^>]+id=["']Događaji["'][^>]*>\\s*Događaji\\s*<\\/span>/i);
+  if(heading<0) return [];
+  const after=source.slice(heading);
+  const end=after.search(/<h[2-6][^>]*>.*?<span[^>]+class=["']mw-headline/i);
+  const section=end>0?after.slice(0,end):after;
+  const events=[];
+  for(const li of section.matchAll(/<li[^>]*>([\\s\\S]*?)<\\/li>/gi)){
+    const text=clean(li[1].replace(/<[^>]+>/g," "));
+    const m=text.match(/^(\\d{1,4})\\.?\\s*(?:[-–—:.]|\\s{2,})(.+)$/);
+    if(m) events.push({year:Number(m[1]),text:clean(m[2])});
   }
   return events;
 }
@@ -71,22 +85,31 @@ async function fetchBatch(pages){
     if(!events.length){
       try{
         const params=new URLSearchParams({
-          action:"query",
-          prop:"revisions",
-          rvprop:"content",
-          rvslots:"main",
+          action:"parse",
+          page,
+          prop:"wikitext",
           format:"json",
-          formatversion:"2",
-          titles:page
+          formatversion:"2"
         });
         const json=await fetchJson(API+"?"+params.toString());
-        const p=json.query?.pages?.[0];
-        const content=p?.revisions?.[0]?.slots?.main?.content || p?.revisions?.[0]?.content || "";
+        const content=json.parse?.wikitext || "";
         events=parseEvents(content);
+        if(!events.length){
+          const htmlParams=new URLSearchParams({
+            action:"parse",
+            page,
+            prop:"text",
+            format:"json",
+            formatversion:"2"
+          });
+          const htmlJson=await fetchJson(API+"?"+htmlParams.toString());
+          events=parseHtmlEvents(htmlJson.parse?.text || "");
+        }
       }catch(_){}
     }
 
     result[page]=events;
+    console.log(page+": "+events.length+" događaja");
   }
 
   return result;
