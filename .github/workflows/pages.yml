@@ -54,6 +54,9 @@ jobs:
       - name: Ujednaci portal shell na svim HTML stranicama
         run: node scripts/build/normalize-shell.js
 
+      - name: Primijeni automatski SEO na portal
+        run: node scripts/build/enrich-seo.js
+
       - name: Generiraj sitemap, robots i indeks pretrage
         run: node scripts/build/generate-discovery.js
 
