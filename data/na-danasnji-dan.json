@@ -1,7 +1,7 @@
 {
   "source": "Hrvatska povijesna referenca",
   "source_url": "https://www.index.hr/kalendar",
-  "updated_at": "2026-10-08T11:48:39.129Z",
+  "updated_at": "2026-10-08T11:52:09.347Z",
   "dates": {
     "01-01": {
       "date": "01-01",
@@ -10764,48 +10764,42 @@
       "source_url": "https://www.index.hr/kalendar?datum=1008",
       "events": [
         {
-          "year": 1920,
-          "text": "Potpisan ugovor iz Sevresa"
-        },
-        {
-          "year": 1984,
-          "text": "Počelo prikazivanje filma \"Crvena zora\" FILM je podijelio kriti&#x10D;are, ali prona&#x161;ao svoju publiku."
-        },
-        {
           "year": 2011,
-          "text": "U kina je stigao film Tajni život kućnih pomoćnica 10. KOLOVOZA 2011. godine u ameri&#x10D;ka kina stigao je Tajni &#x17E;ivot ku&#x107;nih pomo&#x107;nica (The Help), sna&#x17E;na drama temeljena na istoimenom romanu Kathryn Stockett."
+          "title": "U kina stigao film „Tajni život kućnih pomoćnica“",
+          "text": "Film „Tajni život kućnih pomoćnica“ (The Help) počeo se prikazivati u američkim kinima 2011. godine.",
+          "category": "Kultura"
         },
         {
           "year": 2001,
-          "text": "Na velika platna stigla \"Američka pita 2\" NASTAVAK je postao najve&#x107;i kinohit cijele fran&#x161;ize."
-        },
-        {
-          "year": 1977,
-          "text": "Uhićen serijski ubojica Son of Sam NEW YORK je u ljeto 1977. ve&#x107; bio grad na rubu &#x17E;ivaca."
-        },
-        {
-          "year": 1971,
-          "text": "Nije bio najbolji ni najtalentiraniji, \"samo\" najvažniji. Mučni mit o njemu je laž"
-        },
-        {
-          "year": 1971,
-          "text": "Roy Keane"
-        },
-        {
-          "year": 1874,
-          "title": "Rođen događaj koji je u izvornim podacima pogrešno označen kao 1964.",
-          "text": "Podatak je označen za provjeru i neće se prikazivati kao potvrđen povijesni događaj."
-        },
-        {
-          "year": 1960,
-          "text": "Antonio Banderas"
+          "title": "Na velika platna stigla „Američka pita 2“",
+          "text": "Nastavak filmske komedije „Američka pita“ stigao je u kina 2001. godine.",
+          "category": "Kultura"
         },
         {
           "year": 1991,
           "title": "Hrvatski sabor donio odluku o raskidu svih državnopravnih veza s bivšom SFRJ",
           "text": "Hrvatski sabor je 8. listopada 1991. jednoglasno donio odluku kojom je Republika Hrvatska raskinula sve državnopravne veze s bivšom SFRJ.",
+          "category": "Povijest",
           "source": "Hrvatski sabor",
           "source_url": "https://www.sabor.hr/hr/o-saboru/povijest-saborovanja/vazni-datumi/8-listopada-dan-hrvatskoga-sabora"
+        },
+        {
+          "year": 1984,
+          "title": "Počelo prikazivanje filma „Crvena zora“",
+          "text": "Film „Crvena zora“ počeo se prikazivati 1984. godine i podijelio je filmske kritičare.",
+          "category": "Kultura"
+        },
+        {
+          "year": 1977,
+          "title": "Uhićen serijski ubojica Son of Sam",
+          "text": "David Berkowitz, poznat kao Son of Sam, uhićen je u New Yorku 1977. godine.",
+          "category": "Povijest"
+        },
+        {
+          "year": 1920,
+          "title": "Potpisan ugovor iz Sevresa",
+          "text": "Ugovor iz Sevresa potpisan je 1920. godine nakon Prvog svjetskog rata.",
+          "category": "Povijest"
         }
       ]
     },
