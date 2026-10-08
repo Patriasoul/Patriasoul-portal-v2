@@ -47,8 +47,14 @@
 <label>RSS poveznica<input id="ai-rss-url" type="url" placeholder="https://primjer.hr/rss"></label>
 <label>Način rada<select id="ai-mode"><option value="article">Novi članak</option><option value="rss">Članak iz RSS-a</option><option value="update">Dopuna / obrada postojeće teme</option></select></label>
 </div>
+<section class="ps-ai-feed-manager">
+<div class="ps-ai-feed-head"><div><strong>Dnevni RSS pregled</strong><small>Odabrani izvori učitavaju se automatski pri otvaranju administracije. Članke biraš ti.</small></div><button class="ps-admin-button ps-admin-button-light" id="ai-rss-refresh-all" type="button">Osvježi sve</button></div>
+<div id="ai-rss-feeds" class="ps-ai-feeds"></div>
+<div class="ps-ai-feed-add"><input id="ai-rss-new-url" type="url" placeholder="Dodaj RSS poveznicu…"><button class="ps-admin-button ps-admin-button-light" id="ai-rss-add" type="button">Dodaj izvor</button></div>
+</section>
 <div class="ps-admin-footer-actions">
-<button class="ps-admin-button" id="ai-rss-load" type="button">Učitaj RSS</button>
+<button class="ps-admin-button" id="ai-rss-load" type="button">Učitaj odabrani RSS</button>
+<button class="ps-admin-button ps-admin-button-light" id="ai-rss-selected-generate" type="button">Napiši od odabranih</button>
 <button class="ps-admin-button" id="ai-generate" type="button">Napiši pomoću AI-ja</button>
 <span id="ai-status" class="ps-editor-message">Spreman.</span>
 </div>
