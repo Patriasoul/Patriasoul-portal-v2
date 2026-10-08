@@ -19,4 +19,7 @@ jobs:
         run: |
           set -e
           test -n "$SUPABASE_ANON_KEY"
-          curl --fail-with-body -sS             -X POST             -H "apikey: $SUPABASE_ANON_KEY"             -H "Authorization: Bearer $SUPABASE_ANON_KEY"             -H "Content-Type: application/json"             "$SUPABASE_URL/functions/v1/sync-patriasoul-knowledge"
+          RESPONSE=$(curl --fail-with-body -sS             -X POST             -H "apikey: $SUPABASE_ANON_KEY"             -H "Authorization: Bearer $SUPABASE_ANON_KEY"             -H "Content-Type: application/json"             "$SUPABASE_URL/functions/v1/sync-patriasoul-knowledge")
+          echo "=== PATRIASOUL KNOWLEDGE SYNC ==="
+          echo "$RESPONSE"
+          echo "=== END SYNC ==="
