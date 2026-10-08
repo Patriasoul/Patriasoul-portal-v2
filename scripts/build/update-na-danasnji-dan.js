@@ -66,9 +66,12 @@ async function fetchPage(page){
   const month=MONTHS.indexOf(monthName)+1;
   const feedUrl=REST+"/"+pad(month)+"/"+pad(day);
   try{
-    return extractFeedEvents(await fetchJson(feedUrl));
-  }catch(_){
-    try{
+    const feedEvents=extractFeedEvents(await fetchJson(feedUrl));
+    if(feedEvents.length) return feedEvents;
+    // Wikimedia feed ponekad vrati valjan odgovor bez događaja.
+    // Tada obavezno pokušaj izravno hrvatsku Wikipediju.
+  }catch(_){}
+  try{
       const params=new URLSearchParams({action:"parse",page,prop:"wikitext",format:"json",formatversion:"2"});
       const json=await fetchJson(API+"?"+params.toString());
       const events=parseEvents(json.parse?.wikitext||"");
