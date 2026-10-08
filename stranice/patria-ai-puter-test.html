@@ -38,7 +38,28 @@ const messages=document.getElementById('messages'),input=document.getElementById
 const BASE='../',SITEMAP=BASE+'sitemap.xml',CACHE_KEY='patriasoul_kb_v1';
 let knowledge=[],kbReady=false;
 
-function renderProfessional(text){let s=String(text||'').trim();let parts=s.split(/\n?\s*(?:#{1,4}\s*)?PatriaSoul izvori\s*:?\s*/i);let body=parts[0].trim();let html=body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');html=html.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,(_,label,url)=>'<a href="'+url+'" target="_blank" rel="noopener">'+label+'</a>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|\n)#{1,4}\s+([^\n]+)/g,'$1<strong>$2</strong>');html=html.split(/\n{2,}/).map(p=>'<p>'+p.replace(/\n/g,'<br>')+'</p>').join('');let src=parts.slice(1).join('\n').trim();if(src){let m=src.match(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/);if(m)html+='<div class="source-box"><div class="source-title">PatriaSoul izvori</div><a class="source-link" href="'+m[2]+'" target="_blank" rel="noopener">'+m[1]+'</a><a class="read-more" href="'+m[2]+'" target="_blank" rel="noopener">Pročitajte cijelu priču →</a></div>';}return html}
+function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function safeUrl(url){try{const u=new URL(url,location.href);return /^https?:$/.test(u.protocol)?u.href:'#'}catch(e){return '#'}}
+function renderProfessional(text,sources=[]){
+ let s=String(text||'').trim();
+ let parts=s.split(/\n?\s*(?:#{1,4}\s*)?PatriaSoul izvori\s*:?\s*/i);
+ let body=parts[0].trim();
+ let html=escapeHtml(body);
+ html=html.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,(_,label,url)=>'<a href="'+safeUrl(url)+'" target="_blank" rel="noopener">'+label+'</a>')
+   .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+   .replace(/(^|\n)#{1,4}\s+([^\n]+)/g,'$1<strong>$2</strong>');
+ html=html.split(/\n{2,}/).map(p=>'<p>'+p.replace(/\n/g,'<br>')+'</p>').join('');
+ if(Array.isArray(sources)&&sources.length){
+   html+='<div class="source-box"><div class="source-title">PatriaSoul izvori</div>';
+   sources.slice(0,3).forEach(x=>{
+     const title=escapeHtml(x?.a?.title||'PatriaSoul članak');
+     const url=safeUrl(x?.a?.url||'#');
+     if(url!=='#') html+='<a class="source-link" href="'+url+'" target="_blank" rel="noopener">'+title+'</a><a class="read-more" href="'+url+'" target="_blank" rel="noopener">Pročitajte cijelu priču →</a>';
+   });
+   html+='</div>';
+ }
+ return html
+}
 function add(role,text){const el=document.createElement('div');el.className='msg '+role;if(role==='ai')el.innerHTML=renderProfessional(text);else el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
 function words(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9čćđšž]+/g)||[]}
 function score(q,text){
@@ -100,7 +121,7 @@ async function ask(){
    const matches=retrieve(q), context=buildContext(matches);
    const system='Ti si Čuvari nasljeđa, službeni AI razgovorni asistent portala PatriaSoul. Odgovaraj na hrvatskom. Prioritetno koristi dostavljeni sadržaj PatriaSoul baze znanja. Ne izmišljaj činjenice, izvore, citate ni PatriaSoul članke. Ako baza ne sadrži dovoljno podataka, jasno reci da u PatriaSoul bazi nema dovoljno podataka i tek tada odgovori općim znanjem, uz oprez kod povijesnih i osjetljivih tema. Ako koristiš sadržaj iz baze, na kraju dodaj odjeljak "PatriaSoul izvori" i za relevantne članke koristi samo Markdown poveznice oblika [Naslov članka](URL). Ne prikazuj sirove URL-ove i ne koristi zvjezdice za podebljanje. Baza znanja:\n\n'+context;
    const response=await puter.ai.chat([{role:'system',content:system},{role:'user',content:q}],{model:'gpt-6-luna',stream:true});
-   for await(const part of response){if(part?.text){reply.dataset.raw=(reply.dataset.raw||'')+part.text;reply.innerHTML=renderProfessional(reply.dataset.raw);messages.scrollTop=messages.scrollHeight}}
+   for await(const part of response){if(part?.text){reply.dataset.raw=(reply.dataset.raw||'')+part.text;reply.innerHTML=renderProfessional(reply.dataset.raw,matches);messages.scrollTop=messages.scrollHeight}}
    if(!reply.textContent.trim())reply.textContent='AI nije vratio tekstualni odgovor.';
    status.textContent='Baza: '+knowledge.length+' članaka · spremno';
  }catch(error){reply.textContent='Povezivanje nije uspjelo. '+(error?.message||error);status.textContent='Greška pri povezivanju.'}
