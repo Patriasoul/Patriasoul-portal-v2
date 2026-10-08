@@ -72,15 +72,14 @@ async function fetchPage(page){
     // Tada obavezno pokušaj izravno hrvatsku Wikipediju.
   }catch(_){}
   try{
-      const params=new URLSearchParams({action:"parse",page,prop:"wikitext",format:"json",formatversion:"2"});
-      const json=await fetchJson(API+"?"+params.toString());
-      const events=parseEvents(json.parse?.wikitext||"");
-      if(events.length) return events;
-      const htmlParams=new URLSearchParams({action:"parse",page,prop:"text",format:"json",formatversion:"2"});
-      const htmlJson=await fetchJson(API+"?"+htmlParams.toString());
-      return parseHtmlEvents(htmlJson.parse?.text||"");
-    }catch(_){ return []; }
-  }
+    const params=new URLSearchParams({action:"parse",page,prop:"wikitext",format:"json",formatversion:"2"});
+    const json=await fetchJson(API+"?"+params.toString());
+    const events=parseEvents(json.parse?.wikitext||"");
+    if(events.length) return events;
+    const htmlParams=new URLSearchParams({action:"parse",page,prop:"text",format:"json",formatversion:"2"});
+    const htmlJson=await fetchJson(API+"?"+htmlParams.toString());
+    return parseHtmlEvents(htmlJson.parse?.text||"");
+  }catch(_){ return []; }
 }
 
 async function fetchConcurrent(pages, limit=8){
