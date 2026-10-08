@@ -8,9 +8,9 @@ const status=(text,ok=false)=>{const e=$("#ai-status");if(e){e.textContent=text;
 const FEED_KEY="patriasoul_ai_rss_feeds_v1";
 const LAST_KEY="patriasoul_ai_rss_last_refresh_v1";
 const DEFAULT_FEEDS=[
-  {name:"HRT · Hrvatska",url:"https://feed.hrt.hr/vijesti/hrvatska.xml",enabled:true},
   {name:"Index.hr · Hrvatska",url:"https://www.index.hr/rss/vijesti-hrvatska",enabled:true},
-  {name:"Večernji list · najnovije",url:"https://www.vecernji.hr/feed",enabled:true}
+  {name:"Večernji list · najnovije",url:"https://www.vecernji.hr/feed",enabled:true},
+  {name:"HRT · Vijesti",url:"https://vijesti.hrt.hr/rss",enabled:true}
 ];
 let feeds=[];
 let rssItems=[];
@@ -48,13 +48,31 @@ function parseXml(xml,source){
   return [...doc.querySelectorAll("entry")].map(n=>({title:stripHtml(n.querySelector("title")?.textContent),description:stripHtml(n.querySelector("summary")?.textContent||n.querySelector("content")?.textContent),link:(n.querySelector("link")?.getAttribute("href")||"").trim(),date:(n.querySelector("published")?.textContent||n.querySelector("updated")?.textContent||"").trim(),source})).filter(x=>x.title);
 }
 async function fetchText(url){
-  const r=await fetch(url,{cache:"no-store"});if(!r.ok)throw new Error("RSS HTTP "+r.status);return r.text();
+  if(window.puter?.net?.fetch){
+    const r=await puter.net.fetch(url,{cache:"no-store"});
+    if(!r.ok)throw new Error("RSS HTTP "+r.status);
+    return r.text();
+  }
+  const r=await fetch(url,{cache:"no-store"});
+  if(!r.ok)throw new Error("RSS HTTP "+r.status);
+  return r.text();
 }
 async function fetchFeed(feed){
-  try{return parseXml(await fetchText(feed.url),feed.name||feedName(feed.url))}
-  catch(_){
-    const proxy="https://api.allorigins.win/raw?url="+encodeURIComponent(feed.url);
-    return parseXml(await fetchText(proxy),feed.name||feedName(feed.url));
+  try{
+    const xml=await fetchText(feed.url);
+    const items=parseXml(xml,feed.name||feedName(feed.url));
+    if(!items.length)throw new Error("RSS nije prepoznat kao RSS/Atom.");
+    return items;
+  }catch(primaryError){
+    try{
+      const proxy="https://api.allorigins.win/raw?url="+encodeURIComponent(feed.url);
+      const xml=await fetch(proxy,{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error("Proxy HTTP "+r.status);return r.text()});
+      const items=parseXml(xml,feed.name||feedName(feed.url));
+      if(!items.length)throw new Error("Proxy nije vratio RSS/Atom.");
+      return items;
+    }catch(_){
+      throw primaryError;
+    }
   }
 }
 async function refreshAllFeeds(){
