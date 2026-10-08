@@ -1,6 +1,6 @@
 {
   "source": "DHMZ",
-  "updated_at": "2026-10-08T06:10:46.683843+00:00",
+  "updated_at": "2026-10-08T13:36:06.212938+00:00",
   "warnings": [
     {
       "day": "today",
@@ -465,7 +465,47 @@
     {
       "day": "day_after_tomorrow",
       "event": "Žuto upozorenje za grmljavinsku oluju",
+      "description": "Mjestimice izraženiji pljuskovi praćeni grmljavinom, ponajprije duž obale i na otocima.",
+      "severity": "Moderate",
+      "urgency": "Future",
+      "areas": [
+        "Splitsko-dalmatinska"
+      ]
+    },
+    {
+      "day": "day_after_tomorrow",
+      "event": "Žuto upozorenje za kišu",
+      "description": "Lokalno obilna kiša.",
+      "severity": "Moderate",
+      "urgency": "Future",
+      "areas": [
+        "Dubrovačko-neretvanska"
+      ]
+    },
+    {
+      "day": "day_after_tomorrow",
+      "event": "Žuto upozorenje za grmljavinsku oluju",
       "description": "Mjestimice izraženiji pljuskovi praćeni grmljavinom.",
+      "severity": "Moderate",
+      "urgency": "Future",
+      "areas": [
+        "Dubrovačko-neretvanska"
+      ]
+    },
+    {
+      "day": "day_after_tomorrow",
+      "event": "Yellow thunderstorm warning",
+      "description": "Severe thundershowers locally, especially along the coast and on the islands.",
+      "severity": "Moderate",
+      "urgency": "Future",
+      "areas": [
+        "Splitsko-dalmatinska"
+      ]
+    },
+    {
+      "day": "day_after_tomorrow",
+      "event": "Yellow rain warning",
+      "description": "Heavy rain locally.",
       "severity": "Moderate",
       "urgency": "Future",
       "areas": [
@@ -790,20 +830,21 @@
   ],
   "rainfall_text": [],
   "adriatic_text": [
-    "Izvješće Službe Pomorskog meteorološkog centra Split DHMZ-a dana 08.10.2026. u 06 sati",
-    "Mjestimice udari juga i jugozapadnjaka 35-45 čvorova. Noćas na srednjem i južnom Jadranu more ponegdje 5. Moguće su nevere.",
-    "Jadranu se sa zapada približava ciklona s frontalnim poremećajem.",
+    "Izvješće Službe Pomorskog meteorološkog centra Split DHMZ-a dana 08.10.2026. u 12 sati",
+    "Mjestimice udari juga i jugozapadnog vjetra, sutra na sjevernom Jadranu bure 35-40 čvorova. U noći je na južnom i srednjem Jadranu moguće more 5. Mjestimice nevere.",
+    "Jadranu se sa sjeverozapada približava dolina s frontalnim sustavom, očekuje se stvaranje plitke ciklone iznad Jadrana.",
     "Vremenska prognoza za Jadran za prvih 12 sati",
-    "Jugo, na sjevernom Jadranu i južni vjetar 12-22, ponegdje do 28 čvorova. More 3-4. Vidljivost 10-20 km. Promjenjivo oblačno, ponegdje uz kišu i izraženije pljuskove s grmljavinom.",
-    "Umjereno do jako, ponegdje i vrlo jako jugo, a na sjevernom Jadranu i otvorenom moru južni i jugozapadni vjetar. More umjereno valovito i valovito, na otvorenom srednjeg i južnog Jadrana i jače valovito. Promjenjivo oblačno, ponegdje uz kišu i izraženije pljuskove s grmljavinom."
+    "Jugo 12-26 čvorova će okretati na jugozapadni vjetar 12-26 čvorova, najprije na sjeveru Jadrana, gdje će slabiti na 10-20 čvorova, a u noći i preostalom dijelu područja, gdje kratkotrajno može pojačati do 30 čvorova. More 3-4, u noći je na otvorenom dijelu južnog i srednjeg Jadrana moguće 5. Vidljivost 10-20 km. Promjenljivo do pretežno oblačno s mjestimičnom kišom, pljuskovima i grmljavinom.",
+    "Umjeren do jak jugozapadni vjetar, na sjevernom Jadranu će okrenuti na umjerenu do jaku buru, a drugdje na umjereno do pojačano jugo. More umjereno valovito i valovito, još je u noći na otvorenom dijelu južnog i srednjeg Jadrana moguće jače valovito. Promjenljivo do pretežno oblačno s mjestimičnom kišom, pljuskovima i grmljavinom."
   ],
   "sailors_text": [
-    "VREMENSKO IZVJEŠĆE, dan 08.10.2026 u 06:00 sati",
-    "Mjestimice udari SE i SW vjetra 35-45 čvorova. Noćas na srednjem i južnom Jadranu more ponegdje 5. Moguće su nevere.",
-    "Jadranu se sa zapada približava ciklona s frontalnim poremećajem.",
-    "Vremenska prognoza za sljedeća 24 sata, vrijedi do: 09.10.2026 u 06 sati",
-    "SE i S, a navečer S i SW 12-22, ponegdje do 28 čvorova. More 3-4. Vidljivost 10-20 km. Promjenjivo oblačno, ponegdje uz kišu i izraženije pljuskove s grmljavinom.",
-    "SE, noćas na otvorenom moru SW i S 12-22, ponegdje do 28 čvorova. More 3-4, noćas na otvorenom ponegdje 5. Vidljivost 10-20 km. Promjenjivo oblačno, ponegdje uz kišu i izraženije pljuskove s grmljavinom."
+    "VREMENSKO IZVJEŠĆE, dan 08.10.2026 u 12:00 sati",
+    "Mjestimice udari SE i SW, sutra na sjevernom Jadranu NE vjetra 35-40 čvorova. U noći je na južnom i srednjem Jadranu moguće more 5. Mjestimice nevere.",
+    "Jadranu se sa sjeverozapada približava dolina s frontalnim sustavom, očekuje se stvaranje plitke ciklone iznad Jadrana.",
+    "Vremenska prognoza za sljedeća 24 sata, vrijedi do: 09.10.2026 u 12 sati",
+    "S i SE vjetar 12-24 čvora će potkraj dana okretati na SW i slabiti na 10-20 čvorova, sutra će okretati na NE i jačati na 12-26 čvorova. More 3-4. Vidljivost 10-20 km. Promjenljivo do pretežno oblačno s mjestimičnom kišom, pljuskovima i grmljavinom.",
+    "SE će potkraj dana okretati na SW vjetar 12-24, mjestimice kratkotrajno do 30 čvorova, najprije na otvorenom moru i na sjeveru područja. Sutra prema sredini dana SE vjetar 10-22 čvora. More 3-4, u noći je na otvorenom moguće 5. Vidljivost 10-20 km. Promjenljivo do pretežno oblačno s mjestimičnom kišom, pljuskovima i grmljavinom.",
+    "SE će u noći okretati na SW vjetar 12-24, mjestimice kratkotrajno do 30 čvorova, najprije na otvorenom moru i na sjeveru područja. Sutra prema sredini dana SE vjetar 10-22 čvora. More 3-4, u noći je na otvorenom moguće 5. Vidljivost 10-20 km. Promjenljivo do pretežno oblačno s mjestimičnom kišom, pljuskovima i grmljavinom."
   ],
   "croatia_forecast_text": []
 }
