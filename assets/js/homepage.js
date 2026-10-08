@@ -1,6 +1,6 @@
 (()=>{"use strict";
 const script=document.currentScript;
-const root=new URL("../",script?.src||location.href).href;
+const root=new URL("../../",script?.src||location.href).href;
 const el=document.querySelector("[data-ps-weather-temp]"),tx=document.querySelector("[data-ps-weather-text]");
 if(el&&tx){fetch("https://api.open-meteo.com/v1/forecast?latitude=45.815&longitude=15.982&current=temperature_2m,weather_code&timezone=Europe%2FZagreb").then(r=>{if(!r.ok)throw Error("weather");return r.json()}).then(d=>{const code=d.current.weather_code,labels={0:"Vedro",1:"Pretežno vedro",2:"Djelomično oblačno",3:"Oblačno",45:"Magla",48:"Magla",51:"Slaba rosulja",61:"Kiša",63:"Kiša",65:"Jaka kiša",71:"Snijeg",80:"Pljuskovi",95:"Grmljavina"};el.textContent=Math.round(d.current.temperature_2m)+"°C";tx.textContent=labels[code]||"Trenutni uvjeti"}).catch(()=>{tx.textContent="Vrijeme trenutačno nije dostupno"})}
 const host=document.querySelector("[data-home-sections]"),featured=document.querySelector("[data-home-featured]"),missed=document.querySelector("[data-home-missed]");
