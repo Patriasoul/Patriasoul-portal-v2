@@ -39,3 +39,7 @@
 .ps-explore-grid strong{color:var(--ps-blue);font-size:1rem}.ps-explore-grid span{color:var(--ps-muted);font-size:.82rem;line-height:1.45}
 @media(max-width:900px){.ps-explore-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.ps-domovina-bottom{margin-bottom:44px}.ps-domovina-explore{margin-bottom:42px}.ps-explore-grid{grid-template-columns:1fr}}
+
+
+/* Vjera — ista blokovska struktura kao Domovina */
+.ps-faith-sections{margin-top:8px}
