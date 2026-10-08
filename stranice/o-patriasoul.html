@@ -84,6 +84,14 @@
 <a href="../cuvari-nasljedja/"><strong>Čuvari nasljeđa</strong><span>Ljudi koji fotografijom, dokumentom, pričom i znanjem čuvaju tragove.</span></a>
 </div></div></section>
 
+<section class="ps-section ps-about-articles">
+<div class="ps-title">PRIČE KOJE ŽIVE S PATRIASOULOM</div>
+<div class="ps-about-lead"><h2>Priče koje povezuju PatriaSoul</h2><p>Uz predstavljanje projekta, ovdje izdvajamo sadržaje koji najbolje pokazuju što PatriaSoul želi sačuvati, istražiti i prenijeti dalje.</p></div>
+<div class="ps-about-block"><div class="ps-about-block-head"><div><span class="ps-kicker-dark">POVEZANE PRIČE</span><h3>Teme zbog kojih PatriaSoul postoji</h3></div><a class="ps-btn" href="../stranice/najnovije.html">Sve najnovije →</a></div><div class="ps-domovina-grid" data-about-related></div></div>
+<div class="ps-about-between"><p>Hrvatska se najbolje upoznaje kroz različite priče — kroz ljude, mjesta, vjeru, obitelji, povijest i događaje koji su oblikovali naš prostor.</p></div>
+<div class="ps-about-block"><div class="ps-about-block-head"><div><span class="ps-kicker-dark">MOŽDA STE PROPUSTILI</span><h3>Priče koje vrijedi ponovno otvoriti</h3></div></div><div class="ps-domovina-grid" data-about-missed></div></div>
+</section>
+
 <section class="editorial-note"><strong>PATRIASOUL · UREDNIČKI STANDARD</strong><p>PatriaSoul je domoljubni projekt posvećen Hrvatskoj, ali domoljublje za nas znači i odgovornost prema istini. Ne izmišljamo izvore, citate ni podatke. Jasno razlikujemo činjenice, tumačenja, svjedočanstva i predaje. Kada koristimo fotografije ili vanjske izvore, nastojimo ih jasno navesti i poštovati uvjete korištenja.</p></section>
 </main>
 <script>
@@ -103,4 +111,23 @@ related.innerHTML=rel.map(card).join('')||'<div class="ps-empty-state">Povezane 
 missed.innerHTML=miss.map(card).join('')||'<div class="ps-empty-state">Trenutačno nema dodatnih priča.</div>';
 }catch(e){related.innerHTML='<div class="ps-empty-state">Povezane priče trenutačno nisu dostupne.</div>';missed.innerHTML='<div class="ps-empty-state">Dodatne priče trenutačno nisu dostupne.</div>';}
 })();
-</script><script src="../assets/js/portal.js"></script></body></html>
+</script><script src="../assets/js/portal.js"></script><script>
+(async function(){
+const related=document.querySelector('[data-about-related]'),missed=document.querySelector('[data-about-missed]');
+if(!related||!missed)return;
+const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const card=a=>'<article class="ps-latest-card"><div class="ps-latest-media"><img src="'+esc(a.image||'')+'" alt="'+esc(a.title||'')+'" loading="lazy"></div><div class="ps-latest-card-body"><p class="ps-kicker">'+esc(a.category||'PatriaSoul')+'</p><h3><a href="../'+esc(a.url||'')+'">'+esc(a.title||'')+'</a></h3><p>'+esc(a.description||'')+'</p><div class="ps-latest-card-meta"><span>'+esc(a.date||'')+'</span><a href="../'+esc(a.url||'')+'">Čitaj →</a></div></div></article>';
+try{
+const r=await fetch('../data/articles.json?v=20261008-about2',{cache:'no-store'}),data=await r.json();
+const articles=(Array.isArray(data)?data:(data.articles||[])).filter(a=>a&&a.url).sort((a,b)=>Date.parse(b.date||'')-Date.parse(a.date||''));
+const relatedItems=articles.filter(a=>['povijest','vjera','domovina','obitelj'].includes(String(a.category||'').toLowerCase())).slice(0,6);
+const used=new Set(relatedItems.map(a=>a.url));
+const missedItems=articles.filter(a=>!used.has(a.url)).slice(6,12);
+related.innerHTML=relatedItems.map(card).join('');
+missed.innerHTML=missedItems.map(card).join('');
+}catch(e){
+related.innerHTML='<div class="ps-empty-state">Povezane priče trenutačno nisu dostupne.</div>';
+missed.innerHTML='<div class="ps-empty-state">Dodatne priče trenutačno nisu dostupne.</div>';
+}
+})();
+</script></body></html>
