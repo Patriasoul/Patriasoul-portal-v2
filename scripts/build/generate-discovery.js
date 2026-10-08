@@ -30,4 +30,30 @@ for(const u of unique.filter(x=>x.includes("/clanci/"))){
   articles.push({url:rel,title,description,category,subcategory,image,alt,date,text:strip(s).slice(0,6000)});
 }
 fs.writeFileSync("data/search-index.json",JSON.stringify(articles,null,2)+"\n");
-console.log("DISCOVERY:",unique.length,"URL-ova;",articles.length,"članaka");
+
+const months={siječnja:0,veljače:1,ožujka:2,travnja:3,svibnja:4,lipnja:5,srpnja:6,kolovoza:7,rujna:8,listopada:9,studenoga:10,prosinca:11};
+const rssDate=value=>{
+  const m=String(value||"").match(/(\\d{1,2})\\.\\s*([^\\s]+)\\s*(\\d{4})/);
+  if(!m)return new Date().toUTCString();
+  return new Date(Date.UTC(+m[3],months[m[2]]??0,+m[1],12,0,0)).toUTCString();
+};
+const xml=x=>String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");
+const latestArticles=[...articles].filter(x=>x.title&&x.url).sort((a,b)=>Date.parse(rssDate(b.date))-Date.parse(rssDate(a.date))).slice(0,50);
+const rssItems=latestArticles.map(a=>`    <item>
+      <title>${xml(a.title)}</title>
+      <link>${base}${a.url}</link>
+      <guid isPermaLink="true">${base}${a.url}</guid>
+      <description>${xml(a.description||"PatriaSoul članak.")}</description>
+      <pubDate>${rssDate(a.date)}</pubDate>
+      <category>${xml(a.category||"PatriaSoul")}</category>
+    </item>`).join("\\n");
+const rss='<?xml version="1.0" encoding="UTF-8"?>\\n'+
+  '<rss version="2.0">\\n  <channel>\\n'+
+  '    <title>PatriaSoul — Čuvar nasljeđa</title>\\n'+
+  '    <link>'+base+'</link>\\n'+
+  '    <description>Najnovije priče i članci portala PatriaSoul.</description>\\n'+
+  '    <language>hr</language>\\n'+
+  '    <link rel="self" href="'+base+'rss.xml" />\\n'+
+  rssItems+'\\n  </channel>\\n</rss>\\n';
+fs.writeFileSync("rss.xml",rss);
+console.log("DISCOVERY:",unique.length,"URL-ova;",articles.length,"članaka; RSS:",latestArticles.length,"stavki");
