@@ -164,6 +164,20 @@
         <a href="${link("cuvari-nasljedja/")}">Čuvari nasljeđa</a>
       </div>
     </div>
+    <div class="ps-container ps-footer-social">
+      <div class="ps-footer-social-card">
+        <p class="ps-kicker">Prati nas</p>
+        <h3>PatriaSoul</h3>
+        <p>Prati PatriaSoul na TikToku i budi uz nas dok kroz kratke priče, zanimljivosti i kvizove upoznajemo Hrvatsku.</p>
+        <a class="ps-footer-social-button" href="https://www.tiktok.com/@patriasoul" target="_blank" rel="noopener">Prati nas</a>
+      </div>
+      <div class="ps-footer-social-card">
+        <p class="ps-kicker">Vjera · Yeshua</p>
+        <h3>Vjera · Yeshua</h3>
+        <p>Vjera, nada i istina kroz priču o Yeshui — Isusu Kristu. Sadržaj za one koji žele upoznati Njegovu riječ, život i poruku.</p>
+        <a class="ps-footer-social-button" href="https://www.tiktok.com/@hajdi331?lang=hr" target="_blank" rel="noopener">Prati vjerski kanal</a>
+      </div>
+    </div>
     <div class="ps-container ps-footer-bottom"><small>© 2026 PatriaSoul — Čuvaj nasljeđe. Sva prava pridržana.</small></div>`;
   document.body.append(footer);
 
