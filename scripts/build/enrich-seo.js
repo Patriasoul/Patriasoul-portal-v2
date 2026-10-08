@@ -47,7 +47,12 @@ for(const file of walk(root)){
   const firstImg=(s.match(/<img[^>]+>/i)||[])[0]||"";
   const imgTag=hero||firstImg;
   const img=(imgTag.match(/src=["']([^"']+)["']/i)||[])[1]||"";
-  if(img)og.push('<meta property="og:image" content="'+escHtml(abs(img,rel))+'">');
+  if(img){
+    const imageUrl=abs(img,rel);
+    const imageAlt=strip((imgTag.match(/alt=["']([^"']*)["']/i)||[])[1])||title;
+    og.push('<meta property="og:image" content="'+escHtml(imageUrl)+'">');
+    og.push('<meta property="og:image:alt" content="'+escHtml(imageAlt)+'">');
+  }
   og.push('<meta name="twitter:card" content="summary_large_image">');
   og.push('<meta name="twitter:title" content="'+escHtml(title)+'">');
   og.push('<meta name="twitter:description" content="'+escHtml(desc)+'">');
@@ -65,6 +70,14 @@ for(const file of walk(root)){
     const iso=date?date.split(".").map(x=>x.trim()).filter(Boolean):[];
     const dateIso=iso.length===3?iso[2]+"-"+iso[1].padStart(2,"0")+"-"+iso[0].padStart(2,"0"):"";
     const author=(s.match(/(?:autor|author)["':>\s]+(?:<[^>]+>\s*)?([^<\n|·]+)/i)||[])[1]?.trim()||"PatriaSoul";
+    const articleOg=[];
+    if(dateIso){
+      articleOg.push('<meta property="article:published_time" content="'+dateIso+'T00:00:00+02:00">');
+      articleOg.push('<meta property="article:modified_time" content="'+dateIso+'T00:00:00+02:00">');
+    }
+    articleOg.push('<meta property="article:author" content="'+escHtml(author)+'">');
+    const articleOgBlock=articleOg.map(x=>x.replace(">"," "+marker+">")).join("\n");
+    s=s.replace(/<head>/i,"<head>"+articleOgBlock+"\n");
     const json={
       "@context":"https://schema.org",
       "@type":"Article",
