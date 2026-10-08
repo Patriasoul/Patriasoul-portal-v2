@@ -5,6 +5,7 @@ const path = require("path");
 
 const API = "https://hr.wikipedia.org/w/api.php";
 const REST = "https://hr.wikipedia.org/api/rest_v1/feed/onthisday/events";
+const INDEX = "https://www.index.hr/kalendar?datum=";
 const MONTHS = ["siječnja","veljače","ožujka","travnja","svibnja","lipnja","srpnja","kolovoza","rujna","listopada","studenoga","prosinca"];
 
 function pad(n){ return String(n).padStart(2,"0"); }
@@ -12,10 +13,14 @@ function pad(n){ return String(n).padStart(2,"0"); }
 function clean(value){
   return String(value||"")
     .replace(/<[^>]+>/g," ")
+    .replace(/&nbsp;/gi," ")
+    .replace(/&amp;/gi,"&")
+    .replace(/&quot;/gi,'"')
+    .replace(/&#39;/gi,"'")
+    .replace(/&#x27;/gi,"'")
     .replace(/\[\[[^\]|]+\|([^\]]+)\]\]/g,"$1")
     .replace(/\[\[([^\]]+)\]\]/g,"$1")
     .replace(/\{\{[^}]+\}\}/g," ")
-    .replace(/&nbsp;/g," ")
     .replace(/''+/g,"")
     .replace(/\s+/g," ")
     .trim();
@@ -47,25 +52,57 @@ function parseHtmlEvents(source){
   return parseEvents(text);
 }
 
-async function fetchJson(url, timeoutMs=12000){
+function parseIndexEvents(html){
+  const section=String(html||"").split(/VIDI\s+VIŠE\s+DOGAĐAJA/i)[0];
+  const events=[];
+  const pattern=/<a\b[^>]*>([\s\S]*?)<\/a>\s*<a\b[^>]*>(\d{3,4})<\/a>/gi;
+  let match;
+  while((match=pattern.exec(section))!==null){
+    const title=clean(match[1]);
+    const year=Number(match[2]);
+    if(!title || !Number.isFinite(year)) continue;
+    if(/^\d{3,4}$/.test(title)) continue;
+    if(title.length<4) continue;
+    events.push({year,text:title});
+    if(events.length>=12) break;
+  }
+  return events;
+}
+
+async function fetchText(url, timeoutMs=15000){
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),timeoutMs);
   try{
-    const response=await fetch(url,{signal:controller.signal,headers:{"User-Agent":"PatriaSoul/1.2 (na-danasnji-dan; https://patriasoul.github.io/Patriasoul-portal-v2/)","Accept":"application/json"}});
+    const response=await fetch(url,{
+      signal:controller.signal,
+      headers:{
+        "User-Agent":"PatriaSoul/1.3 (na-danasnji-dan; https://patriasoul.github.io/Patriasoul-portal-v2/)",
+        "Accept":"text/html,application/json"
+      }
+    });
     if(!response.ok) throw new Error("HTTP "+response.status);
-    return await response.json();
-  }finally{ clearTimeout(timer); }
+    return await response.text();
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+async function fetchJson(url, timeoutMs=12000){
+  const text=await fetchText(url,timeoutMs);
+  return JSON.parse(text);
 }
 
 function extractFeedEvents(feed){
-  return (feed?.events||[]).map(e=>({year:Number(e.year),text:clean(e.text||e.pages?.[0]?.extract||"")})).filter(e=>Number.isFinite(e.year)&&e.text);
+  return (feed?.events||[])
+    .map(e=>({
+      year:Number(e.year),
+      text:clean(e.text||e.pages?.[0]?.extract||"")
+    }))
+    .filter(e=>Number.isFinite(e.year)&&e.text);
 }
 
-async function fetchPage(page){
-  const [day,monthName]=page.split("|");
-  const month=MONTHS.indexOf(monthName)+1;
+async function fetchWikipedia(page,month,day){
   const feedUrl=REST+"/"+pad(month)+"/"+pad(day);
-
   try{
     const feedEvents=extractFeedEvents(await fetchJson(feedUrl));
     if(feedEvents.length) return feedEvents;
@@ -97,6 +134,28 @@ async function fetchPage(page){
   }
 }
 
+async function fetchIndex(month,day){
+  try{
+    const html=await fetchText(INDEX+pad(month)+pad(day));
+    return parseIndexEvents(html);
+  }catch(_){
+    return [];
+  }
+}
+
+async function fetchPage(page){
+  const [day,monthName]=page.split("|");
+  const month=MONTHS.indexOf(monthName)+1;
+
+  const wiki=await fetchWikipedia(day+". "+monthName,month,day);
+  if(wiki.length) return {events:wiki,source:"Hrvatska Wikipedija",source_url:"https://hr.wikipedia.org/"};
+
+  const index=await fetchIndex(month,day);
+  if(index.length) return {events:index,source:"Index Kalendar",source_url:INDEX+pad(month)+pad(day)};
+
+  return {events:[],source:"",source_url:""};
+}
+
 async function fetchConcurrent(pages, limit=8){
   const result={};
   let next=0;
@@ -108,7 +167,7 @@ async function fetchConcurrent(pages, limit=8){
 
       const page=pages[index];
       result[page]=await fetchPage(page);
-      console.log(page+": "+result[page].length+" događaja ("+(index+1)+"/"+pages.length+")");
+      console.log(page+": "+result[page].events.length+" događaja ("+(index+1)+"/"+pages.length+")");
     }
   }
 
@@ -135,21 +194,24 @@ async function fetchConcurrent(pages, limit=8){
     const month=MONTHS.indexOf(monthName)+1;
     const key=pad(month)+"-"+pad(day);
     const title=day+". "+monthName;
+    const item=data[page] || {events:[],source:"",source_url:""};
 
     dates[key]={
       date:key,
-      source:"Hrvatska Wikipedija",
-      source_url:"https://hr.wikipedia.org/wiki/"+encodeURIComponent(title.replace(/ /g,"_")),
-      events:data[page] || []
+      source:item.source || "PatriaSoul",
+      source_url:item.source_url || "https://patriasoul.github.io/Patriasoul-portal-v2/",
+      events:item.events || []
     };
   }
 
   const nonEmpty=Object.values(dates).filter(d=>d.events.length>0).length;
-  if(nonEmpty<100) throw new Error("Premalo dohvaćenih datuma: "+nonEmpty+". Prekid kako se ne bi objavio prazan kalendar.");
+  if(nonEmpty<100){
+    throw new Error("Premalo dohvaćenih datuma: "+nonEmpty+". Prekid kako se ne bi objavio prazan kalendar.");
+  }
 
   const output={
-    source:"Hrvatska Wikipedija",
-    source_url:"https://hr.wikipedia.org/",
+    source:"Hrvatska povijesna referenca",
+    source_url:"https://www.index.hr/kalendar",
     updated_at:new Date().toISOString(),
     dates
   };
