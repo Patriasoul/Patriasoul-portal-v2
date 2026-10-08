@@ -56,8 +56,8 @@ function eventCard(e, featured=false){
 function render(events){
   const grid=$("#events-grid"),feature=$("#featured-event"),featureContent=$("#featured-event-content"),empty=$("#events-empty");
   grid.innerHTML=""; feature.hidden=true; empty.hidden=true;
-  if(!valid.length){empty.hidden=false;return;}
   const valid=events.filter(e=>!isBadEvent(e));
+  if(!valid.length){empty.hidden=false;return;}
   const sorted=valid.slice().sort((a,b)=>(Number(b.year)||0)-(Number(a.year)||0));
   feature.hidden=false;
   featureContent.innerHTML=eventCard(sorted[0],true);
