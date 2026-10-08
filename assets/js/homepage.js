@@ -9,6 +9,9 @@ const esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const slug=v=>String(v||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const parseDate=v=>{if(!v)return 0;const direct=Date.parse(v);if(Number.isFinite(direct))return direct;const m=String(v).toLowerCase().match(/(\d{1,2})\.?\s*([a-zčćđšž]+)\s*(\d{4})/i);if(!m)return 0;const months={"siječnja":0,"sijecnja":0,"veljače":1,"veljace":1,"ožujka":2,"ozujka":2,"travnja":3,"svibnja":4,"lipnja":5,"srpnja":6,"kolovoza":7,"rujna":8,"listopada":9,"studenoga":10,"studenog":10,"prosinca":11};const month=months[m[2]];return month===undefined?0:Date.UTC(Number(m[3]),month,Number(m[1]))};
 const sort=(a,b)=>parseDate(b.dateISO||b.date)-parseDate(a.dateISO||a.date);
+const ticker=document.querySelector(".ps-breaking-track");
+const articleUrl=x=>x.dynamic?root+"stranice/clanak.html?path="+encodeURIComponent(x.url):root+String(x.url||"").replace(/^\\//,"");
+const renderTicker=all=>{if(!ticker)return;const items=all.filter(x=>x&&x.url&&x.title).slice(0,8);if(!items.length)return;ticker.innerHTML=[...items,...items].map((x,i)=>'<a href="'+esc(articleUrl(x))+'">'+esc(x.title)+'</a><span aria-hidden="true">•</span>').join("")};
 const card=(x,i)=>{const u=x.dynamic?root+"stranice/clanak.html?path="+encodeURIComponent(x.url):root+String(x.url||"").replace(/^\//,"");const im=x.image?'<div class="ps-latest-media"><img src="'+esc(x.image)+'" alt="'+esc(x.alt||x.title)+'" loading="'+(i<6?"eager":"lazy")+'" decoding="async"></div>':'<div class="ps-latest-media ps-latest-media-empty" aria-hidden="true"></div>';return '<article class="ps-latest-card">'+im+'<div class="ps-latest-card-body"><p class="ps-kicker">'+esc(x.subcategoryLabel||x.subcategory||x.categoryLabel||x.category)+'</p><h3><a href="'+esc(u)+'">'+esc(x.title)+'</a></h3><p>'+esc(x.description||"")+'</p><div class="ps-latest-card-meta"><span>'+esc(x.date||"")+'</span><a href="'+esc(u)+'">Pročitaj →</a></div></div></article>'};
 const configs=[
 {title:"Domovina",kicker:"DOMOVINA",intro:"Aktualne vijesti, gospodarstvo, društvo, branitelji, dijaspora i obiteljske teme koje povezuju Hrvatsku.",href:"kategorije/domovina/",match:["domovina"]},
@@ -18,7 +21,7 @@ const configs=[
 {title:"Obitelj",kicker:"OBITELJ",intro:"Priče o obitelji, odgoju, generacijama, svakodnevici i vrijednostima koje se prenose dalje.",href:"kategorije/domovina/obitelj.html",match:["obitelj"]}
 ];
 const render=data=>{
-const all=(Array.isArray(data)?data:(data.articles||[])).filter(x=>x&&x.url&&x.title).sort(sort);
+const all=(Array.isArray(data)?data:(data.articles||[])).filter(x=>x&&x.url&&x.title).sort(sort);\nrenderTicker(all);
 const pool=all.filter(x=>slug(x.categoryLabel||x.category)!=="");
 if(featured){const picks=pool.slice(0,3);featured.innerHTML=picks.map(card).join("")||'<p class="ps-empty-state">Trenutačno nema istaknutih priča.</p>'}
 if(missed){const topUrls=new Set(pool.slice(0,12).map(x=>x.url));const picks=all.filter(x=>!topUrls.has(x.url)).slice(0,6);missed.innerHTML=picks.map(card).join("")||'<p class="ps-empty-state">Trenutačno nema dodatnih priča.</p>'}
