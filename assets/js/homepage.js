@@ -21,7 +21,8 @@ const configs=[
 {title:"Obitelj",kicker:"OBITELJ",intro:"Priče o obitelji, odgoju, generacijama, svakodnevici i vrijednostima koje se prenose dalje.",href:"kategorije/domovina/obitelj.html",match:["obitelj"]}
 ];
 const render=data=>{
-const all=(Array.isArray(data)?data:(data.articles||[])).filter(x=>x&&x.url&&x.title).sort(sort);\nrenderTicker(all);
+const all=(Array.isArray(data)?data:(data.articles||[])).filter(x=>x&&x.url&&x.title).sort(sort);
+renderTicker(all);
 const pool=all.filter(x=>slug(x.categoryLabel||x.category)!=="");
 if(featured){const picks=pool.slice(0,3);featured.innerHTML=picks.map(card).join("")||'<p class="ps-empty-state">Trenutačno nema istaknutih priča.</p>'}
 if(missed){const topUrls=new Set(pool.slice(0,12).map(x=>x.url));const picks=all.filter(x=>!topUrls.has(x.url)).slice(0,6);missed.innerHTML=picks.map(card).join("")||'<p class="ps-empty-state">Trenutačno nema dodatnih priča.</p>'}
