@@ -38,6 +38,9 @@ const messages=document.getElementById('messages'),input=document.getElementById
 const BASE='../',SITEMAP=BASE+'sitemap.xml',CACHE_KEY='patriasoul_kb_v1';
 let knowledge=[],kbReady=false;
 
+// Temeljne informacije o samom PatriaSoulu uvijek su dostupne Čuvarima nasljeđa.
+const PATRIASOUL_CONTEXT={title:'O PatriaSoul',url:BASE+'stranice/o-patriasoul.html',text:`PatriaSoul je digitalni prostor posvećen Hrvatskoj — njezinoj povijesti, ljudima, obiteljima, vjeri, gradovima, baštini, sjećanju i znanju. Moto je: Znanje · Ponos · Nasljeđe. PatriaSoul želi povezati hrvatsku povijest, baštinu, vjeru, obitelj, domovinu, ljude i znanje na jednom mjestu. Osnovna ideja je: Upoznaj Hrvatsku. Čuvaj baštinu. Prenesi priču. PatriaSoul ne želi samo nabrajati Hrvatsku, nego istraživati, provjeravati i pripovijedati njezine priče. U radu se naglašavaju činjenica prije senzacije, izvor prije tvrdnje, razlikovanje dokumentirane činjenice od svjedočanstva i predaje te spremnost na ispravak pogreške. PatriaSoul obuhvaća rubrike Domovina, Vjera, Obitelj, Čuvari nasljeđa, Povijest i baština te Znanje. Projekt uključuje i PatriaSoul hrvatski kviz, s temama hrvatske povijesti, geografije, kulture, baštine i Domovinskog rata.`};
+
 function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function safeUrl(url){try{const u=new URL(url,location.href);return /^https?:$/.test(u.protocol)?u.href:'#'}catch(e){return '#'}}
 function renderProfessional(text,sources=[]){
@@ -107,7 +110,8 @@ async function loadKnowledge(){
  }
 }
 function retrieve(q){
- return knowledge.map(a=>({a,s:score(q,a.title+' '+a.text)})).filter(x=>x.s>0.08).sort((x,y)=>y.s-x.s).slice(0,5);
+ const all=[...knowledge,PATRIASOUL_CONTEXT];
+ return all.map(a=>({a,s:score(q,a.title+' '+a.text)})).filter(x=>x.s>0.08).sort((x,y)=>y.s-x.s).slice(0,5);
 }
 function buildContext(matches){
  if(!matches.length)return 'Nema dovoljno relevantnog sadržaja iz PatriaSoul baze za ovo pitanje. Nemoj tvrditi da postoji PatriaSoul izvor ako ga nema.';
@@ -119,7 +123,7 @@ async function ask(){
  const reply=add('ai','');
  try{
    const matches=retrieve(q), context=buildContext(matches);
-   const system='Ti si Čuvari nasljeđa, službeni AI razgovorni asistent portala PatriaSoul. Odgovaraj na hrvatskom. Prioritetno koristi dostavljeni sadržaj PatriaSoul baze znanja. Ne izmišljaj činjenice, izvore, citate ni PatriaSoul članke. Ako baza ne sadrži dovoljno podataka, jasno reci da u PatriaSoul bazi nema dovoljno podataka i tek tada odgovori općim znanjem, uz oprez kod povijesnih i osjetljivih tema. Ako koristiš sadržaj iz baze, na kraju dodaj odjeljak "PatriaSoul izvori" i za relevantne članke koristi samo Markdown poveznice oblika [Naslov članka](URL). Ne prikazuj sirove URL-ove i ne koristi zvjezdice za podebljanje. Baza znanja:\n\n'+context;
+   const system='Ti si Čuvari nasljeđa, službeni AI razgovorni asistent portala PatriaSoul. Odgovaraj na hrvatskom. Za pitanja o samom PatriaSoulu uvijek koristi i temeljni kontekst o PatriaSoulu, čak i ako nema posebnog članka. Prioritetno koristi dostavljeni sadržaj PatriaSoul baze znanja. Ne izmišljaj činjenice, izvore, citate ni PatriaSoul članke. Ako baza ne sadrži dovoljno podataka, jasno reci da u PatriaSoul bazi nema dovoljno podataka i tek tada odgovori općim znanjem, uz oprez kod povijesnih i osjetljivih tema. Ako koristiš sadržaj iz baze, na kraju dodaj odjeljak "PatriaSoul izvori" i za relevantne članke koristi samo Markdown poveznice oblika [Naslov članka](URL). Ne prikazuj sirove URL-ove i ne koristi zvjezdice za podebljanje. Baza znanja:\n\n'+context;
    const response=await puter.ai.chat([{role:'system',content:system},{role:'user',content:q}],{model:'gpt-6-luna',stream:true});
    for await(const part of response){if(part?.text){reply.dataset.raw=(reply.dataset.raw||'')+part.text;reply.innerHTML=renderProfessional(reply.dataset.raw,matches);messages.scrollTop=messages.scrollHeight}}
    if(!reply.textContent.trim())reply.textContent='AI nije vratio tekstualni odgovor.';
