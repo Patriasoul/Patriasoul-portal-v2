@@ -54,19 +54,44 @@ function parseHtmlEvents(source){
 
 function parseIndexEvents(html){
   const section=String(html||"").split(/VIDI\s+VIŠE\s+DOGAĐAJA/i)[0];
-  const events=[];
-  const pattern=/<a\b[^>]*>([\s\S]*?)<\/a>\s*<a\b[^>]*>(\d{3,4})<\/a>/gi;
+  const anchors=[];
+  const anchorPattern=/<a\b[^>]*>([\\s\\S]*?)<\\/a>/gi;
   let match;
-  while((match=pattern.exec(section))!==null){
-    const title=clean(match[1]);
-    const year=Number(match[2]);
-    if(!title || !Number.isFinite(year)) continue;
-    if(/^\d{3,4}$/.test(title)) continue;
-    if(title.length<4) continue;
+  while((match=anchorPattern.exec(section))!==null){
+    anchors.push({text:clean(match[1]),index:match.index});
+  }
+
+  const events=[];
+  for(let i=0;i<anchors.length;i++){
+    const year=Number(anchors[i].text);
+    if(!/^\\d{3,4}$/.test(anchors[i].text) || !Number.isFinite(year)) continue;
+
+    let title="";
+    for(let j=i-1;j>=0 && j>=i-4;j--){
+      const candidate=clean(anchors[j].text);
+      if(!candidate || /^\\d{3,4}$/.test(candidate)) continue;
+      if(candidate.length>=4){
+        title=candidate;
+        break;
+      }
+    }
+
+    if(!title) continue;
+    if(/^(Početna|Vijesti|Sport|Magazin|Horoskop|Kalendar|Ljudi|Rođeni|Preminuli)$/i.test(title)) continue;
+
     events.push({year,text:title});
     if(events.length>=12) break;
   }
-  return events;
+
+  const unique=[];
+  const seen=new Set();
+  for(const event of events){
+    const key=event.year+"|"+event.text;
+    if(seen.has(key)) continue;
+    seen.add(key);
+    unique.push(event);
+  }
+  return unique;
 }
 
 async function fetchText(url, timeoutMs=15000){
