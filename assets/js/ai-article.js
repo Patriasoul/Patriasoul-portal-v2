@@ -17,11 +17,11 @@ let rssItems=[];
 let selectedRss=new Set();
 let imageItems=[];
 
-function stripHtml(s){const d=document.createElement("div");d.innerHTML=String(s||"");return (d.textContent||d.innerText||"").replace(/\\s+/g," ").trim()}
-function slugify(s){return String(s||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,90)}
+function stripHtml(s){const d=document.createElement("div");d.innerHTML=String(s||"");return (d.textContent||d.innerText||"").replace(/\s+/g," ").trim()}
+function slugify(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,90)}
 function jsonFromAI(raw){
-  let s=String(raw||"").trim().replace(/^\\uFEFF/,"");
-  const fence=s.match(/\\`\\`\\`(?:json)?\\s*([\\s\\S]*?)\\`\\`\\`/i);if(fence)s=fence[1].trim();
+  let s=String(raw||"").trim().replace(/^\uFEFF/,"");
+  const fence=s.match(/```(?:json)?\s*([\s\S]*?)```/i);if(fence)s=fence[1].trim();
   const a=s.indexOf("{"),b=s.lastIndexOf("}");if(a>=0&&b>a)s=s.slice(a,b+1);
   return JSON.parse(s);
 }
@@ -32,7 +32,7 @@ function loadFeeds(){
 }
 function saveFeeds(){localStorage.setItem(FEED_KEY,JSON.stringify(feeds))}
 function feedName(url){
-  try{return new URL(url).hostname.replace(/^www\\./,"")}
+  try{return new URL(url).hostname.replace(/^www\./,"")}
   catch(_){return "RSS izvor"}
 }
 function renderFeeds(){
@@ -97,7 +97,7 @@ function renderImages(){
   box.querySelectorAll("[data-image-index]").forEach(b=>b.addEventListener("click",()=>applyImage(imageItems[Number(b.dataset.imageIndex)])));
 }
 function applyImage(x){
-  if(!x)return;set("article-image-url",x.original||x.url);set("article-image-alt",x.title.replace(/\\.[a-z0-9]+$/i,"").replace(/_/g," "));
+  if(!x)return;set("article-image-url",x.original||x.url);set("article-image-alt",x.title.replace(/\.[a-z0-9]+$/i,"").replace(/_/g," "));
   document.querySelectorAll(".ps-ai-image").forEach(y=>y.classList.remove("is-selected"));
   const idx=imageItems.indexOf(x),el=document.querySelector('[data-image-index="'+idx+'"]');el?.classList.add("is-selected");
 }
@@ -107,7 +107,7 @@ async function generate(){
   if(!topic&&!chosen.length&&!rssItems.length)throw new Error("Upiši temu ili učitaj RSS.");
   if(!window.puter?.ai?.chat)throw new Error("Puter AI nije učitan.");
   const sourceItems=chosen.length?chosen:rssItems;
-  const rss=sourceItems.map((x,i)=>"RSS "+(i+1)+": "+x.title+"\\nIZVOR: "+x.source+"\\nDATUM: "+x.date+"\\nOPIS: "+x.description+"\\nURL: "+x.link).join("\\n\\n");
+  const rss=sourceItems.map((x,i)=>"RSS "+(i+1)+": "+x.title+"\nIZVOR: "+x.source+"\nDATUM: "+x.date+"\nOPIS: "+x.description+"\nURL: "+x.link).join("\n\n");
   status(chosen.length?"AI obrađuje "+chosen.length+" odabranih RSS članaka…":"AI piše članak…");
   const prompt=`Ti si glavni urednik portala PatriaSoul. Piši na hrvatskom prema uredničkom standardu: činjenice prije senzacije, ne izmišljaj činjenice, citate, izvore, osobe ili događaje. Razlikuj činjenicu, tumačenje, svjedočanstvo i tradiciju. Ako podatak nije potvrđen iz dostavljenih izvora, nemoj ga predstavljati kao činjenicu. Tekst mora biti originalan, jasan, opsežan i spreman za uredničku provjeru.
 
