@@ -39,6 +39,23 @@
 </section>
 </div>
 
+<section class="ps-admin-panel ps-admin-ai" id="article-ai">
+<div class="ps-admin-panel-head"><div><p class="ps-kicker">AI UREDNIK</p><h2>Čuvari nasljeđa · napiši članak</h2></div><span class="ps-admin-muted">Tema može biti dovoljna</span></div>
+<p class="ps-ai-lead">Upiši samo temu. AI će predložiti naslov, rubriku, kategoriju, podkategoriju, SEO, tekst, izvore i fotografiju. Ako imaš RSS, zalijepi poveznicu i AI će ga učitati kao dodatni izvor.</p>
+<div class="ps-ai-grid">
+<label class="ps-ai-full">Tema / uputa<textarea id="ai-topic" rows="4" placeholder="Npr. Krbavska bitka 1493. — napiši opsežan, provjeren članak za PatriaSoul."></textarea></label>
+<label>RSS poveznica<input id="ai-rss-url" type="url" placeholder="https://primjer.hr/rss"></label>
+<label>Način rada<select id="ai-mode"><option value="article">Novi članak</option><option value="rss">Članak iz RSS-a</option><option value="update">Dopuna / obrada postojeće teme</option></select></label>
+</div>
+<div class="ps-admin-footer-actions">
+<button class="ps-admin-button" id="ai-rss-load" type="button">Učitaj RSS</button>
+<button class="ps-admin-button" id="ai-generate" type="button">Napiši pomoću AI-ja</button>
+<span id="ai-status" class="ps-editor-message">Spreman.</span>
+</div>
+<div id="ai-rss-results" class="ps-ai-results" hidden></div>
+<div id="ai-image-results" class="ps-ai-images" hidden></div>
+</section>
+
 <section class="ps-admin-panel ps-admin-editor" id="article-editor">
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">CMS UREDNIK</p><h2>Uredi članak</h2></div><span class="ps-admin-muted">Sprema se u portal_articles</span></div>
 <input id="article-id" type="hidden">
@@ -54,6 +71,9 @@
 <label class="ps-editor-full">Sažetak<textarea id="article-excerpt" rows="3" maxlength="500"></textarea></label>
 <label class="ps-editor-full">Tekst članka (HTML)<textarea id="article-body" rows="16"></textarea></label>
 <label class="ps-editor-full">Izvori — jedan po retku<textarea id="article-sources" rows="6" placeholder="https://..."></textarea></label>
+<label>SEO naslov<input id="article-seo-title" type="text" maxlength="180"></label>
+<label>Meta opis<input id="article-meta-description" type="text" maxlength="180"></label>
+<label class="ps-editor-full">SEO ključne riječi<input id="article-seo-keywords" type="text" maxlength="500" placeholder="ključna riječ, Hrvatska, povijest…"></label>
 </div>
 <div class="ps-admin-footer-actions"><button class="ps-admin-button" id="article-save" type="button">Spremi članak</button><button class="ps-admin-button ps-admin-button-light" id="article-clear" type="button">Novi / očisti</button><span id="article-editor-message" class="ps-editor-message">Odaberi članak ili pokreni novi.</span></div>
 </section>
@@ -69,5 +89,5 @@
 </div>
 <div class="ps-admin-footer-actions"><a class="ps-admin-button" href="racun.html">Moj račun</a><a class="ps-admin-button ps-admin-button-light" href="../index.html">Naslovnica</a><button class="ps-admin-button ps-admin-button-light" id="refresh-admin" type="button">Osvježi podatke</button></div>
 </section></main>
-<script src="../assets/js/portal.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/article-editor.js"></script><script src="../assets/js/admin.js"></script>
+<script src="../assets/js/portal.js"></script><script src="../assets/js/auth.js"></script><script src="https://js.puter.com/v2/"></script><script src="../assets/js/article-editor.js"></script><script src="../assets/js/ai-article.js"></script><script src="../assets/js/admin.js"></script>
 </body></html>
