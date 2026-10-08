@@ -29,7 +29,7 @@ async function openEditor(id=null){
   const a=r.data||{};
   val("article-id",a.id);val("article-title",a.title);val("article-kicker",a.kicker);val("article-category",a.category);
   val("article-subcategory",a.subcategory);val("article-path",a.path||a.slug);val("article-image-url",a.image_url);val("article-image-alt",a.image_alt);
-  val("article-excerpt",a.excerpt);val("article-body",a.body_html);val("article-sources",sourceText(a.source_data));val("article-status",a.status||"draft");
+  val("article-excerpt",a.excerpt);val("article-body",a.body_html);val("article-sources",sourceText(a.source_data));val("article-seo-title",a.source_data?.seo?.title||"");val("article-meta-description",a.source_data?.seo?.description||"");val("article-seo-keywords",Array.isArray(a.source_data?.seo?.keywords)?a.source_data.seo.keywords.join(", "):(a.source_data?.seo?.keywords||""));val("article-status",a.status||"draft");
   message("Učitano: "+(a.title||"Bez naslova"));
 }
 
@@ -45,7 +45,7 @@ async function save(){
       title,kicker:get("article-kicker"),category,subcategory:get("article-subcategory"),excerpt:get("article-excerpt"),
       body_html:body,image_url:get("article-image-url"),image_alt:get("article-image-alt"),author_display:"Čuvari nasljeđa",
       status,published_at:status==="published"?now:null,updated_by:currentUser.id,updated_at:now,
-      source_data:{sources:sourcesFrom(get("article-sources"))}
+      source_data:{sources:sourcesFrom(get("article-sources")),seo:{title:get("article-seo-title"),description:get("article-meta-description"),keywords:sourcesFrom(get("article-seo-keywords").replace(/,/g,"\n"))}}
     };
     let article,err;
     if(id){
