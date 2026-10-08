@@ -55,7 +55,7 @@ function parseHtmlEvents(source){
 function parseIndexEvents(html){
   const section=String(html||"").split(/VIDI\s+VIŠE\s+DOGAĐAJA/i)[0];
   const anchors=[];
-  const anchorPattern=/<a\b[^>]*>([\\s\\S]*?)<\\/a>/gi;
+  const anchorPattern=/<a\b[^>]*>([\s\S]*?)<\/a>/gi;
   let match;
   while((match=anchorPattern.exec(section))!==null){
     anchors.push({text:clean(match[1]),index:match.index});
@@ -64,12 +64,12 @@ function parseIndexEvents(html){
   const events=[];
   for(let i=0;i<anchors.length;i++){
     const year=Number(anchors[i].text);
-    if(!/^\\d{3,4}$/.test(anchors[i].text) || !Number.isFinite(year)) continue;
+    if(!/^\d{3,4}$/.test(anchors[i].text) || !Number.isFinite(year)) continue;
 
     let title="";
     for(let j=i-1;j>=0 && j>=i-4;j--){
       const candidate=clean(anchors[j].text);
-      if(!candidate || /^\\d{3,4}$/.test(candidate)) continue;
+      if(!candidate || /^\d{3,4}$/.test(candidate)) continue;
       if(candidate.length>=4){
         title=candidate;
         break;
