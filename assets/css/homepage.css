@@ -16,3 +16,5 @@
 .ps-home-between p{margin:0;color:var(--ps-muted);font:400 1.05rem/1.8 Georgia,"Times New Roman",serif}
 .ps-home-block .ps-section-heading{margin-bottom:22px}.ps-home-block .ps-section-heading h2{color:var(--ps-blue)}
 @media(max-width:680px){.ps-home-between{margin:22px 0 30px;padding-left:15px}.ps-home-intro{font-size:1rem}.ps-home-block{padding-bottom:10px}}
+
+.ps-home-special{background:#fff}.ps-home-missed{background:#f5f6f7}.ps-home-special .ps-home-intro{margin-top:-8px;margin-bottom:28px}.ps-home-missed .ps-home-intro{margin-top:-8px}
