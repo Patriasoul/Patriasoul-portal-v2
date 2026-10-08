@@ -29,3 +29,13 @@
 
 /* Domovina — urednički blokovi po podkategorijama */
 .ps-domovina-sections{margin-top:8px}.ps-domovina-block{margin:0 0 58px}.ps-domovina-between{max-width:820px;margin:0 auto 34px;padding:4px 0 0 20px;border-left:4px solid var(--ps-red)}.ps-domovina-between p{margin:0;color:var(--ps-muted);font-family:Georgia,"Times New Roman",serif;font-size:1.05rem;line-height:1.75}.ps-domovina-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.ps-domovina-grid .ps-latest-card{min-width:0}.ps-domovina-grid .ps-latest-card h3{font-size:1.15rem;line-height:1.28;margin:.35rem 0 .65rem}.ps-section-more{align-self:center;display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 15px;border:1px solid var(--ps-blue);border-radius:7px;background:#fff;color:var(--ps-blue);font-weight:800;text-decoration:none;white-space:nowrap}.ps-section-more:hover{background:var(--ps-blue);color:#fff}.ps-domovina-block:last-child{margin-bottom:20px}@media(max-width:900px){.ps-domovina-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:680px){.ps-domovina-grid{grid-template-columns:1fr}.ps-domovina-between{margin-bottom:26px}.ps-section-more{margin-top:14px}.ps-domovina-block{margin-bottom:44px}}
+
+/* Domovina — završni blokovi */
+.ps-domovina-bottom{margin:8px 0 58px;padding-top:18px;border-top:2px solid var(--ps-blue)}
+.ps-domovina-explore{margin:0 0 60px;padding:28px 0 6px;border-top:1px solid var(--ps-border)}
+.ps-explore-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ps-explore-grid a{display:flex;min-height:112px;flex-direction:column;justify-content:space-between;padding:17px 18px;background:#fff;border:1px solid var(--ps-border);border-radius:9px;text-decoration:none;box-shadow:0 3px 14px rgba(0,0,0,.035);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.ps-explore-grid a:hover{transform:translateY(-2px);border-color:var(--ps-blue);box-shadow:0 8px 22px rgba(0,0,0,.08)}
+.ps-explore-grid strong{color:var(--ps-blue);font-size:1rem}.ps-explore-grid span{color:var(--ps-muted);font-size:.82rem;line-height:1.45}
+@media(max-width:900px){.ps-explore-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.ps-domovina-bottom{margin-bottom:44px}.ps-domovina-explore{margin-bottom:42px}.ps-explore-grid{grid-template-columns:1fr}}
