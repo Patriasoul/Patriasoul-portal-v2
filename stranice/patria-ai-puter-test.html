@@ -28,17 +28,87 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;b
 <section class="chat">
 <div class="chatbar"><div class="ai-id"><div class="ai-orb"></div><div><strong>Čuvari nasljeđa</strong><div class="online">Spremni za razgovor</div></div></div><div class="kicker">PATRIASOUL</div></div>
 <div id="messages"><div class="msg ai welcome"><div class="mini">ČUVARI NASLJEĐA</div><strong>Pozdrav. Mi smo Čuvari nasljeđa.</strong><br><br>Čuvamo priče, pamćenje i vrijednosti Hrvatske — njezinu povijest, baštinu, vjeru, gradove i Domovinski rat.<br><br><strong>Pitajte nas. Istražimo zajedno ono što je Hrvatsku činilo, što je čuva i što moramo prenijeti budućim naraštajima.</strong><div class="suggestions"><button class="suggestion">Objasnite mi Vukovar 1991.</button><button class="suggestion">Tko je bio Nikola Šubić Zrinski?</button><button class="suggestion">Ispričajte mi nešto o hrvatskoj baštini.</button></div></div></div>
-<div class="composer"><div class="row"><textarea id="input" placeholder="Napišite svoje pitanje…" aria-label="Pitanje za Čuvare nasljeđa"></textarea><button id="send">Pošalji →</button></div><div class="hint"><span>Enter · pošalji &nbsp; Shift + Enter · novi red</span><span class="status" id="status">Model: gpt-6-luna · Puter.js</span></div></div>
+<div class="composer"><div class="row"><textarea id="input" placeholder="Napišite svoje pitanje…" aria-label="Pitanje za Čuvare nasljeđa"></textarea><button id="send">Pošalji →</button></div><div class="hint"><span>Enter · pošalji &nbsp; Shift + Enter · novi red</span><span class="status" id="status">Baza: učitavanje · Model: gpt-6-luna</span></div></div>
 </section>
-<div class="note">Čuvari nasljeđa su u testnoj fazi. Odgovore je uvijek dobro provjeriti prema vjerodostojnim izvorima.</div>
+<div class="note">Čuvari nasljeđa koriste sadržaj PatriaSoul portala kao bazu znanja. Odgovore je uvijek dobro provjeriti prema vjerodostojnim izvorima.</div>
 </div>
 <script src="https://js.puter.com/v2/"></script>
 <script>
 const messages=document.getElementById('messages'),input=document.getElementById('input'),send=document.getElementById('send'),status=document.getElementById('status');
+const BASE='../',SITEMAP=BASE+'sitemap.xml',CACHE_KEY='patriasoul_kb_v1';
+let knowledge=[],kbReady=false;
+
 function add(role,text){const el=document.createElement('div');el.className='msg '+role;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
-async function ask(){const q=input.value.trim();if(!q||send.disabled)return;add('user',q);input.value='';send.disabled=true;status.textContent='Čuvari nasljeđa odgovaraju…';const reply=add('ai','');
-try{const response=await puter.ai.chat(q,{model:'gpt-6-luna',stream:true});for await(const part of response){if(part?.text){reply.textContent+=part.text;messages.scrollTop=messages.scrollHeight}}if(!reply.textContent.trim())reply.textContent='AI nije vratio tekstualni odgovor.';status.textContent='Model: gpt-6-luna · spremno'}catch(error){reply.textContent='Povezivanje nije uspjelo. '+(error?.message||error);status.textContent='Greška pri povezivanju.'}finally{send.disabled=false;input.focus()}}
-send.addEventListener('click',ask);input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask()}});document.querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>{input.value=b.textContent;input.focus()}));
-</script>
+function words(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9čćđšž]+/g)||[]}
+function score(q,text){
+ const qs=[...new Set(words(q).filter(w=>w.length>2))], ts=new Set(words(text));
+ if(!qs.length)return 0;
+ let hit=0; for(const w of qs) if(ts.has(w))hit++;
+ return hit/Math.sqrt(qs.length*Math.max(1,Math.min(ts.size,500)));
+}
+function cleanHtml(html){
+ const doc=new DOMParser().parseFromString(html,'text/html');
+ doc.querySelectorAll('script,style,noscript,nav,header,footer').forEach(x=>x.remove());
+ const root=doc.querySelector('main,article,.article-content,.clanak,.article')||doc.body;
+ return (root?.innerText||doc.body.innerText||'').replace(/\s+/g,' ').trim();
+}
+async function loadKnowledge(){
+ status.textContent='Baza: učitavanje članaka…';
+ try{
+   const cached=localStorage.getItem(CACHE_KEY);
+   if(cached){
+     const parsed=JSON.parse(cached);
+     if(Array.isArray(parsed)&&parsed.length){knowledge=parsed;kbReady=true;status.textContent='Baza: '+knowledge.length+' članaka · spremno';return}
+   }
+ }catch(e){}
+ try{
+   const xml=await fetch(SITEMAP,{cache:'no-cache'}).then(r=>r.text());
+   const doc=new DOMParser().parseFromString(xml,'application/xml');
+   const urls=[...doc.querySelectorAll('loc')].map(x=>x.textContent.trim()).filter(u=>/\/clanci\//i.test(u));
+   const results=[];
+   const batch=async arr=>Promise.all(arr.map(async url=>{
+     try{
+       const html=await fetch(url,{cache:'no-cache'}).then(r=>r.text());
+       const d=new DOMParser().parseFromString(html,'text/html');
+       const title=(d.querySelector('h1')?.textContent||d.title||url.split('/').pop()).replace(/\s+/g,' ').trim();
+       const text=cleanHtml(html);
+       if(text.length>120) results.push({title,url,text:text.slice(0,12000)});
+     }catch(e){}
+   }));
+   for(let i=0;i<urls.length;i+=6) await batch(urls.slice(i,i+6));
+   knowledge=results;
+   kbReady=true;
+   try{localStorage.setItem(CACHE_KEY,JSON.stringify(knowledge))}catch(e){}
+   status.textContent='Baza: '+knowledge.length+' članaka · spremno';
+ }catch(error){
+   status.textContent='Baza: nije učitana · AI radi bez baze';
+ }
+}
+function retrieve(q){
+ return knowledge.map(a=>({a,s:score(q,a.title+' '+a.text)})).filter(x=>x.s>0.08).sort((x,y)=>y.s-x.s).slice(0,5);
+}
+function buildContext(matches){
+ if(!matches.length)return 'Nema dovoljno relevantnog sadržaja iz PatriaSoul baze za ovo pitanje. Nemoj tvrditi da postoji PatriaSoul izvor ako ga nema.';
+ return matches.map((x,i)=>'IZVOR '+(i+1)+': '+x.a.title+'\nURL: '+x.a.url+'\nSADRŽAJ: '+x.a.text.slice(0,4500)).join('\n\n');
+}
+async function ask(){
+ const q=input.value.trim(); if(!q||send.disabled)return;
+ add('user',q); input.value=''; send.disabled=true; status.textContent=kbReady?'Čuvari nasljeđa pretražuju bazu…':'Čuvari nasljeđa odgovaraju…';
+ const reply=add('ai','');
+ try{
+   const matches=retrieve(q), context=buildContext(matches);
+   const system='Ti si Čuvari nasljeđa, službeni AI razgovorni asistent portala PatriaSoul. Odgovaraj na hrvatskom. Prioritetno koristi dostavljeni sadržaj PatriaSoul baze znanja. Ne izmišljaj činjenice, izvore, citate ni PatriaSoul članke. Ako baza ne sadrži dovoljno podataka, jasno reci da u PatriaSoul bazi nema dovoljno podataka i tek tada odgovori općim znanjem, uz oprez kod povijesnih i osjetljivih tema. Ako koristiš sadržaj iz baze, na kraju dodaj odjeljak "PatriaSoul izvori" s naslovima i URL-ovima relevantnih pronađenih članaka. Baza znanja:\n\n'+context;
+   const response=await puter.ai.chat([{role:'system',content:system},{role:'user',content:q}],{model:'gpt-6-luna',stream:true});
+   for await(const part of response){if(part?.text){reply.textContent+=part.text;messages.scrollTop=messages.scrollHeight}}
+   if(!reply.textContent.trim())reply.textContent='AI nije vratio tekstualni odgovor.';
+   status.textContent='Baza: '+knowledge.length+' članaka · spremno';
+ }catch(error){reply.textContent='Povezivanje nije uspjelo. '+(error?.message||error);status.textContent='Greška pri povezivanju.'}
+ finally{send.disabled=false;input.focus()}
+}
+send.addEventListener('click',ask);
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask()}});
+document.querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>{input.value=b.textContent;input.focus()}));
+loadKnowledge();
+</script>>
 </body>
 </html>
