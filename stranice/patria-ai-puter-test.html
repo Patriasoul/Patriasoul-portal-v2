@@ -135,6 +135,6 @@ send.addEventListener('click',ask);
 input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask()}});
 document.querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>{input.value=b.textContent;input.focus()}));
 loadKnowledge();
-</script>>
+</script>
 </body>
 </html>
