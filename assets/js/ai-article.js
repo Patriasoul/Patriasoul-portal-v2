@@ -92,7 +92,7 @@ function fill(d){
   status("Članak je generiran · tražim odgovarajuću fotografiju…",true);
   if(d.image_query)searchImages(d.image_query).then(()=>status("Članak + SEO + fotografija spremni za pregled.",true)).catch(()=>status("Članak + SEO spremni; fotografiju možeš odabrati ručno.",true));
   else status("Članak + SEO spremni za pregled.",true);
-  window.PatriaSoulArticleEditor?.open?.();
+
 }
 $("#ai-rss-load")?.addEventListener("click",()=>loadRSS().catch(e=>status("RSS: "+(e.message||e),false)));
 $("#ai-generate")?.addEventListener("click",()=>generate().catch(e=>status("AI: "+(e.message||e),false)));
