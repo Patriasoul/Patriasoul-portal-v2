@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="PatriaSoul AI — test Puter.js">
+<title>PatriaSoul AI — Puter.js test</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#161616;background:#f4f4f4}
+*{box-sizing:border-box}body{margin:0}.wrap{max-width:900px;margin:auto;padding:24px}
+header{background:#111;color:#fff;padding:28px;border-radius:18px 18px 0 0;border-bottom:4px solid #c5162e}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.12em;color:#d9d9d9}h1{margin:8px 0;font-size:32px}p{line-height:1.6}
+.card{background:#fff;border-radius:0 0 18px 18px;padding:22px;box-shadow:0 10px 35px #00000012}
+#messages{min-height:360px;max-height:55vh;overflow:auto;padding:4px}
+.msg{padding:13px 15px;margin:10px 0;border-radius:14px;line-height:1.55;white-space:pre-wrap}
+.user{background:#eee;margin-left:12%}.ai{background:#f8e9ec;border-left:4px solid #c5162e;margin-right:12%}
+.row{display:flex;gap:10px;margin-top:16px}textarea{flex:1;min-height:58px;resize:vertical;border:1px solid #ccc;border-radius:12px;padding:13px;font:inherit}
+button{border:0;border-radius:12px;padding:0 20px;background:#c5162e;color:#fff;font-weight:800;cursor:pointer}button:disabled{opacity:.5}
+.status{font-size:13px;color:#666;margin-top:10px}
+a{color:#c5162e;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="kicker">PATRIASOUL · AI TEST</div>
+<h1>Pitaj PatriaSoul</h1>
+<p>Testna verzija AI razgovora preko Puter.js. Ova stranica ne mijenja postojeći AI sustav.</p>
+</header>
+<section class="card">
+<div id="messages"><div class="msg ai">Pozdrav! Ovo je test Puter.js povezivanja. Postavi mi pitanje.</div></div>
+<div class="row">
+<textarea id="input" placeholder="Npr. Objasni mi ukratko povijest Vukovara..."></textarea>
+<button id="send">Pošalji</button>
+</div>
+<div id="status" class="status">Model: gpt-6-luna · Puter.js</div>
+</section>
+</div>
+<script src="https://js.puter.com/v2/"></script>
+<script>
+const messages=document.getElementById('messages');
+const input=document.getElementById('input');
+const send=document.getElementById('send');
+const status=document.getElementById('status');
+
+function add(role,text){
+  const el=document.createElement('div');
+  el.className='msg '+role;
+  el.textContent=text;
+  messages.appendChild(el);
+  messages.scrollTop=messages.scrollHeight;
+  return el;
+}
+
+async function ask(){
+  const q=input.value.trim();
+  if(!q||send.disabled)return;
+  add('user',q);
+  input.value='';
+  send.disabled=true;
+  status.textContent='PatriaSoul AI odgovara…';
+  const reply=add('ai','');
+  try{
+    const response=await puter.ai.chat(q,{model:'gpt-6-luna',stream:true});
+    for await(const part of response){
+      if(part?.text){
+        reply.textContent+=part.text;
+        messages.scrollTop=messages.scrollHeight;
+      }
+    }
+    if(!reply.textContent.trim()) reply.textContent='AI nije vratio tekstualni odgovor.';
+    status.textContent='Model: gpt-6-luna · Puter.js · spremno';
+  }catch(error){
+    reply.textContent='Greška pri povezivanju s Puter.js: '+(error?.message||error);
+    status.textContent='Povezivanje nije uspjelo.';
+  }finally{
+    send.disabled=false;
+    input.focus();
+  }
+}
+send.addEventListener('click',ask);
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask();}});
+</script>
+</body>
+</html>
