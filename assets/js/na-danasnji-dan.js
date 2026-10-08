@@ -37,7 +37,7 @@ function eventCard(e, featured=false){
   const year = yearFor(e);
   const category = categoryFor(e);
   const title = e.localizedTitle || e.title || e.text || (Number.isFinite(year) ? "Događaj iz " + year : "Događaj");
-  const text = e.localizedText || e.description || (e.text && e.text !== title ? e.text : (Number.isFinite(year) ? "Povijesni događaj zabilježen na ovaj datum " + year + ".": ""));
+  const text = e.localizedText || e.description || (e.text && e.text !== title ? e.text : "");
   const yearLabel = Number.isFinite(year) ? String(year) : "—";
   return featured
     ? '<div class="ps-event-meta"><span class="ps-event-year">'+yearLabel+'</span><span class="ps-event-category">'+category+'</span></div><h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(text)+'</p>'
