@@ -27,7 +27,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;b
 </section>
 <section class="chat">
 <div class="chatbar"><div class="ai-id"><div class="ai-orb"></div><div><strong>Čuvari nasljeđa</strong><div class="online">Spremni za razgovor</div></div></div><div class="kicker">PATRIASOUL</div></div>
-<div id="messages"><div class="msg ai welcome"><div class="mini">ČUVARI NASLJEĐA</div><strong>Pozdrav. Mi smo Čuvari nasljeđa.</strong><br><br>Čuvamo priče, pamćenje i vrijednosti Hrvatske — njezinu povijest, baštinu, vjeru, gradove i Domovinski rat.<br><br><strong>Pitajte nas. Istražimo zajedno ono što je Hrvatsku činilo, što je čuva i što moramo prenijeti budućim naraštajima.</strong><div class="suggestions"><button class="suggestion">Objasnite mi Vukovar 1991.</button><button class="suggestion">Tko je bio Nikola Šubić Zrinski?</button><button class="suggestion">Ispričajte mi nešto o hrvatskoj baštini.</button></div></div></div>
+<div id="messages"><div class="msg ai welcome"><div class="mini">ČUVARI NASLJEĐA</div><strong>Pozdrav. Mi smo Čuvari nasljeđa.</strong><br><br>Čuvamo priče, pamćenje i vrijednosti Hrvatske — njezinu povijest, baštinu, vjeru, gradove i Domovinski rat.<br><br><strong>Pitajte nas. Istražimo zajedno ono što je Hrvatsku činilo, što je čuva i što moramo prenijeti budućim naraštajima.</strong><div class="suggestions"><button class="suggestion">Što je PatriaSoul i kako je nastao?</button><button class="suggestion">Gdje mogu pronaći najnovije priče i članke?</button><button class="suggestion">Kako mogu zaigrati Hrvatski kviz?</button><button class="suggestion">Kako mogu poslati svoju priču ili svjedočanstvo?</button></div></div></div>
 <div class="composer"><div class="row"><textarea id="input" placeholder="Napišite svoje pitanje…" aria-label="Pitanje za Čuvare nasljeđa"></textarea><button id="send">Pošalji →</button></div><div class="hint"><span>Enter · pošalji &nbsp; Shift + Enter · novi red</span><span class="status" id="status">Baza: učitavanje · Model: gpt-6-luna</span></div></div>
 </section>
 <div class="note">Čuvari nasljeđa koriste sadržaj PatriaSoul portala kao bazu znanja. Odgovore je uvijek dobro provjeriti prema vjerodostojnim izvorima.</div>
@@ -133,7 +133,7 @@ async function ask(){
 }
 send.addEventListener('click',ask);
 input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask()}});
-document.querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>{input.value=b.textContent;input.focus()}));
+document.querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>{if(send.disabled)return;input.value=b.textContent;ask()}));
 loadKnowledge();
 </script>
 </body>
