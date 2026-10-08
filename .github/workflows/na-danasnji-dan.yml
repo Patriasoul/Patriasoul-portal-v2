@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: patriasoul-na-danasnji-dan-main
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   update:
