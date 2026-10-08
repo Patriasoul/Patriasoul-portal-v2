@@ -8,12 +8,19 @@ const MONTHS = ["siječnja","veljače","ožujka","travnja","svibnja","lipnja","s
 
 function pad(n){ return String(n).padStart(2,"0"); }
 
-async function fetchJson(url){
-  const response = await fetch(url, {
-    headers: { "User-Agent": "PatriaSoul/1.0 (na-danasnji-dan)" }
-  });
-  if(!response.ok) throw new Error("HTTP "+response.status);
-  return response.json();
+async function fetchJson(url, attempts=3){
+  let lastError;
+  for(let attempt=1;attempt<=attempts;attempt++){
+    try{
+      const response=await fetch(url,{headers:{"User-Agent":"PatriaSoul/1.1 (na-danasnji-dan; https://patriasoul.github.io/Patriasoul-portal-v2/)","Accept":"application/json"}});
+      if(!response.ok) throw new Error("HTTP "+response.status);
+      return await response.json();
+    }catch(error){
+      lastError=error;
+      if(attempt<attempts) await new Promise(resolve=>setTimeout(resolve,attempt*1000));
+    }
+  }
+  throw lastError;
 }
 
 function clean(value){
@@ -36,7 +43,7 @@ function parseEvents(wikitext){
   if(!match) return [];
   const events=[];
   for(const line of match[0].split("\n")){
-    const m=line.match(/^\*+\s*(\d{1,4})\.?\s*(?:[-–—:.]|\s{2,})(.+?)\s*$/);
+    const m=line.match(/^\*+\s*(\d{1,4})\.?\s*(?:pr\.\s*Kr\.\s*)?(?:[-–—:.]|\s{2,})(.+?)\s*$/i);
     if(!m) continue;
     const text=clean(m[2]);
     if(text) events.push({year:Number(m[1]),text});
@@ -54,7 +61,7 @@ function parseHtmlEvents(html){
   const events=[];
   for(const li of section.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)){
     const text=clean(li[1].replace(/<[^>]+>/g," "));
-    const m=text.match(/^(\d{1,4})\.?\s*(?:[-–—:.]|\s{2,})(.+)$/);
+    const m=text.match(/^(\d{1,4})\.?\s*(?:pr\.\s*Kr\.\s*)?(?:[-–—:.]|\s{2,})(.+)$/i);
     if(m) events.push({year:Number(m[1]),text:clean(m[2])});
   }
   return events;
