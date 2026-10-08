@@ -5,12 +5,11 @@ const set=(id,v)=>{const e=$("#"+id);if(e)e.value=v??""};
 const get=(id)=>$("#"+id)?.value.trim()||"";
 const status=(text,ok=false)=>{const e=$("#ai-status");if(e){e.textContent=text;e.className="ps-editor-message "+(ok?"is-ok":"")}};
 
-const FEED_KEY="patriasoul_ai_rss_feeds_v1";
+const FEED_KEY="patriasoul_ai_rss_feeds_v2";
 const LAST_KEY="patriasoul_ai_rss_last_refresh_v1";
 const DEFAULT_FEEDS=[
   {name:"Index.hr · Hrvatska",url:"https://www.index.hr/rss/vijesti-hrvatska",enabled:true},
-  {name:"Večernji list · najnovije",url:"https://www.vecernji.hr/feed",enabled:true},
-  {name:"HRT · Vijesti",url:"https://vijesti.hrt.hr/rss",enabled:true}
+  {name:"Večernji list · najnovije",url:"https://www.vecernji.hr/feed",enabled:true}
 ];
 let feeds=[];
 let rssItems=[];
