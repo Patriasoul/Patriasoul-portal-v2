@@ -48,17 +48,35 @@ async function save(){
       source_data:{sources:sourcesFrom(get("article-sources")),seo:{title:get("article-seo-title"),description:get("article-meta-description"),keywords:sourcesFrom(get("article-seo-keywords").replace(/,/g,"\n"))}}
     };
     let article,err;
+    const baseSlug=path.split("/").pop().replace(/\.html$/i,"").trim();
+    if(!baseSlug)throw new Error("Putanja mora sadržavati naziv članka.");
+    const {data:slugRows,error:slugError}=await client.from("portal_articles").select("id,slug,path").or(`slug.eq.${baseSlug},path.eq.${path}`);
+    if(slugError)throw slugError;
+    const conflicts=(slugRows||[]).filter(x=>x.id!==id);
+    let finalSlug=baseSlug;
+    let finalPath=path;
+    if(conflicts.length){
+      let n=2;
+      while(true){
+        const candidate=`${baseSlug}-${n}`;
+        const candidatePath=path.replace(/[^/]+$/,`${candidate}.html`);
+        const {data:check,error:checkError}=await client.from("portal_articles").select("id").or(`slug.eq.${candidate},path.eq.${candidatePath}`);
+        if(checkError)throw checkError;
+        if(!(check||[]).some(x=>x.id!==id)){finalSlug=candidate;finalPath=candidatePath;break;}
+        n++;
+        if(n>100)throw new Error("Nije moguće pronaći slobodan slug.");
+      }
+    }
     if(id){
-      const r=await client.from("portal_articles").update(payload).eq("id",id).select("*").single();article=r.data;err=r.error;
+      const r=await client.from("portal_articles").update({...payload,slug:finalSlug,path:finalPath}).eq("id",id).select("*").single();article=r.data;err=r.error;
     }else{
-      const slug=path.split("/").pop().replace(/\.html$/i,"");
-      const r=await client.from("portal_articles").insert({...payload,slug,path,created_by:currentUser.id}).select("*").single();article=r.data;err=r.error;
+      const r=await client.from("portal_articles").insert({...payload,slug:finalSlug,path:finalPath,created_by:currentUser.id}).select("*").single();article=r.data;err=r.error;
     }
     if(err)throw err;
     const revision={article_id:article.id,revision_no:Date.now(),snapshot:article,note:status==="published"?"Objava članka":"Spremanje uredničke verzije",created_by:currentUser.id};
     const rr=await client.from("portal_article_revisions").insert(revision);if(rr.error)throw rr.error;
     currentId=article.id;val("article-id",article.id);
-    message("Spremljeno: "+statusLabel(status),true);
+    message((finalSlug!==baseSlug?"Spremljeno kao "+finalSlug+" — postojeći slug je već postojao. ":"Spremljeno: ")+statusLabel(status),true);
     if(window.PatriaSoulAdmin?.refreshArticles) await window.PatriaSoulAdmin.refreshArticles();
   }catch(e){console.error(e);message("Spremanje nije uspjelo: "+(e?.message||"nepoznata greška"));}
 }
