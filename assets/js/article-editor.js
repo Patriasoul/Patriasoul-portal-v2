@@ -73,7 +73,10 @@ async function save(){
       const r=await client.from("portal_articles").insert({...payload,slug:finalSlug,path:finalPath,created_by:currentUser.id}).select("*").single();article=r.data;err=r.error;
     }
     if(err)throw err;
-    const revision={article_id:article.id,revision_no:Date.now(),snapshot:article,note:status==="published"?"Objava članka":"Spremanje uredničke verzije",created_by:currentUser.id};
+    const {data:lastRevision,error:lastRevisionError}=await client.from("portal_article_revisions").select("revision_no").eq("article_id",article.id).order("revision_no",{ascending:false}).limit(1).maybeSingle();
+    if(lastRevisionError)throw lastRevisionError;
+    const nextRevisionNo=Number(lastRevision?.revision_no||0)+1;
+    const revision={article_id:article.id,revision_no:nextRevisionNo,snapshot:article,note:status==="published"?"Objava članka":"Spremanje uredničke verzije",created_by:currentUser.id};
     const rr=await client.from("portal_article_revisions").insert(revision);if(rr.error)throw rr.error;
     currentId=article.id;val("article-id",article.id);
     message((finalSlug!==baseSlug?"Spremljeno kao "+finalSlug+" — postojeći slug je već postojao. ":"Spremljeno: ")+statusLabel(status),true);
