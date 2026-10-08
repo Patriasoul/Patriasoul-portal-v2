@@ -16,7 +16,7 @@ let rssItems=[];
 let selectedRss=new Set();
 let imageItems=[];
 
-function stripHtml(s){const d=document.createElement("div");d.innerHTML=String(s||"");return (d.textContent||d.innerText||"").replace(/\s+/g," ").trim()}
+function stripHtml(s){const d=document.createElement("div");d.innerHTML=String(s||"");return (d.textContent||d.innerText||"").replace(/\s+/g," ").trim()}\nfunction wordCount(html){const text=stripHtml(html).replace(/[^a-zA-Z0-9À-ž]+/g," ").trim();return text?text.split(/\s+/).length:0}
 function slugify(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,90)}
 function jsonFromAI(raw){
   let s=String(raw||"").trim().replace(/^\uFEFF/,"");
@@ -126,7 +126,7 @@ async function generate(){
   const sourceItems=chosen.length?chosen:rssItems;
   const rss=sourceItems.map((x,i)=>"RSS "+(i+1)+": "+x.title+"\nIZVOR: "+x.source+"\nDATUM: "+x.date+"\nOPIS: "+x.description+"\nURL: "+x.link).join("\n\n");
   status(chosen.length?"AI obrađuje "+chosen.length+" odabranih RSS članaka…":"AI piše članak…");
-  const prompt=`Ti si glavni urednik portala PatriaSoul. Piši na hrvatskom prema uredničkom standardu: činjenice prije senzacije, ne izmišljaj činjenice, citate, izvore, osobe ili događaje. Razlikuj činjenicu, tumačenje, svjedočanstvo i tradiciju. Ako podatak nije potvrđen iz dostavljenih izvora, nemoj ga predstavljati kao činjenicu. Tekst mora biti originalan, jasan, opsežan i spreman za uredničku provjeru.
+  const prompt=`Ti si glavni urednik portala PatriaSoul. Piši na hrvatskom prema uredničkom standardu: činjenice prije senzacije, ne izmišljaj činjenice, citate, izvore, osobe ili događaje. Razlikuj činjenicu, tumačenje, svjedočanstvo i tradiciju. Ako podatak nije potvrđen iz dostavljenih izvora, nemoj ga predstavljati kao činjenicu. Tekst mora biti originalan, jasan, opsežan i spreman za uredničku provjeru. OBVEZNA DULJINA: najmanje 1.500 riječi u body_html; ciljaj 1.700–2.200 riječi, a za složene teme i više. Nemoj umjetno ponavljati iste tvrdnje. Razvij uvod, najmanje 6 smislenih H2 cjelina (po potrebi H3), kontekst, potvrđene činjenice, značenje teme i zaključak. Ako izvori ne omogućuju sigurno proširenje, jasno navedi ograničenja, ali napiši najpotpuniji provjerljiv tekst.
 
 ZADATAK: ${topic||"Od odabranih RSS vijesti napravi jedan smislen, originalan PatriaSoul članak; ne prepisuj izvorni tekst."}
 NAČIN: ${mode}
@@ -139,7 +139,18 @@ Vrati ISKLJUČIVO valjani JSON bez Markdown oznaka, sa sljedećim poljima:
 Ako RSS nije dovoljan za siguran članak, jasno ograniči tvrdnje i ostavi sources praznim umjesto izmišljanja URL-ova.`;
   let raw="";const response=await puter.ai.chat([{role:"user",content:prompt}],{model:"gpt-6-luna"});
   if(typeof response==="string")raw=response;else if(response?.message?.content)raw=response.message.content;else if(response?.text)raw=response.text;if(!raw&&response?.output)raw=JSON.stringify(response.output);if(!raw)throw new Error("AI nije vratio sadržaj.");
-  fill(jsonFromAI(raw));
+  let article=jsonFromAI(raw);
+  let words=wordCount(article.body_html);
+  if(words<1500){
+    status("Članak ima "+words+" riječi. AI ga proširuje do najmanje 1.500 riječi…");
+    const expandPrompt="Proširi ovaj PatriaSoul članak tako da body_html ima NAJMANJE 1.500 riječi, cilj 1.700–2.200. Ne dodaj izmišljene činjenice, citate, izvore, datume ili događaje. Proširi kontekst i relevantne podnaslove bez ponavljanja. Zadrži sve postojeće JSON ključeve i vrati ISKLJUČIVO valjani JSON bez Markdowna. Ne mijenjaj izvore.\\n\\nULAZNI ČLANAK:\\n"+JSON.stringify(article);
+    const expanded=await puter.ai.chat([{role:"user",content:expandPrompt}],{model:"gpt-6-luna"});
+    const expandedRaw=typeof expanded==="string"?expanded:expanded?.message?.content||expanded?.text||(expanded?.output?JSON.stringify(expanded.output):"");
+    if(expandedRaw){const candidate=jsonFromAI(expandedRaw);if(wordCount(candidate.body_html)>words)article=candidate;words=wordCount(article.body_html)}
+  }
+  fill(article);
+  const count=wordCount(article.body_html);
+  status("Članak je spreman za pregled · "+count+" riječi"+(count<1500?" · UPOZORENJE: ispod minimuma 1.500 riječi.":" · duljina zadovoljena."),count>=1500);
 }
 function fill(d){
   set("article-title",d.title);set("article-kicker",d.kicker);set("article-category",d.category);set("article-subcategory",d.subcategory);
