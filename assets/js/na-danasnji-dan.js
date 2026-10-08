@@ -5,13 +5,23 @@ const $ = (s) => document.querySelector(s);
 const pad = (n) => String(n).padStart(2,"0");
 const hrMonths = ["siječnja","veljače","ožujka","travnja","svibnja","lipnja","srpnja","kolovoza","rujna","listopada","studenoga","prosinca"];
 const categoryFor = (e) => {
-  const text = (String(e.text || "") + " " + String(e.pages?.[0]?.normalizedtitle || "")).toLowerCase();
+  if (e.category) return e.category;
+  const text = (String(e.title || "") + " " + String(e.text || "") + " " + String(e.pages?.[0]?.normalizedtitle || "")).toLowerCase();
   if (/olympic|football|soccer|basketball|tennis|sport|championship|world cup|olimp|olimpij|nogomet|košarka|tenis|sport|prvenstvo|kup|utrka/.test(text)) return "Sport";
   if (/science|scientist|space|moon|nasa|physics|chemistry|medicine|medical|discovery|invention|technology|computer|atom|znanost|znanstvenik|svemir|mjesec|nasa|fizika|kemija|medicina|liječnik|otkriće|izum|tehnologija|računalo|atom|nobel/.test(text)) return "Znanost";
   if (/film|movie|music|artist|painting|literature|author|writer|poet|theatre|theater|culture|book|opera|film|glazba|umjetnik|slikarstvo|književnost|pisac|pjesnik|kazalište|kultura|knjiga|opera|koncert/.test(text)) return "Kultura";
   return "Povijest";
 };
-const cleanText = (text) => String(text || "").replace(/\s+/g," ").trim();
+const decodeEntities = (text) => String(text || "").replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(Number(n))).replace(/&#x([0-9a-f]+);/gi,(_,n)=>String.fromCodePoint(parseInt(n,16))).replace(/&quot;/g,'"').replace(/&amp;/g,"&").replace(/&apos;/g,"'").replace(/&lt;/g,"<").replace(/&gt;/g,">");
+const cleanText = (text) => decodeEntities(text).replace(/\s+/g," ").trim();
+const isBadEvent = (e) => {
+  const title=cleanText(e.title || "");
+  const text=cleanText(e.text || "");
+  if (/^\d{3,4}\.?$/.test(title) || /^\d{3,4}\.?$/.test(text)) return true;
+  if (/^(Roy Keane|Antonio Banderas)$/i.test(title)) return true;
+  if (!title && !text) return true;
+  return false;
+};
 const yearFor = (e) => Number(e.year);
 const state = { date:new Date(), events:[] };
 
@@ -36,8 +46,8 @@ async function fetchLocalEvents(d){
 function eventCard(e, featured=false){
   const year = yearFor(e);
   const category = categoryFor(e);
-  const title = e.localizedTitle || e.title || e.text || (Number.isFinite(year) ? "Događaj iz " + year : "Događaj");
-  const text = e.localizedText || e.description || (e.text && e.text !== title ? e.text : "");
+  const title = cleanText(e.localizedTitle || e.title || e.text || (Number.isFinite(year) ? "Događaj iz " + year : "Događaj"));
+  const text = cleanText(e.localizedText || e.description || (e.text && e.text !== title ? e.text : ""));
   const yearLabel = Number.isFinite(year) ? String(year) : "—";
   return featured
     ? '<div class="ps-event-meta"><span class="ps-event-year">'+yearLabel+'</span><span class="ps-event-category">'+category+'</span></div><h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(text)+'</p>'
@@ -46,8 +56,9 @@ function eventCard(e, featured=false){
 function render(events){
   const grid=$("#events-grid"),feature=$("#featured-event"),featureContent=$("#featured-event-content"),empty=$("#events-empty");
   grid.innerHTML=""; feature.hidden=true; empty.hidden=true;
-  if(!events.length){empty.hidden=false;return;}
-  const sorted=events.slice().sort((a,b)=>(Number(b.year)||0)-(Number(a.year)||0));
+  if(!valid.length){empty.hidden=false;return;}
+  const valid=events.filter(e=>!isBadEvent(e));
+  const sorted=valid.slice().sort((a,b)=>(Number(b.year)||0)-(Number(a.year)||0));
   feature.hidden=false;
   featureContent.innerHTML=eventCard(sorted[0],true);
   sorted.slice(1,16).forEach(e=>grid.insertAdjacentHTML("beforeend",eventCard(e,false)));
@@ -61,8 +72,9 @@ async function load(d){
     const events = await fetchLocalEvents(d);
     state.events=events;
     render(events);
-    $("#today-status").textContent=events.length
-      ? ("Prikazano "+events.length+" događaja na hrvatskom jeziku.")
+    const visibleEvents=events.filter(e=>!isBadEvent(e));
+    $("#today-status").textContent=visibleEvents.length
+      ? ("Prikazano "+visibleEvents.length+" događaja na hrvatskom jeziku.")
       : "Za ovaj datum trenutačno nema dostupnih događaja.";
   }catch(err){
     state.events=[];
