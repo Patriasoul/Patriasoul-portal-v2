@@ -62,64 +62,85 @@ function extractFeedEvents(feed){
 }
 
 async function fetchPage(page){
-  const [day,monthName]=page.split("._");
+  const [day,monthName]=page.split("|");
   const month=MONTHS.indexOf(monthName)+1;
   const feedUrl=REST+"/"+pad(month)+"/"+pad(day);
+
   try{
     const feedEvents=extractFeedEvents(await fetchJson(feedUrl));
     if(feedEvents.length) return feedEvents;
-    // Wikimedia feed ponekad vrati valjan odgovor bez događaja.
-    // Tada obavezno pokušaj izravno hrvatsku Wikipediju.
   }catch(_){}
+
   try{
-    const params=new URLSearchParams({action:"parse",page,prop:"wikitext",format:"json",formatversion:"2"});
+    const params=new URLSearchParams({
+      action:"parse",
+      page,
+      prop:"wikitext",
+      format:"json",
+      formatversion:"2"
+    });
     const json=await fetchJson(API+"?"+params.toString());
     const events=parseEvents(json.parse?.wikitext||"");
     if(events.length) return events;
-    const htmlParams=new URLSearchParams({action:"parse",page,prop:"text",format:"json",formatversion:"2"});
+
+    const htmlParams=new URLSearchParams({
+      action:"parse",
+      page,
+      prop:"text",
+      format:"json",
+      formatversion:"2"
+    });
     const htmlJson=await fetchJson(API+"?"+htmlParams.toString());
     return parseHtmlEvents(htmlJson.parse?.text||"");
-  }catch(_){ return []; }
+  }catch(_){
+    return [];
+  }
 }
 
 async function fetchConcurrent(pages, limit=8){
   const result={};
   let next=0;
+
   async function worker(){
     while(true){
       const index=next++;
       if(index>=pages.length) return;
+
       const page=pages[index];
       result[page]=await fetchPage(page);
       console.log(page+": "+result[page].length+" događaja ("+(index+1)+"/"+pages.length+")");
     }
   }
+
   await Promise.all(Array.from({length:Math.min(limit,pages.length)},worker));
   return result;
 }
 
 (async()=>{
   const pages=[];
+
   for(let month=1;month<=12;month++){
     const days=new Date(Date.UTC(2028,month,0)).getUTCDate();
+
     for(let day=1;day<=days;day++){
-      pages.push({
-        title: day+"._"+MONTHS[month-1],
-        key: pad(month)+"-"+pad(day)
-      });
+      pages.push(day+"|"+MONTHS[month-1]);
     }
   }
 
-  const titles=pages.map(x=>x.title);
-  const data=await fetchConcurrent(titles,8);
+  const data=await fetchConcurrent(pages,8);
   const dates={};
 
-  for(const item of pages){
-    dates[item.key]={
-      date:item.key,
+  for(const page of pages){
+    const [day,monthName]=page.split("|");
+    const month=MONTHS.indexOf(monthName)+1;
+    const key=pad(month)+"-"+pad(day);
+    const title=day+". "+monthName;
+
+    dates[key]={
+      date:key,
       source:"Hrvatska Wikipedija",
-      source_url:"https://hr.wikipedia.org/wiki/"+encodeURIComponent(item.title.replace(/ /g,"_")),
-      events:data[item.title] || []
+      source_url:"https://hr.wikipedia.org/wiki/"+encodeURIComponent(title.replace(/ /g,"_")),
+      events:data[page] || []
     };
   }
 
