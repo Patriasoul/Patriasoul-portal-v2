@@ -4,9 +4,48 @@ const fs = require("fs");
 const path = require("path");
 
 const API = "https://hr.wikipedia.org/w/api.php";
+const REST = "https://hr.wikipedia.org/api/rest_v1/feed/onthisday/events";
 const MONTHS = ["siječnja","veljače","ožujka","travnja","svibnja","lipnja","srpnja","kolovoza","rujna","listopada","studenoga","prosinca"];
 
 function pad(n){ return String(n).padStart(2,"0"); }
+
+function clean(value){
+  return String(value||"")
+    .replace(/<[^>]+>/g," ")
+    .replace(/\[\[[^\]|]+\|([^\]]+)\]\]/g,"$1")
+    .replace(/\[\[([^\]]+)\]\]/g,"$1")
+    .replace(/\{\{[^}]+\}\}/g," ")
+    .replace(/&nbsp;/g," ")
+    .replace(/''+/g,"")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function parseEvents(source){
+  const text=String(source||"");
+  const match=text.match(/(?:^|\n)={2,}\s*(?:Događaji|Događaji na današnji dan)\s*={2,}([\s\S]*?)(?=\n={2,}[^=]+={2,}|$)/i);
+  if(!match) return [];
+  const events=[];
+  for(const raw of match[1].split("\n")){
+    const line=clean(raw.replace(/^\s*[*#:]+\s*/,""));
+    if(!line) continue;
+    const m=line.match(/^(\d{1,4})\.?\s*(?:pr\.\s*Kr\.\s*)?(?:[-–—:.]\s*|\s{2,})(.+)$/i);
+    if(!m) continue;
+    const year=Number(m[1]);
+    const text=clean(m[2]);
+    if(Number.isFinite(year) && text) events.push({year,text});
+  }
+  return events.slice(0,40);
+}
+
+function parseHtmlEvents(source){
+  const text=String(source||"")
+    .replace(/<br\s*\/?>/gi,"\n")
+    .replace(/<li[^>]*>/gi,"\n")
+    .replace(/<\/li>/gi,"")
+    .replace(/<[^>]+>/g," ");
+  return parseEvents(text);
+}
 
 async function fetchJson(url, timeoutMs=12000){
   const controller=new AbortController();
@@ -25,7 +64,7 @@ function extractFeedEvents(feed){
 async function fetchPage(page){
   const [day,monthName]=page.split("._");
   const month=MONTHS.indexOf(monthName)+1;
-  const feedUrl="https://api.wikimedia.org/feed/v1/wikipedia/hr/onthisday/events/"+month+"/"+day;
+  const feedUrl=REST+"/"+pad(month)+"/"+pad(day);
   try{
     return extractFeedEvents(await fetchJson(feedUrl));
   }catch(_){
@@ -41,7 +80,7 @@ async function fetchPage(page){
   }
 }
 
-async function fetchConcurrent(pages, limit=12){
+async function fetchConcurrent(pages, limit=8){
   const result={};
   let next=0;
   async function worker(){
@@ -70,7 +109,7 @@ async function fetchConcurrent(pages, limit=12){
   }
 
   const titles=pages.map(x=>x.title);
-  const data=await fetchConcurrent(titles,12);
+  const data=await fetchConcurrent(titles,8);
   const dates={};
 
   for(const item of pages){
