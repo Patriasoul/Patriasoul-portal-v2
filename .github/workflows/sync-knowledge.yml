@@ -2,6 +2,9 @@ name: PatriaSoul · Sinkronizacija baze znanja
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/sync-knowledge.yml"
   schedule:
     - cron: "*/30 * * * *"
 
