@@ -15,7 +15,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -135,14 +135,32 @@ jobs:
         with:
           node-version: 22
 
+      - name: Provjeri je li ova objava najnovija
+        id: freshness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          CURRENT_MAIN="$(git rev-parse origin/main)"
+          echo "Run SHA: $GITHUB_SHA"
+          echo "Trenutni main: $CURRENT_MAIN"
+          if [ "$CURRENT_MAIN" = "$GITHUB_SHA" ]; then
+            echo "current=true" >> "$GITHUB_OUTPUT"
+            echo "Ova objava sadrži najnoviju verziju."
+          else
+            echo "current=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Preskačem zastarjelu objavu kako stariji build ne bi vratio portal na stariju verziju."
+          fi
+
       - name: Download built portal assets
+        if: steps.freshness.outputs.current == 'true'
         uses: actions/download-artifact@v4
         with:
           name: cloudflare-worker-assets
           path: _site
 
       - name: Deploy portal to Cloudflare Workers with Wrangler v4
-        if: env.CF_API_TOKEN != '' && env.CF_ACCOUNT_ID != ''
+        if: steps.freshness.outputs.current == 'true' && env.CF_API_TOKEN != '' && env.CF_ACCOUNT_ID != ''
         run: npx --yes wrangler@4 deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -151,7 +169,7 @@ jobs:
           CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Smoke test ključnih stranica nakon objave
-        if: success() && env.CF_API_TOKEN != '' && env.CF_ACCOUNT_ID != ''
+        if: success() && steps.freshness.outputs.current == 'true' && env.CF_API_TOKEN != '' && env.CF_ACCOUNT_ID != ''
         run: node scripts/qa/qa-live.js
         env:
           BASE_URL: https://patriasoul-portal-v2.patriasoul.workers.dev
