@@ -237,4 +237,14 @@
     clock.textContent = new Intl.DateTimeFormat("hr-HR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}).format(now);
   };
   tick(); setInterval(tick,1000);
+  // Globalni plutajući AI pomoćnik: učitava se iz zajedničkog portala i na Cloudflareu,
+  // čak i kada se build skripta normalize-shell.js ne pokreće.
+  if (!document.getElementById("ps-ai-widget") && !document.querySelector('script[data-ps-ai-widget]')) {
+    const aiWidget = document.createElement("script");
+    aiWidget.src = new URL("ai-widget.js?v=20261009-2", script?.src || location.href).href;
+    aiWidget.defer = true;
+    aiWidget.dataset.psAiWidget = "true";
+    document.body.append(aiWidget);
+  }
+
 })();
