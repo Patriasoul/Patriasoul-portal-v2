@@ -310,7 +310,7 @@
   }
   const metaDesc=document.querySelector("meta[name=\"description\"]");const desc=metaDesc?.content||"PatriaSoul — Hrvatska, povijest, znanje i identitet.";const canonical=document.querySelector("link[rel=\"canonical\"]")||document.head.appendChild(Object.assign(document.createElement("link"),{rel:"canonical"}));canonical.href=location.href.split("#")[0];
   [["og:title",document.title],["og:description",desc],["og:url",location.href.split("#")[0]],["og:site_name","PatriaSoul"],["og:locale","hr_HR"]].forEach(([k,v])=>{let m=document.querySelector(`meta[property="${k}"]`);if(!m){m=document.createElement("meta");m.setAttribute("property",k);document.head.append(m)}m.content=v});
-  if(!localStorage.getItem("ps-cookie-consent-v1")){const box=document.createElement("div");box.className="ps-cookie";box.innerHTML="<p>PatriaSoul koristi samo nužne tehničke kolačiće za rad stranice. <a href=\""+link("stranice/kolacici.html")+"\">Saznaj više</a>.</p><button type=\"button\">U redu</button>";document.body.append(box);box.querySelector("button").onclick=()=>{localStorage.setItem("ps-cookie-consent-v1","accepted");box.remove()}};
+  if(!localStorage.getItem("ps-cookie-consent-v1")){const box=document.createElement("div");box.className="ps-cookie";box.innerHTML="<p>PatriaSoul koristi nužnu lokalnu pohranu za osnovne funkcije portala. <a href=\""+link("stranice/privatnost.html")+"\">Privatnost i kolačići</a>.</p><button type=\"button\">U redu</button>";document.body.append(box);box.querySelector("button").onclick=()=>{localStorage.setItem("ps-cookie-consent-v1","accepted");box.remove()}};
 
   const date = header.querySelector("[data-ps-date]");
   const clock = header.querySelector("[data-ps-clock]");
