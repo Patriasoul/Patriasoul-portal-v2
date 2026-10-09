@@ -1,4 +1,4 @@
-name: PatriaSoul · GitHub Pages
+name: PatriaSoul · Objavljivanje portala
 
 on:
   push:
@@ -12,8 +12,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -115,30 +113,12 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: https://patriasoul-portal-v2.patriasoul.workers.dev/
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
   deploy-cloudflare-worker:
     needs: build
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://patriasoul-portal-v2.patriasoul.workers.dev/
     steps:
       - name: Checkout repository for wrangler config
         uses: actions/checkout@v6
@@ -160,9 +140,11 @@ jobs:
           CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Explain skipped Cloudflare deploy
+      - name: Fail if Cloudflare credentials are missing
         if: env.CF_API_TOKEN == '' || env.CF_ACCOUNT_ID == ''
-        run: echo "Cloudflare deploy skipped because CLOUDFLARE_API_TOKEN and/or CLOUDFLARE_ACCOUNT_ID repository secrets are not configured."
+        run: |
+          echo "::error::Nedostaje CLOUDFLARE_API_TOKEN ili CLOUDFLARE_ACCOUNT_ID. Portal nije objavljen na Workers."
+          exit 1
         env:
           CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
