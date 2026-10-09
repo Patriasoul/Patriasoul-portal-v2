@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://patriasoul.github.io/Patriasoul-portal-v2/sitemap.xml
+Sitemap: https://patriasoul-portal-v2.patriasoul.workers.dev/sitemap.xml
