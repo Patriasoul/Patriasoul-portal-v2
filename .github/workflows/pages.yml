@@ -148,8 +148,18 @@ jobs:
             echo "current=true" >> "$GITHUB_OUTPUT"
             echo "Ova objava sadrži najnoviju verziju."
           else
-            echo "current=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Preskačem zastarjelu objavu kako stariji build ne bi vratio portal na stariju verziju."
+            CHANGED_PATHS="$(git diff --name-only "$GITHUB_SHA" "$CURRENT_MAIN")"
+            echo "Datoteke promijenjene nakon pokretanja builda:"
+            printf '%s\n' "$CHANGED_PATHS"
+            # Build smije sam ažurirati samo indeks članaka. Taj bot-commit
+            # ne smije blokirati objavu artefakta koji već sadrži taj indeks.
+            if [ "$CHANGED_PATHS" = "data/articles.json" ]; then
+              echo "current=true" >> "$GITHUB_OUTPUT"
+              echo "Nastavljam: jedina novija promjena je automatski indeks članaka."
+            else
+              echo "current=false" >> "$GITHUB_OUTPUT"
+              echo "::warning::Preskačem zastarjelu objavu jer su se druge datoteke promijenile nakon početka builda."
+            fi
           fi
 
       - name: Download built portal assets
