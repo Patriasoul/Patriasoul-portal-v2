@@ -1,13 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 
-const root = process.cwd();
+const root = path.resolve(process.argv[2] || process.cwd());
 const htmlFiles = [];
 const knownFiles = new Set();
 
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === "_site" || entry.name === "node_modules" || entry.name === ".git") continue;
+    if (["node_modules", ".git", "_site"].includes(entry.name)) continue;
     const absolute = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(absolute);
     else {
@@ -43,6 +43,10 @@ function resolveLocalPath(fromFile, rawUrl) {
   return candidates.find(candidate => knownFiles.has(candidate)) || candidates[0];
 }
 
+function isDynamicTemplate(url) {
+  return /\$\{|\b(?:esc|safeUrl)\s*\(|\b(?:x|a|item|n)\.[A-Za-z_$]|\+\s*(?:esc|safeUrl|root|url|x\.|a\.|item\.|n\.)|['"]\s*\+/i.test(url);
+}
+
 const broken = [];
 let checked = 0;
 const attrPattern = /\b(href|src|action|formaction|poster|data-href|data-url)\s*=\s*(["'])(.*?)\2/gi;
@@ -52,7 +56,7 @@ for (const file of htmlFiles) {
   for (const match of html.matchAll(attrPattern)) {
     const attr = match[1].toLowerCase();
     const url = (match[3] || "").trim();
-    if (!url || /^(?:https?:|mailto:|tel:|javascript:|data:|blob:|\/\/)/i.test(url)) continue;
+    if (!url || isDynamicTemplate(url) || /^(?:https?:|mailto:|tel:|javascript:|data:|blob:|\/\/)/i.test(url)) continue;
     if (/^(?:about:blank|#)$/i.test(url)) continue;
     checked++;
 
@@ -85,6 +89,7 @@ for (const file of htmlFiles) {
   }
 }
 
+console.log("Provjerena web-mapa:", root);
 console.log("HTML stranice:", htmlFiles.length);
 console.log("Provjerene lokalne poveznice, slike i obrasci:", checked);
 console.log("Pronađene neispravne poveznice:", broken.length);
