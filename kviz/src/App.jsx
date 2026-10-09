@@ -331,7 +331,7 @@ export default function App() {
     const baseUrl = import.meta.env.BASE_URL || "/";
     const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
     if (isLocal) return new URL(baseUrl, window.location.origin).toString();
-    return "https://patriasoul.github.io/kviz/";
+    return "https://patriasoul.github.io/Patriasoul-portal-v2/kviz/";
   };
 
   const validateAuth = () => {
@@ -1149,21 +1149,21 @@ export default function App() {
             <p className="mt-4 text-base leading-8 text-white/65">Svaka igra ima svoj karakter. Možeš istraživati široko znanje o Hrvatskoj, braniti svoj grad ili svaki dan prihvatiti novi izazov.</p>
           </div>
           <div className="mt-9 grid gap-5 lg:grid-cols-3">
-            <a href="?mode=croatian#kategorije" className="patria-game-card group">
+            <a href="./hrvatski-kviz/" className="patria-game-card group">
               <div className="patria-game-number">01</div><div className="patria-icon-ring"><BookOpen className="h-5 w-5" /></div>
               <p className="mt-5 text-xs font-bold uppercase tracking-[.18em] text-[#f1d078]">Glavna igra</p>
               <h3 className="mt-2 text-2xl text-white">Hrvatski kviz</h3>
               <p className="mt-3 text-sm leading-7 text-white/60">Deset područja znanja i velika baza pitanja. Odaberi temu i kreni u novu rundu.</p>
               <span className="mt-6 inline-flex items-center font-semibold text-white">Igraj Hrvatski kviz <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
             </a>
-            <a href="?mode=city" className="patria-game-card group">
+            <a href="./brani-svoj-grad/" className="patria-game-card group">
               <div className="patria-game-number">02</div><div className="patria-icon-ring"><MapPin className="h-5 w-5" /></div>
               <p className="mt-5 text-xs font-bold uppercase tracking-[.18em] text-[#f1d078]">Grad po grad</p>
               <h3 className="mt-2 text-2xl text-white">Brani svoj grad</h3>
               <p className="mt-3 text-sm leading-7 text-white/60">Odaberi grad i pokaži koliko poznaješ njegovu povijest, ljude, mjesta i posebnosti.</p>
               <span className="mt-6 inline-flex items-center font-semibold text-white">Odaberi grad <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
             </a>
-            <a href="?mode=daily" className="patria-game-card group">
+            <a href="./dnevni-kviz/" className="patria-game-card group">
               <div className="patria-game-number">03</div><div className="patria-icon-ring"><Trophy className="h-5 w-5" /></div>
               <p className="mt-5 text-xs font-bold uppercase tracking-[.18em] text-[#f1d078]">Novi izazov svaki dan</p>
               <h3 className="mt-2 text-2xl text-white">Dnevni kviz</h3>
