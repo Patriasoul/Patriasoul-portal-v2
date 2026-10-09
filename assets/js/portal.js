@@ -43,6 +43,8 @@
         <a class="ps-tiktok" href="https://www.tiktok.com/@patriasoul" target="_blank" rel="noopener">TikTok</a>
         <a class="ps-quiz-button" href="${link("kviz/")}">Hrvatski kviz</a>
         <a class="ps-forum-button" href="${link("stranice/domoljubni-forum.html")}" title="Otvori Domoljubni forum"><span aria-hidden="true">💬</span><span>Domoljubni forum</span></a>
+        <a class="ps-forum-button ps-messages-button" href="${link("stranice/poruke-obavijesti.html")}" title="Privatne poruke"><span aria-hidden="true">✉</span><span>Poruke</span></a>
+        <a class="ps-forum-button ps-notifications-button" href="${link("stranice/poruke-obavijesti.html#obavijesti")}" title="Obavijesti"><span aria-hidden="true">♧</span><span>Obavijesti</span></a>
       </div>
     </div></div>
     <nav class="ps-nav" aria-label="Glavna navigacija"><div class="ps-container ps-nav-inner">
