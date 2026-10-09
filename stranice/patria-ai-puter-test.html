@@ -229,7 +229,8 @@ function retrieve(q,historyText=''){
 function buildContext(matches){
  if(!matches.length)return 'Nema dovoljno relevantnog sadržaja iz PatriaSoul baze za ovo pitanje. Nemoj tvrditi da postoji PatriaSoul izvor ako ga nema.';
  return matches.map((x,i)=>'IZVOR '+(i+1)+': '+x.a.title+'\nURL: '+x.a.url+'\nSADRŽAJ: '+x.a.text.slice(0,4500)).join('\n\n');
-}\nasync function fetchExternalContext(q){
+}
+async function fetchExternalContext(q){
  try{
    const api='https://hr.wikipedia.org/w/api.php?action=query&list=search&srsearch='+encodeURIComponent(q)+'&format=json&origin=*&srlimit=3';
    const response=await fetch(api,{cache:'no-store'});
