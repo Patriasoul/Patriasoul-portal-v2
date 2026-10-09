@@ -40,9 +40,9 @@
       <a class="ps-brand" href="${link("index.html")}"><img class="ps-brand-logo" src="https://raw.githubusercontent.com/Patriasoul/patriasoul/main/images/file_0000000082ec81f4a6fc17bdbd959622_114540.png" alt="PatriaSoul — Krist u srcu, Hrvatska u molitvi."><span class="ps-brand-copy"><strong>PatriaSoul</strong><span>Čuvaj nasljeđe</span></span></a>
       <div class="ps-brand-actions">
         <a class="ps-search-button" href="${link("stranice/pretraga.html")}" aria-label="Pretraži" title="Pretraži"><span class="ps-search-icon" aria-hidden="true">⌕</span><span class="ps-search-label">Pretraži</span></a>
-        <a class="ps-forum-button" href="${link("stranice/domoljubni-forum.html")}" title="Otvori Domoljubni forum"><span aria-hidden="true">💬</span><span>Domoljubni forum</span></a>
         <a class="ps-tiktok" href="https://www.tiktok.com/@patriasoul" target="_blank" rel="noopener">TikTok</a>
         <a class="ps-quiz-button" href="${link("kviz/")}">Hrvatski kviz</a>
+        <a class="ps-forum-button" href="${link("stranice/domoljubni-forum.html")}" title="Otvori Domoljubni forum"><span aria-hidden="true">💬</span><span>Domoljubni forum</span></a>
       </div>
     </div></div>
     <nav class="ps-nav" aria-label="Glavna navigacija"><div class="ps-container ps-nav-inner">
