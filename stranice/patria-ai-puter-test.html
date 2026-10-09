@@ -73,7 +73,7 @@ function renderProfessional(text,sources=[]){
  if(parts.length>1 && Array.isArray(sources)&&sources.length){
    html+='<div class="source-box"><div class="source-title">PatriaSoul izvori</div>';
    const sourceText=parts.slice(1).join(' ');
-   const explicitUrls=[...sourceText.matchAll(/\\]\((https?:\\/\\/[^)]+)\\)/g)].map(m=>safeUrl(m[1]));
+   const explicitUrls=[...sourceText.matchAll(/\]\((https?:\/\/[^)]+)\)/g)].map(m=>safeUrl(m[1]));
    const chosen=explicitUrls.length
      ? sources.filter(x=>explicitUrls.includes(safeUrl(x?.a?.url||'#')))
      : sources.slice(0,3);
