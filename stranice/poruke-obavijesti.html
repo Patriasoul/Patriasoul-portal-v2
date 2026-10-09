@@ -10,7 +10,7 @@
 </style>
 </head>
 <body>
-<main class="psm">
+<main class="psm" hidden>
 <section class="psm-hero"><div><small style="color:#f0d4d8">PATRIASOUL · ZAJEDNICA</small><h1>Poruke i obavijesti</h1><p>Privatni razgovori i obavijesti vezane uz tvoj račun.</p></div></section>
 <div class="psm-tabs"><button class="active" data-tab="messages">✉ Poruke <span id="message-count"></span></button><button data-tab="notifications">♧ Obavijesti <span id="notification-count"></span></button><a class="psm-link" href="../index.html">Natrag na portal</a></div>
 <div id="status" class="status">Provjeravam prijavu…</div>
@@ -32,7 +32,7 @@ const status=t=>{$('status').textContent=t;$('status').hidden=!t};
 const date=s=>s?new Date(s).toLocaleString('hr-HR',{dateStyle:'short',timeStyle:'short'}):'';
 function tab(which){$('messages-view').hidden=which!=='messages';$('notifications-view').hidden=which!=='notifications';document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===which));if(which==='notifications')loadNotifications()}
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));
-async function init(){try{const r=await db.auth.getUser();user=r.data?.user;if(!user){status('Za poruke i obavijesti potrebno je prijaviti se.');$('conversation-list').innerHTML='<div class="empty">Prijavi se ili izradi račun da bi koristio/la privatne poruke.</div>';return}status('Prijavljen/a.');await Promise.all([loadConversations(),loadNotifications()])}catch(e){status('Greška pri povezivanju: '+e.message)}}
+async function init(){try{const r=await db.auth.getUser();user=r.data?.user;if(!user){const next=encodeURIComponent(location.href);location.replace(new URL('prijava.html?next='+next,location.href).href.replace('/poruke-obavijesti.html','/prijava.html'));return}$('status').hidden=true;document.querySelector('main.psm').hidden=false;await Promise.all([loadConversations(),loadNotifications()])}catch(e){status('Greška pri povezivanju: '+e.message)}}
 async function loadConversations(){const m=await db.from('private_conversation_members').select('conversation_id,last_read_at').eq('user_id',user.id);if(m.error)throw m.error;const ids=(m.data||[]).map(x=>x.conversation_id);if(!ids.length){$('conversation-list').innerHTML='<div class="empty">Još nema razgovora. Odaberi „Nova poruka” za početak.</div>';return}
 const [cs,ms,peerResult]=await Promise.all([db.from('private_conversations').select('id,created_at,last_message_at').in('id',ids).order('last_message_at',{ascending:false,nullsFirst:false}),db.from('private_messages').select('conversation_id,body,sender_id,created_at').in('conversation_id',ids).order('created_at',{ascending:false}),db.rpc('get_private_conversation_peers')]);
 if(cs.error)throw cs.error;if(ms.error)throw ms.error;if(peerResult.error)throw peerResult.error;
