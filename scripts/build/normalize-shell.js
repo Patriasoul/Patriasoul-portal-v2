@@ -1,6 +1,6 @@
 const fs=require("fs"),path=require("path");
 const ROOT=process.cwd();
-const VERSION="20261007-15";
+const VERSION="20261009-1";
 const SKIP=new Set(["kviz"]);
 let changed=0;
 function walk(dir){
@@ -55,6 +55,11 @@ function walk(dir){
       html=html.replace(/<\/body>/i,commentTag+portalTag+"</body>");
     }
     html=html.replace(/<footer class=["']site-footer["']><\/footer>/gi,"");
+    // Globalni plutajući pomoćnik Čuvari nasljeđa (izostavi ga na samoj chat stranici da ne nastane rekurzivni iframe).
+    const widgetTag='<script src="'+portalPath(full).replace(/portal\.js$/,"ai-widget.js")+'?v='+VERSION+'" defer></script>';
+    if(!/assets\/js\/ai-widget\.js(?:\?[^"']*)?["']/i.test(html)){
+      html=html.replace(/<\/body>/i,widgetTag+"</body>");
+    }
     fs.writeFileSync(full,html);
     changed++;
   }
