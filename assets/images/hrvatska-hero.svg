@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 900" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183653"/><stop offset=".55" stop-color="#0c263f"/><stop offset="1" stop-color="#061728"/></linearGradient>
+  <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#167c9a"/><stop offset="1" stop-color="#063b5b"/></linearGradient>
+  <linearGradient id="land" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c5b88c"/><stop offset="1" stop-color="#566f5c"/></linearGradient>
+  <linearGradient id="red" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#b5122b"/><stop offset="1" stop-color="#e52e42"/></linearGradient>
+  <pattern id="checks" width="88" height="88" patternUnits="userSpaceOnUse"><rect width="44" height="44" fill="#fff" opacity=".09"/><rect x="44" y="44" width="44" height="44" fill="#fff" opacity=".09"/></pattern>
+</defs>
+<rect width="1800" height="900" fill="url(#sky)"/>
+<circle cx="1390" cy="170" r="110" fill="#f4d6a0" opacity=".16"/>
+<path d="M0 485 170 400 330 440 470 335 610 390 760 290 910 365 1080 260 1260 350 1420 270 1600 345 1800 260V900H0Z" fill="#243e4b"/>
+<path d="M0 565 190 480 350 510 500 430 650 490 800 390 980 475 1130 390 1310 470 1490 390 1660 460 1800 420V900H0Z" fill="#38584f"/>
+<path d="M0 620Q190 575 360 620T700 630T1040 620T1400 635T1800 590V900H0Z" fill="url(#sea)"/>
+<path d="M0 670Q220 630 420 675T820 665T1200 690T1580 660T1800 675" fill="none" stroke="#8bd0d7" stroke-width="5" opacity=".25"/>
+<path d="M0 745Q200 710 430 752T850 740T1270 760T1800 730" fill="none" stroke="#8bd0d7" stroke-width="3" opacity=".2"/>
+<path d="M1800 570 1660 565 1600 590 1510 580 1430 610 1340 600 1260 635 1170 625 1100 660 1000 640 930 675 860 665 780 700 700 680 630 720 560 700 500 740 420 730 350 760 280 740 210 780 130 765 0 800V900H1800Z" fill="url(#land)" opacity=".92"/>
+<path d="M0 800 160 770 290 785 410 755 540 780 670 745 790 770 920 730 1060 750 1180 715 1320 735 1460 695 1600 715 1800 670V900H0Z" fill="#243f35" opacity=".9"/>
+<g transform="translate(1240 90) rotate(-7 180 130)" opacity=".96">
+  <path d="M0 20Q165 5 330 20V235Q165 250 0 235Z" fill="#fff" opacity=".95"/>
+  <path d="M0 20Q165 5 330 20V91Q165 76 0 91Z" fill="url(#red)"/>
+  <path d="M0 164Q165 179 330 164V235Q165 250 0 235Z" fill="#1763a4"/>
+  <path d="M145 92h40v20h20v40h-20v20h-40v-20h-20v-40h20z" fill="#fff" opacity=".98"/>
+  <g transform="translate(135 102)" stroke="#b51f35" stroke-width="2">
+    <rect width="12" height="12" fill="#fff"/><rect x="12" width="12" height="12" fill="#d91f35"/><rect x="24" width="12" height="12" fill="#fff"/><rect x="36" width="12" height="12" fill="#d91f35"/>
+    <rect y="12" width="12" height="12" fill="#d91f35"/><rect x="12" y="12" width="12" height="12" fill="#fff"/><rect x="24" y="12" width="12" height="12" fill="#d91f35"/><rect x="36" y="12" width="12" height="12" fill="#fff"/>
+    <rect y="24" width="12" height="12" fill="#fff"/><rect x="12" y="24" width="12" height="12" fill="#d91f35"/><rect x="24" y="24" width="12" height="12" fill="#fff"/><rect x="36" y="24" width="12" height="12" fill="#d91f35"/>
+  </g>
+  <path d="M0 20Q165 5 330 20V235Q165 250 0 235Z" fill="none" stroke="#f4d6a0" stroke-width="4"/>
+</g>
+<rect width="1800" height="900" fill="url(#checks)" opacity=".4"/>
+<rect width="1800" height="900" fill="#041426" opacity=".25"/>
+</svg>
