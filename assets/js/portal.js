@@ -220,6 +220,33 @@
   // Prijavljeno stanje: odmah prikaži račun i odjavu kada je korisnik prijavljen.
   authReady.then(async (auth) => {
     const user = await auth.getUser();
+    if (user) {
+      try {
+        const client = await auth.client();
+        const notificationCount = await client.from("user_notifications").select("id", { count: "exact", head: true }).eq("user_id", user.id).is("read_at", null);
+        const notificationBadge = header.querySelector("[data-ps-notification-count]");
+        if (notificationBadge && !notificationCount.error && notificationCount.count > 0) {
+          notificationBadge.textContent = String(notificationCount.count > 99 ? "99+" : notificationCount.count);
+          notificationBadge.hidden = false;
+        }
+        const memberships = await client.from("private_conversation_members").select("conversation_id,last_read_at").eq("user_id", user.id);
+        if (!memberships.error && memberships.data?.length) {
+          const ids = memberships.data.map((item) => item.conversation_id);
+          const incoming = await client.from("private_messages").select("conversation_id,created_at").in("conversation_id", ids).neq("sender_id", user.id);
+          if (!incoming.error) {
+            const unread = incoming.data.filter((item) => {
+              const membership = memberships.data.find((entry) => entry.conversation_id === item.conversation_id);
+              return !membership?.last_read_at || new Date(item.created_at) > new Date(membership.last_read_at);
+            }).length;
+            const messageBadge = header.querySelector("[data-ps-message-count]");
+            if (messageBadge && unread > 0) {
+              messageBadge.textContent = String(unread > 99 ? "99+" : unread);
+              messageBadge.hidden = false;
+            }
+          }
+        }
+      } catch (_) {}
+    }
     const loginLink = header.querySelector('.ps-more .ps-dropdown a[href*="prijava.html"]');
     const accountLink = header.querySelector('.ps-more .ps-dropdown a[href*="racun.html"]');
     const roleResult = await auth.getProfile().catch(() => null);
