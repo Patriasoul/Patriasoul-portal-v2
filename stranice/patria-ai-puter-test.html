@@ -73,15 +73,19 @@ function renderProfessional(text,sources=[]){
  if(parts.length>1 && Array.isArray(sources)&&sources.length){
    html+='<div class="source-box"><div class="source-title">PatriaSoul izvori</div>';
    const sourceText=parts.slice(1).join(' ');
-   const explicitUrls=[...sourceText.matchAll(/\]\((https?:\/\/[^)]+)\)/g)].map(m=>safeUrl(m[1]));
-   const chosen=explicitUrls.length
-     ? sources.filter(x=>explicitUrls.includes(safeUrl(x?.a?.url||'#')))
-     : sources.slice(0,3);
-   chosen.slice(0,3).forEach(x=>{
-     const title=escapeHtml(x?.a?.title||'PatriaSoul članak');
-     const url=safeUrl(x?.a?.url||'#');
-     if(url!=='#') html+='<a class="source-link" href="'+url+'" target="_blank" rel="noopener">'+title+'</a><a class="read-more" href="'+url+'" target="_blank" rel="noopener">Pročitajte cijelu priču →</a>';
-   });
+   const explicitLinks=[...sourceText.matchAll(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g)].map(m=>({title:m[1],url:safeUrl(m[2])}));
+   if(explicitLinks.length){
+     explicitLinks.slice(0,3).forEach(x=>{
+       if(x.url!=='#') html+='<a class="source-link" href="'+x.url+'" target="_blank" rel="noopener">'+escapeHtml(x.title)+'</a><a class="read-more" href="'+x.url+'" target="_blank" rel="noopener">Pročitajte cijelu priču →</a>';
+     });
+   }else{
+     sources.slice(0,3).forEach(x=>{
+       const title=escapeHtml(x?.a?.title||'PatriaSoul članak');
+       const url=safeUrl(x?.a?.url||'#');
+       if(url!=='#') html+='<a class="source-link" href="'+url+'" target="_blank" rel="noopener">'+title+'</a><a class="read-more" href="'+url+'" target="_blank" rel="noopener">Pročitajte cijelu priču →</a>';
+     });
+   }
+   html+='</div>';
    html+='</div>';
  }
  return html
