@@ -41,7 +41,7 @@
       <div class="ps-brand-actions">
         <a class="ps-search-button" href="${link("stranice/pretraga.html")}" aria-label="Pretraži" title="Pretraži"><span class="ps-search-icon" aria-hidden="true">⌕</span><span class="ps-search-label">Pretraži</span></a>
         <a class="ps-tiktok" href="https://www.tiktok.com/@patriasoul" target="_blank" rel="noopener">TikTok</a>
-        <a class="ps-quiz-button" data-ps-private-link="true" style="display:none" href="${link("kviz/")}">Hrvatski kviz</a>
+        <a class="ps-quiz-button" data-ps-private-link="true" href="${link("kviz/")}">Hrvatski kviz</a>
         <a class="ps-forum-button" data-ps-private-link="true" style="display:none" href="${link("stranice/domoljubni-forum.html")}" title="Otvori Domoljubni forum"><span aria-hidden="true">💬</span><span>Domoljubni forum</span></a>
         <a class="ps-forum-button ps-messages-button" data-ps-private-link="true" style="display:none" href="${link("stranice/poruke-obavijesti.html")}" title="Privatne poruke"><span aria-hidden="true">✉</span><span>Poruke</span></a>
         <a class="ps-forum-button ps-notifications-button" data-ps-private-link="true" style="display:none" href="${link("stranice/poruke-obavijesti.html#obavijesti")}" title="Obavijesti"><span aria-hidden="true">♧</span><span>Obavijesti</span></a>
@@ -215,10 +215,34 @@
     <div class="ps-container ps-footer-bottom"><small>© 2026 PatriaSoul — Čuvaj nasljeđe. Sva prava pridržana.</small></div>`;
   document.body.append(footer);
 
+  // Forum, poruke i obavijesti uvijek su vidljivi. Ako korisnik nije prijavljen,
+  // spremimo odredište i nakon prijave vratimo ga upravo na odabranu stranicu.
+  header.querySelectorAll('[data-ps-private-link]').forEach((item) => {
+    item.hidden = false;
+    item.style.display = '';
+    item.removeAttribute('aria-hidden');
+    item.addEventListener('click', async (event) => {
+      event.preventDefault();
+      const destination = new URL(item.href, location.href);
+      if (destination.origin !== location.origin) return;
+      try {
+        const auth = await authReady;
+        const userNow = await auth.getUser();
+        if (userNow) {
+          location.href = destination.href;
+          return;
+        }
+      } catch (_) {}
+      const login = new URL(link("stranice/prijava.html"), location.href);
+      login.searchParams.set("next", destination.href);
+      try { sessionStorage.setItem("patriasoul-login-next", destination.href); } catch (_) {}
+      location.href = login.href;
+    });
+  });
+
   // Prijavljeno stanje: odmah prikaži račun i odjavu kada je korisnik prijavljen.
   authReady.then(async (auth) => {
     const user = await auth.getUser();
-    header.querySelectorAll('[data-ps-private-link]').forEach((item) => { item.hidden = !user; item.style.display = user ? '' : 'none'; item.setAttribute('aria-hidden', user ? 'false' : 'true'); });
     if (user) {
       try {
         const client = await auth.client();
