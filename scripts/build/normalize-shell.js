@@ -14,8 +14,8 @@ function walk(dir){
     // Čuvari nasljeđa je samostalno chat sučelje: bez globalnog portala (koji prikazuje obavijest o kolačićima)
     // i bez plutajućeg chat widgeta koji bi napravio chat unutar chata.
     if(relPage==="stranice/patria-ai-puter-test.html"){
-      html=html.replace(/<script[^>]+src=["'][^"']*assets\\/js\\/portal\\.js(?:\\?[^"']*)?["'][^>]*><\\/script>/ig,"");
-      html=html.replace(/<script[^>]+src=["'][^"']*assets\\/js\\/ai-widget\\.js(?:\\?[^"']*)?["'][^>]*><\\/script>/ig,"");
+      html=html.replace(/<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>/ig,"");
+      html=html.replace(/<script[^>]+src=["'][^"']*assets\/js\/ai-widget\.js(?:\?[^"']*)?["'][^>]*><\/script>/ig,"");
       fs.writeFileSync(full,html);
       changed++;
       continue;
