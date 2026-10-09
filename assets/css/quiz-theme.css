@@ -1,0 +1,222 @@
+/* PatriaSoul — jedinstvena tema prema izgledu kviza.
+   Zaglavlje i podnožje namjerno nisu stilizirani ovim pravilima. */
+:root {
+  --ps-theme-bg: #0A0D19;
+  --ps-theme-text: #F3F5F7;
+  --ps-theme-card: #131721;
+  --ps-theme-card-2: #18202D;
+  --ps-theme-gold: #F1D078;
+  --ps-theme-gold-bright: #F6D47E;
+  --ps-theme-blue: #193452;
+  --ps-theme-red: #B51F35;
+  --ps-theme-muted: rgba(243,245,247,.70);
+  --ps-theme-border: rgba(213,168,67,.24);
+}
+html { color-scheme: dark; }
+body {
+  min-height: 100vh;
+  color: var(--ps-theme-text);
+  background-color: var(--ps-theme-bg);
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(41,83,122,.18), transparent 32rem),
+    radial-gradient(circle at 85% 20%, rgba(143,34,45,.13), transparent 30rem),
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: auto, auto, 32px 32px, 32px 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.7;
+  isolation: isolate;
+}
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  left: 50%;
+  top: 130px;
+  width: min(620px,72vw);
+  height: min(620px,72vw);
+  transform: translateX(-50%);
+  background-image: url("https://raw.githubusercontent.com/Patriasoul/patriasoul/main/images/PATRIA_SOUL_ORIGINAL_ISPRAVLJEN_GRB.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: .14;
+}
+main:not(.article-page) { color: var(--ps-theme-text); }
+main h1, main h2, main h3, main h4, .article-page h1, .article-page h2, .article-page h3 {
+  font-family: "Playfair Display", Georgia, serif !important;
+}
+main h1, main h2, main h3, main h4 { color: var(--ps-theme-text); }
+main p, main li, main small, main label { color: inherit; }
+main a:not(.ps-hero-actions a):not(.ps-weather-button):not(.ps-admin-button):not(.ps-story-cta) {
+  transition: color .2s ease, border-color .2s ease, background-color .2s ease;
+}
+.ps-kicker, .ps-category-eyebrow, .ps-today-kicker, .ps-today-eyebrow,
+.ps-weather-eyebrow, .ps-admin-card span, .ps-story-number {
+  color: var(--ps-theme-gold) !important;
+}
+.ps-home, .ps-home-section, .ps-home-special, .ps-home-missed, .ps-home-quiz,
+.ps-faith, .ps-daily-quote, .ps-category-shell, .ps-page, .ps-weather-page,
+.ps-today-page, .ps-story-submit, .ps-admin-page, .ps-auth-page {
+  background: transparent !important;
+  color: var(--ps-theme-text) !important;
+}
+.ps-hero-home, .ps-today-hero, .ps-quiz, .ps-feature-event {
+  background: linear-gradient(135deg,#071426 0%,#102c49 52%,#071426 100%) !important;
+  color: var(--ps-theme-text) !important;
+  border-bottom: 1px solid var(--ps-theme-border);
+}
+.ps-hero-home .ps-kicker, .ps-today-hero .ps-today-kicker { color: var(--ps-theme-gold) !important; }
+.ps-hero-home h1, .ps-today-hero h1 { color: #fff !important; }
+.ps-hero-home>div>p:not(.ps-kicker), .ps-today-hero>div>p:not(.ps-today-kicker) { color: rgba(255,255,255,.82) !important; }
+.ps-section-dark, .ps-section-dark .ps-section-head h2,
+.ps-faith-reflection, .ps-feature-copy, .ps-weather-card {
+  color: var(--ps-theme-text) !important;
+}
+.ps-section-dark { background: linear-gradient(180deg,rgba(4,14,27,.86),rgba(7,20,36,.96)) !important; }
+.ps-home-special, .ps-home-missed, .ps-home-quiz, .ps-faith, .ps-daily-quote,
+.ps-next-pages, .ps-faith-prayers, .ps-faith-prayers, .ps-faith-daily {
+  background: transparent !important;
+}
+.ps-story-card, .ps-latest-card, .ps-category-card, .ps-story-grid .ps-story-card,
+.ps-next-grid>a, .ps-feature-copy, .ps-weather-card, .ps-faith-grid>div,
+.ps-quiz-game, .ps-domovina-nav a, .ps-explore-grid a, .ps-prayer-card,
+.ps-faith-daily-card, .ps-weather-source-card, .ps-weather-region-card,
+.ps-weather-detail-card, .ps-weather-stat, .ps-weather-hour, .ps-weather-day,
+.ps-weather-panels article, .ps-event-card, .ps-today-source, .ps-today-empty,
+.ps-auth-card, .ps-comments-login, .ps-comment-form, .ps-comment,
+.ps-admin-card, .ps-admin-panel, .ps-story-form-wrap, .ps-story-note,
+.ps-story-mark, .ps-story-card, .ps-story-form-wrap, .ps-search-result,
+.article-related-card {
+  background: linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.018)) !important;
+  color: var(--ps-theme-text) !important;
+  border-color: rgba(255,255,255,.12) !important;
+  border-radius: 12px;
+  box-shadow: 0 14px 35px rgba(0,0,0,.16);
+}
+.ps-story-card h2, .ps-story-card h3, .ps-latest-card h2, .ps-latest-card h3,
+.ps-category-card h2, .ps-category-card h3, .ps-next-grid h2,
+.ps-quiz-game-copy strong, .ps-domovina-nav strong, .ps-explore-grid strong,
+.ps-faith-daily-card h3, .ps-prayer-card h3, .ps-weather-source-card strong,
+.ps-weather-region-card .name, .ps-weather-region-card .temp,
+.ps-weather-detail-temp, .ps-weather-stat strong, .ps-weather-hour strong,
+.ps-weather-day strong, .ps-weather-panels h3, .ps-event-card h3,
+.ps-today-toolbar h2, .ps-today-source h2, .ps-admin-card strong,
+.ps-admin-panel-head h2, .ps-admin-item a, .ps-admin-user strong,
+.ps-story-card h2, .ps-story-process h2, .ps-story-form-head h2,
+.ps-story-card-main h2, .ps-story-card h3 {
+  color: var(--ps-theme-text) !important;
+}
+.ps-latest-card p:not(.ps-kicker), .ps-category-card p:not(.ps-kicker),
+.ps-home-intro, .ps-next-grid span, .ps-quiz-game-copy>span,
+.ps-domovina-nav span, .ps-explore-grid span, .ps-faith-daily-card p:not(.ps-kicker),
+.ps-prayer-card p, .ps-weather-source-card p, .ps-weather-region-card .meta,
+.ps-weather-detail-desc, .ps-weather-panels p, .ps-weather-note,
+.ps-event-card p, .ps-today-status, .ps-today-source p,
+.ps-admin-lead, .ps-admin-card small, .ps-admin-card span,
+.ps-story-lead, .ps-story-card p, .ps-story-card ul,
+.ps-story-process>p, .ps-story-note p, .ps-story-form-head>p,
+.ps-form-grid label, .ps-check, .ps-story-form-status,
+.ps-auth-card>p, .ps-comments-head p, .ps-comments-login p,
+.ps-comment-date, .ps-comment-body, .article-deck, .article-meta {
+  color: var(--ps-theme-muted) !important;
+}
+.ps-section-head h2, .ps-section-heading h2, .ps-domovina-lead h2,
+.ps-faith-daily-head h2, .ps-weather-heading h2, .ps-admin-hero h1,
+.ps-admin-panel-head h2, .ps-story-hero h1, .ps-story-process h2,
+.ps-auth-card h1 { color: var(--ps-theme-text) !important; }
+.ps-section-head>a, .ps-section-more, .ps-read, .ps-latest-card-meta a,
+.ps-quiz-game-copy em, .ps-faith a, .ps-weather-source-card a,
+.ps-weather-panels a, .ps-admin-item a:hover, .ps-story-footer a,
+.ps-search-result h2 a, .article-body a, .article-sources a,
+.article-related a, .article-tag {
+  color: var(--ps-theme-gold) !important;
+}
+.ps-section-more, .ps-outline-button, .ps-weather-button.secondary,
+.ps-date-controls button, .ps-date-controls input, .ps-share button,
+.ps-weather-map-controls button, .ps-weather-select select,
+.ps-admin-users select, .ps-form-grid input, .ps-form-grid select,
+.ps-form-grid textarea, .ps-auth-form input, .ps-comment-form textarea {
+  background: rgba(255,255,255,.055) !important;
+  color: var(--ps-theme-text) !important;
+  border-color: rgba(213,168,67,.36) !important;
+}
+.ps-section-more:hover, .ps-weather-button.secondary:hover,
+.ps-date-controls button:hover, .ps-share button:hover {
+  background: rgba(241,208,120,.12) !important;
+  border-color: var(--ps-theme-gold) !important;
+  color: #fff !important;
+}
+.ps-hero-actions a:first-child, .ps-weather-button, .ps-auth-form button,
+.ps-story-submit-btn, .ps-admin-button, .ps-story-cta {
+  background: linear-gradient(135deg,#F6D47E,#C99632) !important;
+  border: 1px solid var(--ps-theme-gold) !important;
+  color: #101B29 !important;
+}
+.ps-hero-actions a:last-child, .ps-outline-button {
+  background: rgba(255,255,255,.055) !important;
+  border: 1px solid rgba(241,208,120,.65) !important;
+  color: var(--ps-theme-gold) !important;
+}
+.ps-domovina-lead, .ps-section-heading, .ps-admin-panel-head,
+.ps-story-hero, .ps-story-process, .ps-comments, .ps-faith-daily,
+.ps-domovina-explore, .ps-domovina-bottom {
+  border-color: var(--ps-theme-border) !important;
+}
+.ps-domovina-count { border-color: var(--ps-theme-gold) !important; }
+.ps-domovina-count strong { color: var(--ps-theme-gold) !important; }
+.ps-domovina-between, .ps-home-between { border-left-color: var(--ps-theme-gold) !important; }
+.ps-domovina-between p, .ps-home-between p { color: var(--ps-theme-muted) !important; }
+.ps-daily-quote blockquote, .ps-faith blockquote { color: var(--ps-theme-gold) !important; }
+.ps-breaking { background: #102c49 !important; color: #fff !important; border-color: var(--ps-theme-border) !important; }
+.ps-breaking-label { background: #071426 !important; color: var(--ps-theme-gold) !important; }
+.ps-breaking-track a { color: #fff !important; }
+.ps-latest-media, .ps-story-card>img, .ps-quiz-game>img { background: #101b29 !important; }
+.ps-latest-card-meta, .ps-story-footer, .ps-weather-status { color: var(--ps-theme-muted) !important; border-color: var(--ps-theme-border) !important; }
+.ps-category-card, .ps-latest-card, .ps-story-card, .ps-quiz-game, .ps-event-card,
+.ps-domovina-nav a, .ps-explore-grid a { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease; }
+.ps-category-card:hover, .ps-latest-card:hover, .ps-story-card:hover, .ps-quiz-game:hover,
+.ps-event-card:hover, .ps-domovina-nav a:hover, .ps-explore-grid a:hover {
+  transform: translateY(-3px);
+  border-color: rgba(241,208,120,.5) !important;
+  box-shadow: 0 20px 45px rgba(0,0,0,.24);
+}
+.article-page { color: var(--ps-theme-text) !important; }
+.article-page > .article-kicker, .article-page > .kicker {
+  background: rgba(241,208,120,.09) !important;
+  border-left-color: var(--ps-theme-gold) !important;
+  color: var(--ps-theme-gold) !important;
+}
+.article-page > h1, .article-body h2, .article-body h3, .article-sources h2,
+.article-related .module-title { color: var(--ps-theme-text) !important; }
+.article-deck, .article-meta, .article-figure figcaption, .article-body,
+.article-body strong, .article-sources p, .article-sources li { color: var(--ps-theme-muted) !important; }
+.article-figure, .article-body .article-figure, .article-figure-inline,
+.article-sources, .editorial-note, .article-related {
+  background: linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.018)) !important;
+  border-color: rgba(255,255,255,.12) !important;
+  color: var(--ps-theme-text) !important;
+}
+.article-figure figcaption { background: rgba(0,0,0,.18) !important; }
+.editorial-note { border-left-color: var(--ps-theme-gold) !important; }
+.editorial-note strong { color: var(--ps-theme-gold) !important; }
+.article-sources { border-top-color: var(--ps-theme-gold) !important; }
+.article-tag { background: rgba(255,255,255,.04) !important; border-color: rgba(241,208,120,.3) !important; }
+.article-tag:hover { border-color: var(--ps-theme-gold) !important; }
+.ps-auth-form label, .ps-form-grid label, .ps-comment-form label { color: var(--ps-theme-text) !important; }
+.ps-form-grid input::placeholder, .ps-auth-form input::placeholder,
+.ps-form-grid textarea::placeholder, .ps-comment-form textarea::placeholder { color: rgba(243,245,247,.48) !important; }
+.ps-event-category { background: rgba(241,208,120,.12) !important; color: var(--ps-theme-gold) !important; }
+.ps-event-source { color: var(--ps-theme-gold) !important; }
+.ps-today-empty, .ps-event-loading, .ps-weather-loading {
+  background: rgba(255,255,255,.04) !important;
+  color: var(--ps-theme-muted) !important;
+  border-color: rgba(255,255,255,.14) !important;
+}
+@media (max-width: 640px) {
+  body::before { top: 100px; width: min(420px,80vw); height: min(420px,80vw); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
