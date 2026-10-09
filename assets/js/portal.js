@@ -100,6 +100,38 @@
   `;
   document.body.prepend(header);
 
+  // Globalna tipka "Natrag": vraća na prethodnu stranicu portala, a ne napušta portal.
+  if (!document.querySelector("[data-ps-back-button]")) {
+    const back = document.createElement("button");
+    back.type = "button";
+    back.dataset.psBackButton = "true";
+    back.className = "ps-back-button";
+    back.innerHTML = '<span aria-hidden="true">←</span><span>Natrag</span>';
+    back.setAttribute("aria-label", "Vrati se na prethodnu stranicu");
+    back.title = "Vrati se korak unatrag";
+    back.addEventListener("click", () => {
+      const previous = document.referrer;
+      let sameSite = false;
+      try { sameSite = Boolean(previous) && new URL(previous).origin === location.origin; } catch (_) {}
+      if (sameSite && window.history.length > 1) {
+        window.history.back();
+        return;
+      }
+      // Siguran povratak kad je stranica otvorena izravno ili u novoj kartici.
+      const pathNow = location.pathname;
+      const parent = pathNow.match(/^(.*)\\/[^/]+\\.html$/);
+      if (parent && parent[1] && parent[1] !== pathNow) {
+        const candidate = parent[1] + "/";
+        if (candidate !== pathNow) { location.href = candidate; return; }
+      }
+      location.href = link("index.html");
+    });
+    document.body.append(back);
+    const backStyle = document.createElement("style");
+    backStyle.textContent = ".ps-back-button{position:fixed;z-index:9998;left:14px;bottom:16px;display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border:1px solid #cbd5df;border-radius:999px;background:#fff;color:#12304b;font:700 .9rem/1.2 system-ui,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.16);cursor:pointer}.ps-back-button:hover{background:#12304b;color:#fff;border-color:#12304b}.ps-back-button:focus-visible{outline:3px solid #c51f2b;outline-offset:3px}.ps-back-button span:first-child{font-size:1.2rem}@media(max-width:680px){.ps-back-button{left:10px;bottom:10px;padding:9px 12px;font-size:.82rem}}";
+    document.head.append(backStyle);
+  }
+
   // Mobilna navigacija: prvi dodir otvara padajući izbornik, drugi vodi na glavnu kategoriju.
   const positionDropdown = (group) => {
     const navRect = header.querySelector(".ps-nav").getBoundingClientRect();
