@@ -10,6 +10,8 @@ const routes = [
   "/cuvari-nasljedja/",
   "/cuvari-nasljedja",
   "/cuvari-nasljedja/prijavi-pricu.html",
+  "/stranice/o-patriasoul",
+  "/stranice/o-patriasoul.html",
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
