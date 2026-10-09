@@ -114,16 +114,16 @@ function isGeneralPortalHelp(q){
 }
 function renderGeneralPortalHelp(){
  const prompts=[
-  'Kako dodati novi članak na portal?',
-  'Zašto se nova vijest ne prikazuje na naslovnici?',
-  'Kako popraviti sliku koja se ne učitava?',
-  'Kako urediti kategorije i izbornik?',
-  'Kako radi PatriaSoul AI pomoćnik?',
-  'Kako mogu provjeriti radi li poveznica?',
+  'Koje su najnovije vijesti iz Hrvatske?',
+  'Možeš li mi objasniti neki važan događaj iz hrvatske povijesti?',
+  'Gdje mogu pronaći članke o Domovinskom ratu?',
+  'Koji se važan datum ili obljetnica danas obilježava?',
+  'Preporuči mi članak o vjeri, obitelji ili hrvatskoj baštini.',
   'Kako mogu zaigrati Hrvatski kviz?',
-  'Kako poslati priču ili svjedočanstvo?'
+  'Kako mogu poslati svoju priču ili svjedočanstvo?',
+  'Odgovori mi na pitanje o temi koju ne mogu pronaći na PatriaSoulu.'
  ];
- return '<p>Naravno — mogu ti pomoći oko PatriaSoul portala.</p><p>Mogu pomoći s naslovnicom, izgledom na mobitelu, člancima, najnovijim vijestima, kategorijama, izbornikom, slikama, poveznicama, kvizom, AI pomoćnikom i tehničkim pogreškama.</p><p><strong>Odaberi jedno od konkretnih pitanja ili napiši svojim riječima što želiš napraviti:</strong></p><div class="suggestions">'+prompts.map(q=>'<button type="button" class="suggestion">'+escapeHtml(q)+'</button>').join('')+'</div>';
+ return '<p>Dobro došao na PatriaSoul! Mogu ti pomoći pronaći sadržaj portala, objasniti teme iz hrvatske povijesti i baštine te odgovoriti na opća pitanja.</p><p><strong>O čemu želiš saznati više?</strong> Odaberi pitanje ili napiši svoje.</p><div class="suggestions">'+prompts.map(q=>'<button type="button" class="suggestion">'+escapeHtml(q)+'</button>').join('')+'</div>';
 }
 function findPortalRoutes(q){
  const n=normalizeQuery(q);
