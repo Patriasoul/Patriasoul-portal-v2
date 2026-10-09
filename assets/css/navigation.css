@@ -17,3 +17,19 @@
 @media(max-width:900px){.ps-nav-inner{justify-content:flex-start;overflow-x:auto}.ps-nav>a,.ps-nav-group>a,.ps-nav-direct{padding:12px 11px;font-size:.79rem}.ps-service-inner{justify-content:flex-start}}
 @media(max-width:680px){.ps-nav-inner{flex-wrap:nowrap}.ps-nav>a,.ps-nav-group>a,.ps-nav-direct{padding:11px 9px;font-size:.75rem}.ps-dropdown{position:fixed;left:8px;right:8px;top:auto;margin-top:0;min-width:0}.ps-dropdown-right{right:8px;left:8px}.ps-service a,.ps-service-label{font-size:.7rem;padding:8px 9px}}
 @media(max-width:680px){.ps-nav-group.is-open .ps-dropdown{display:block}.ps-nav-group.is-open>a{background:rgba(255,255,255,.12);border-bottom-color:var(--ps-red)}.ps-dropdown a{padding:11px 14px;font-size:.82rem}}
+
+/* Mobilna navigacija V2: otvara se na dodir, bez vodoravnog skrolanja kroz glavne rubrike. */
+@media(max-width:680px){
+  .ps-nav{display:none}
+  .ps-service{display:none}
+  .ps-mobile-menu-open .ps-nav{display:block}
+  .ps-mobile-menu-open .ps-nav-inner{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;overflow:visible;padding:6px 0}
+  .ps-mobile-menu-open .ps-nav-inner>a,.ps-mobile-menu-open .ps-nav-group>a,.ps-mobile-menu-open .ps-nav-direct{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;padding:11px 12px;font-size:.9rem;white-space:normal;text-align:left;border-bottom:1px solid rgba(255,255,255,.13)}
+  .ps-mobile-menu-open .ps-nav-group{position:static;width:100%}
+  .ps-mobile-menu-open .ps-nav-group .ps-dropdown{position:static!important;top:auto!important;left:auto!important;right:auto!important;display:none;width:100%;min-width:0;max-width:none;margin:0;padding:4px 0;background:#fff;border:0;border-radius:0;box-shadow:none}
+  .ps-mobile-menu-open .ps-nav-group.is-open .ps-dropdown{display:block}
+  .ps-mobile-menu-open .ps-nav-group .ps-dropdown a{display:block;min-height:42px;padding:11px 18px;border-bottom:1px solid #e9edf1;white-space:normal;font-size:.86rem}
+  .ps-mobile-menu-open .ps-service{display:block}
+  .ps-mobile-menu-open .ps-service-inner{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:0;scrollbar-width:thin}
+  .ps-mobile-menu-open .ps-service a,.ps-mobile-menu-open .ps-service-label{padding:10px 11px;font-size:.75rem}
+}
