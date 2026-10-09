@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Čuvari nasljeđa — PatriaSoul razgovor o Hrvatskoj, njezinoj povijesti, baštini, vjeri i Domovinskom ratu.">
 <link rel="icon" href="../assets/images/patriasoul-logo.jpg" type="image/jpeg">\n<title>Čuvari nasljeđa — PatriaSoul</title>
+<script>if(new URLSearchParams(location.search).get("embed")==="1")document.documentElement.classList.add("embed-mode");</script>
 <style>
 :root{--red:#c5162e;--red2:#8e0d1e;--ink:#0b0e13;--muted:#8f98a8;--panel:#121721;--line:#252d3a;--white:#f6f7f9}
 *{box-sizing:border-box}html{background:#07090d}body{margin:0;min-height:100vh;color:var(--white);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 80% 0%,#34101a 0,transparent 34%),radial-gradient(circle at 0% 100%,#101c2c 0,transparent 32%),#07090d}
@@ -15,6 +16,20 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;b
 #messages{height:min(55vh,560px);min-height:390px;overflow:auto;padding:24px}.msg{max-width:78%;padding:14px 16px;margin:0 0 15px;border-radius:17px;line-height:1.65;white-space:normal;word-wrap:break-word}.msg p{margin:0 0 12px}.msg a{color:#f08a99;text-decoration:none;font-weight:750}.msg a:hover{text-decoration:underline}.source-box{margin-top:16px;padding-top:14px;border-top:1px solid #2a3340}.source-title{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:900;color:#dfe4eb;margin-bottom:9px}.source-link{display:block;padding:10px 12px;margin-top:8px;border:1px solid #303a49;border-radius:12px;background:#111721;color:#e9edf3!important}.read-more{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:9px 13px;border-radius:10px;background:linear-gradient(135deg,#c5162e,#941124);color:#fff!important;font-size:12px;font-weight:900}.ai{background:#171e29;border:1px solid #273141;border-top-left-radius:5px;color:#e8ebf0}.user{margin-left:auto;background:linear-gradient(135deg,#c5162e,#941124);border-top-right-radius:5px;color:#fff;box-shadow:0 8px 25px #c5162e22}.welcome{max-width:760px}.welcome .mini{font-size:10px;letter-spacing:.15em;font-weight:900;color:#e28b98;margin-bottom:6px}.suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.suggestion{border:1px solid #303a49;background:#111721;color:#cbd2dd;border-radius:999px;padding:8px 11px;font-size:12px;cursor:pointer}.suggestion:hover{border-color:#a9162c;color:#fff}
 .composer{padding:15px;border-top:1px solid var(--line);background:#0c1017}.row{display:flex;gap:10px;align-items:flex-end}textarea{width:100%;min-height:54px;max-height:150px;resize:vertical;background:#151b24;border:1px solid #303948;border-radius:16px;color:#fff;padding:15px;font:inherit;outline:none}textarea:focus{border-color:#a9162c;box-shadow:0 0 0 3px #c5162e18}button#send{min-width:112px;height:54px;border:0;border-radius:15px;background:linear-gradient(135deg,#d21a35,#a40f24);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 10px 25px #c5162e30}button:disabled{opacity:.55;cursor:not-allowed}.hint{display:flex;justify-content:space-between;gap:10px;color:#697383;font-size:11px;padding:8px 3px 0}.status{color:#9da6b4}.portal-link-box{margin-top:14px}.portal-link-box .read-more{margin-top:0}.note{text-align:center;color:#687181;font-size:11px;margin:15px 0 0;line-height:1.5}
 @media(max-width:650px){.wrap{width:min(100% - 14px,1120px);padding-top:12px}.back{display:none}.hero{padding:20px 4px}.chat{border-radius:19px}.chatbar{height:53px}.msg{max-width:90%}#messages{min-height:430px;padding:17px}.row{align-items:stretch;flex-direction:column}button#send{width:100%}.hint{display:block}.hint .status{display:block;margin-top:4px}}
+
+/* Ugradbeni prikaz za plutajući AI prozor */
+html.embed-mode,html.embed-mode body{height:100%;min-height:100%;overflow:hidden}
+html.embed-mode .wrap{width:100%;height:100dvh;min-height:0;margin:0;padding:0}
+html.embed-mode .top,html.embed-mode .hero,html.embed-mode .note,html.embed-mode .chatbar{display:none!important}
+html.embed-mode .chat{height:100dvh;min-height:0;display:flex;flex-direction:column;border:0;border-radius:0;box-shadow:none}
+html.embed-mode #messages{height:auto;min-height:0;max-height:none;flex:1;padding:16px;overscroll-behavior:contain}
+html.embed-mode .composer{flex:0 0 auto;padding:10px}
+html.embed-mode .row{align-items:flex-end;flex-direction:row}
+html.embed-mode textarea{min-height:48px;max-height:110px;padding:12px}
+html.embed-mode button#send{width:auto;min-width:82px;height:48px}
+html.embed-mode .hint{font-size:10px;padding-top:6px}
+@media(max-width:650px){html.embed-mode .row{align-items:flex-end;flex-direction:row}html.embed-mode button#send{width:auto;min-width:76px}html.embed-mode #messages{min-height:0;padding:12px}html.embed-mode .composer{padding:8px}}
+
 </style>
 </head>
 <body>
