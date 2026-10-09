@@ -248,6 +248,27 @@
         }
       } catch (_) {}
     }
+    if (user) {
+      try {
+        const client = await auth.client();
+        const bump = (selector) => {
+          const badge = header.querySelector(selector);
+          if (!badge) return;
+          const current = Number.parseInt(badge.textContent, 10) || 0;
+          badge.textContent = String(Math.min(99, current + 1)) + (current >= 99 ? "+" : "");
+          badge.hidden = false;
+        };
+        const channel = client.channel("patriasoul-header-notifications-" + user.id)
+          .on("postgres_changes", { event: "INSERT", schema: "public", table: "private_messages" }, (payload) => {
+            if (payload.new?.sender_id && payload.new.sender_id !== user.id) bump("[data-ps-message-count]");
+          })
+          .on("postgres_changes", { event: "INSERT", schema: "public", table: "user_notifications", filter: "user_id=eq." + user.id }, () => {
+            bump("[data-ps-notification-count]");
+          })
+          .subscribe();
+        window.addEventListener("pagehide", () => { client.removeChannel(channel); }, { once: true });
+      } catch (_) {}
+    }
     const loginLink = header.querySelector('.ps-more .ps-dropdown a[href*="prijava.html"]');
     const accountLink = header.querySelector('.ps-more .ps-dropdown a[href*="racun.html"]');
     const roleResult = await auth.getProfile().catch(() => null);
