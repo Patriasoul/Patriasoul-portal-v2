@@ -177,10 +177,8 @@
       <div class="ps-footer-col">
         <h3>Informacije</h3>
         <a href="${link("stranice/urednicki-standard.html")}">Urednički standard</a>
-        <a href="${link("stranice/pravne-informacije.html")}">Pravne informacije</a>
-        <a href="${link("stranice/privatnost.html")}">Privatnost</a>
-        <a href="${link("stranice/pravilnik-o-igranju-kvizova.html")}">Pravilnik o igranju Hrvatskog kviza</a>
-        <a href="${link("stranice/kolacici.html")}">Kolačići</a>
+        <a href="${link("stranice/pravila-koristenja-i-sigurnosti.html")}">Pravila korištenja i sigurnosti</a>
+        <a href="${link("stranice/privatnost.html")}">Privatnost i zaštita osobnih podataka</a>
       </div>
       <div class="ps-footer-col">
         <h3>PatriaSoul</h3>
