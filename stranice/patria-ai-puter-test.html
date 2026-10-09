@@ -95,22 +95,27 @@ const PORTAL_ROUTES=[
  {keys:['obitelj','obitelji'],title:'Obitelj',url:BASE+'obitelj.html',answer:'Sadržaje o obitelji, tradiciji, odgoju i obiteljskom nasljeđu pronaći ćete u rubrici Obitelj.'}
 ];
 function normalizeQuery(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[-–—]/g,' ').replace(/[^a-z0-9 ]/g,' ').replace(/\\s+/g,' ').trim()}
-function findPortalRoute(q){
+function findPortalRoutes(q){
  const n=normalizeQuery(q);
+ const found=[];
  for(const route of PORTAL_ROUTES){
-   if(route.keys.some(k=>n.includes(normalizeQuery(k)))) return route;
+   if(route.keys.some(k=>n.includes(normalizeQuery(k)))) found.push(route);
  }
- return null;
+ return found;
 }
-function renderPortalAnswer(route){
- const url=safeUrl(route.url);
- let html='<p>'+escapeHtml(route.answer)+'</p><div class="portal-link-box"><a class="read-more" href="'+url+'">'+escapeHtml(route.title)+' →</a></div>';
- if(route.title==='O PatriaSoul'){
-   const exploreTitles=['Povijest i članci','Domovina','Vjera','Obitelj','Najnovije','Hrvatski kviz','Prijavi priču'];
-   const explore=exploreTitles.map(title=>PORTAL_ROUTES.find(item=>item.title===title)).filter(Boolean);
-   html+='<p style="margin-top:16px"><strong>Želite li istražiti još nešto?</strong><br>Mogu vas usmjeriti na neku od rubrika, najnovije objave, Hrvatski kviz ili mjesto gdje možete poslati vlastitu priču.</p><div class="suggestions">'+explore.map(item=>'<a class="suggestion" style="display:inline-block;text-decoration:none" href="'+safeUrl(item.url)+'">'+escapeHtml(item.title)+' →</a>').join('')+'</div><p style="margin-top:13px">Samo mi recite što vas zanima — rado ću vam pomoći pronaći pravi sadržaj.</p>';
- }
- return html;
+function renderPortalAnswer(routes){
+ const multiple=routes.length>1;
+ return routes.map(route=>{
+   const url=safeUrl(route.url);
+   let html=(multiple?'<p><strong>'+escapeHtml(route.title)+'</strong></p>':'')+
+     '<p>'+escapeHtml(route.answer)+'</p><div class="portal-link-box"><a class="read-more" href="'+url+'">'+escapeHtml(route.title)+' →</a></div>';
+   if(route.title==='O PatriaSoul'&&!multiple){
+     const exploreTitles=['Povijest i članci','Domovina','Vjera','Obitelj','Najnovije','Hrvatski kviz','Prijavi priču'];
+     const explore=exploreTitles.map(title=>PORTAL_ROUTES.find(item=>item.title===title)).filter(Boolean);
+     html+='<p style="margin-top:16px"><strong>Želite li istražiti još nešto?</strong><br>Mogu vas usmjeriti na neku od rubrika, najnovije objave, Hrvatski kviz ili mjesto gdje možete poslati vlastitu priču.</p><div class="suggestions">'+explore.map(item=>'<a class="suggestion" style="display:inline-block;text-decoration:none" href="'+safeUrl(item.url)+'">'+escapeHtml(item.title)+' →</a>').join('')+'</div>';
+   }
+   return html;
+ }).join(multiple?'<div style="height:12px"></div>':'');
 }
 function add(role,text){const el=document.createElement('div');el.className='msg '+role;if(role==='ai')el.innerHTML=renderProfessional(text);else el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
 function words(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9čćđšž]+/g)||[]}
@@ -206,10 +211,10 @@ async function ask(){
  add('user',q); input.value=''; send.disabled=true; status.textContent=kbReady?'Čuvari nasljeđa pretražuju bazu…':'Čuvari nasljeđa odgovaraju…';
  const reply=add('ai','');
  try{
-   const portalRoute=findPortalRoute(q);
-   if(portalRoute){
-     reply.innerHTML=renderPortalAnswer(portalRoute);
-     status.textContent='PatriaSoul stranica · spremno';
+   const portalRoutes=findPortalRoutes(q);
+   if(portalRoutes.length){
+     reply.innerHTML=renderPortalAnswer(portalRoutes);
+     status.textContent='PatriaSoul vodič · spremno';
      return;
    }
    const matches=retrieve(q,historyText), context=buildContext(matches);
