@@ -10,6 +10,16 @@ function walk(dir){
     if(name.isDirectory()){ if(!SKIP.has(path.relative(ROOT,full).split(path.sep)[0])) walk(full); continue; }
     if(!name.name.endsWith(".html")) continue;
     let html=fs.readFileSync(full,"utf8");
+    const relPage=path.relative(ROOT,full).split(path.sep).join("/");
+    // Čuvari nasljeđa je samostalno chat sučelje: bez globalnog portala (koji prikazuje obavijest o kolačićima)
+    // i bez plutajućeg chat widgeta koji bi napravio chat unutar chata.
+    if(relPage==="stranice/patria-ai-puter-test.html"){
+      html=html.replace(/<script[^>]+src=["'][^"']*assets\\/js\\/portal\\.js(?:\\?[^"']*)?["'][^>]*><\\/script>/ig,"");
+      html=html.replace(/<script[^>]+src=["'][^"']*assets\\/js\\/ai-widget\\.js(?:\\?[^"']*)?["'][^>]*><\\/script>/ig,"");
+      fs.writeFileSync(full,html);
+      changed++;
+      continue;
+    }
     if(/<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>/i.test(html)){
       html=html.replace(/<script([^>]+)src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["']([^>]*)><\/script>/ig,(m,a,b)=>'<script'+a+'src="'+portalPath(full)+'?v='+VERSION+'"'+b+'></script>');
     }else{
