@@ -119,9 +119,10 @@
       }
       // Siguran povratak kad je stranica otvorena izravno ili u novoj kartici.
       const pathNow = location.pathname;
-      const parent = pathNow.match(/^(.*)\\/[^/]+\\.html$/);
-      if (parent && parent[1] && parent[1] !== pathNow) {
-        const candidate = parent[1] + "/";
+      const lastSlash = pathNow.lastIndexOf("/");
+      const lastPart = pathNow.slice(lastSlash + 1);
+      if (lastSlash > 0 && lastPart.endsWith(".html")) {
+        const candidate = pathNow.slice(0, lastSlash + 1);
         if (candidate !== pathNow) { location.href = candidate; return; }
       }
       location.href = link("index.html");
