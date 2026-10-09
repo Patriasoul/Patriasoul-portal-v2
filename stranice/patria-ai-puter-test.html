@@ -79,7 +79,7 @@ function renderProfessional(text,sources=[]){
  return html
 }
 const PORTAL_ROUTES=[
- {keys:['tko je patriasoul','o patriasoul'],title:'O PatriaSoul',url:BASE+'stranice/o-patriasoul.html',answer:'PatriaSoul je portal posvećen hrvatskoj povijesti, kulturi, baštini, vjeri, obitelji, domovini i sjećanju. Upoznaje Hrvatsku, čuva baštinu i prenosi priče kroz provjerene izvore, članke i svjedočanstva.'},
+ {keys:['tko je patriasoul','o patriasoul'],title:'O PatriaSoul',url:BASE+'stranice/o-patriasoul.html',answer:'PatriaSoul je digitalni portal koji povezuje hrvatsku povijest, kulturu, baštinu, vjeru, obitelj, Domovinu i sjećanje. Naš je cilj upoznati Hrvatsku, čuvati ono što smo naslijedili i prenositi priče budućim naraštajima — kroz članke, provjerene izvore, svjedočanstva i sadržaje koji potiču na istraživanje. PatriaSoul ne želi samo nabrajati Hrvatsku, nego istraživati, provjeravati i pripovijedati njezine priče. Znanje. Ponos. Nasljeđe.'},
  {keys:['najnovije priče','najnovije članke','najnoviji članci','najnovije vijesti','gdje mogu pronaći najnovije','najnovije'],title:'Najnovije',url:BASE+'stranice/najnovije.html',answer:'Najnovije priče, članke i vijesti pronaći ćete u rubrici Najnovije. Sadržaj se ondje prikazuje od najnovijeg prema starijem.'},
  {keys:['hrvatski kviz','kako mogu zaigrati kviz','kako mogu igrati kviz','zaigrati kviz','igrati kviz'],title:'Hrvatski kviz',url:BASE+'kviz/',answer:'Hrvatski kviz možete otvoriti izravno na PatriaSoulu. Prijavite se ili registrirajte ako je potrebno, a zatim možete započeti igru.'},
  {keys:['prijavi priču','poslati svoju priču','poslati priču','poslati svjedočanstvo','moja priča','svoje svjedočanstvo'],title:'Prijavi priču',url:BASE+'cuvari-nasljedja/prijavi-pricu.html',answer:'Svoju priču, sjećanje ili svjedočanstvo možete poslati putem stranice Prijavi priču na PatriaSoulu. Tamo ćete pronaći obrazac i upute za slanje.'},
@@ -104,7 +104,13 @@ function findPortalRoute(q){
 }
 function renderPortalAnswer(route){
  const url=safeUrl(route.url);
- return '<p>'+escapeHtml(route.answer)+'</p><div class="portal-link-box"><a class="read-more" href="'+url+'">'+escapeHtml(route.title)+' →</a></div>';
+ let html='<p>'+escapeHtml(route.answer)+'</p><div class="portal-link-box"><a class="read-more" href="'+url+'">'+escapeHtml(route.title)+' →</a></div>';
+ if(route.title==='O PatriaSoul'){
+   const exploreTitles=['Povijest i članci','Domovina','Vjera','Obitelj','Najnovije','Hrvatski kviz','Prijavi priču'];
+   const explore=exploreTitles.map(title=>PORTAL_ROUTES.find(item=>item.title===title)).filter(Boolean);
+   html+='<p style="margin-top:16px"><strong>Želite li istražiti još nešto?</strong><br>Mogu vas usmjeriti na neku od rubrika, najnovije objave, Hrvatski kviz ili mjesto gdje možete poslati vlastitu priču.</p><div class="suggestions">'+explore.map(item=>'<a class="suggestion" style="display:inline-block;text-decoration:none" href="'+safeUrl(item.url)+'">'+escapeHtml(item.title)+' →</a>').join('')+'</div><p style="margin-top:13px">Samo mi recite što vas zanima — rado ću vam pomoći pronaći pravi sadržaj.</p>';
+ }
+ return html;
 }
 function add(role,text){const el=document.createElement('div');el.className='msg '+role;if(role==='ai')el.innerHTML=renderProfessional(text);else el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
 function words(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9čćđšž]+/g)||[]}
