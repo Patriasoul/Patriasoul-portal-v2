@@ -103,6 +103,9 @@ jobs:
           mkdir -p _site/kviz
           cp -R kviz/dist/. _site/kviz/
 
+      - name: Postavi službeni PatriaSoul favicon na cijeli portal
+        run: node scripts/build/ensure-favicon.js _site
+
       - name: QA poveznica na izgrađenom portalu
         run: node scripts/qa/qa-links.js _site
 
