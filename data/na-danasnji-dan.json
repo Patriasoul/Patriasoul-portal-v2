@@ -1,7 +1,7 @@
 {
   "source": "Hrvatska povijesna referenca",
   "source_url": "https://www.index.hr/kalendar",
-  "updated_at": "2026-10-08T11:52:09.347Z",
+  "updated_at": "2026-10-09T10:44:31.596Z",
   "dates": {
     "01-01": {
       "date": "01-01",
@@ -2077,60 +2077,44 @@
     },
     "02-10": {
       "date": "02-10",
-      "source": "Hrvatska Wikipedija",
-      "source_url": "https://hr.wikipedia.org/",
+      "source": "Index Kalendar",
+      "source_url": "https://www.index.hr/kalendar?datum=0210",
       "events": [
         {
-          "year": 1258,
-          "text": "Mongoli opustošili Bagdad"
-        },
-        {
-          "year": 1763,
-          "text": "Britanija i Španjolska Pariškim mirom podijelile su Novu Francusku, dokrajčivši francusko kolonijalno carstvo"
-        },
-        {
-          "year": 1798,
-          "text": "Najstariji službeni spis koji spominje Sinjsku alku"
-        },
-        {
-          "year": 1840,
-          "text": "Engleska kraljica Viktorija udala se za princ Alberta"
-        },
-        {
-          "year": 1842,
-          "text": "Osnovana je Matica ilirska (kasnije hrvatska)"
-        },
-        {
-          "year": 1908,
-          "text": "Porinut HMS Dreadnought"
+          "year": 2002,
+          "text": "Počela ubojstva snajperom u SAD-u"
         },
         {
           "year": 1941,
-          "text": "objavljen prvi svezak Hrvatske enciklopedije."
+          "text": "Počinje operacija Tajfun OPERACIJA Tajfun naziv je za njema&#x10D;ku vojnu kampanju osvajanja glavnog grada Sovjetskog Saveza."
         },
         {
-          "year": 1947,
-          "text": "U Parizu je Mirovnim ugovorom između FNRJ i Italije, 175 km 2 međunarodno pravno pripalo Jugoslaviji, odnosno Hrvatskoj. Pariškim je ugovorom Istra i dio Slovenije, u međuratnom periodu u sastavu Italije, pripojen Jugoslaviji, zapravo republikama Hrvatskoj i Sloveniji."
+          "year": 1944,
+          "text": "Ugušen Varšavski ustanak VAR&#x160;AVSKI ustanak ugu&#x161;en je nakon dva mjeseca borbe. Poginulo je 200.000 ljudi."
         },
         {
-          "year": 1968,
-          "text": "Prvi let Boeinga 737"
+          "year": 1919,
+          "text": "Woodrow Wilson doživio je moždani udar NA DANA&#x160;NJI dan Woodrowa Wilsona pronalazi njegova &#x17E;ena Edith na podu ispred kupaonice."
         },
         {
-          "year": 1992,
-          "text": "Velikosrbi poduzeli pješački napad na Vinkovce."
+          "year": 1187,
+          "text": "Saladin osvaja Jeruzalem SALADIN osloba&#x111;a Jeruzalem tijekom kri&#x17E;arskih ratova."
         },
         {
-          "year": 1996,
-          "text": "Ostvarena prva pobjeda jednog računala nad trenutnim svjetskim prvakom; Deep Blue pobijedio Garija Kasparova"
+          "year": 1869,
+          "text": "Zašto je ubijen Gandhi?"
         },
         {
-          "year": 2006,
-          "text": "Otvorene su XX. Zimske olimpijske igre u Torinu, na kojima je Hrvatsku zastavu nosila Janica Kostelić."
+          "year": 1869,
+          "text": "1948."
         },
         {
-          "year": 2007,
-          "text": "U Springfieldu u američkoj saveznoj državi Illinois godine Barack Obama najavio je svoju kandidaturu za predsjednika SAD-a"
+          "year": 1847,
+          "text": "1934."
+        },
+        {
+          "year": 1804,
+          "text": "1804."
         }
       ]
     },
@@ -2410,90 +2394,122 @@
     },
     "02-17": {
       "date": "02-17",
-      "source": "Hrvatska Wikipedija",
-      "source_url": "https://hr.wikipedia.org/",
+      "source": "Index Kalendar",
+      "source_url": "https://www.index.hr/kalendar?datum=0217",
       "events": [
         {
-          "year": 1854,
-          "text": "Britanija je priznala nezavisnost Slobodne Države Oranje u današnjoj Provinciji Slobodna Država, Južna Afrika"
+          "year": 2000,
+          "text": "Milenijski bug ili Y2K problem"
         },
         {
-          "year": 1895,
-          "text": "Balet Labuđe jezero prvi je put izveden u cijelosti s glazbom Čajkovskog u Sankt Peterburgu, Rusija"
+          "year": 1863,
+          "text": "Lincoln objavio dokument o ukidanju ropstva ABRAHAM Lincoln, &#x161;esnaesti predsjednik Sjedinjenih Ameri&#x10D;kih Dr&#x17E;ava, ostao je zapam&#x107;en kao jedna od najzna&#x10D;ajnijih figura u povijesti."
         },
         {
-          "year": 1960,
-          "text": "The Everly Brothers potpisuju milijun dolara vrijedan ugovor s izdavačkom kućom Warner Brothers Recordsom (izvorno samo filmskom kompanijom, dok nije postala veliki multimedijalni konglomerat)."
+          "year": 2023,
+          "text": "Hrvatska prestaje koristiti kunu, uvodi se euro JEDAN od glavnih razloga za prelazak na euro bio je gospodarski."
         },
         {
-          "year": 2008,
-          "text": "Kosovo proglasilo neovisnost od Srbije."
+          "year": 1989,
+          "text": "Stupa na snagu Montrealski sporazum MONTREALSKI protokol me&#x111;unarodni je sporazum kojim je rije&#x161;en problem ozonskih rupa."
         },
         {
-          "year": 2024,
-          "text": "Hrvatska vaterpolska reprezentacija osvojila Svjetsko prvenstvo u Dohi 2024. pobjedom nad Italijom rezultatom 15:13."
+          "year": 1527,
+          "text": "Cetinski sabor NA CETINSKOM saboru hrvatsko je plemstvo izabralo novog kralja, Ferdinanda Habsbur&#x161;kog."
+        },
+        {
+          "year": 1999,
+          "text": "Uveden euro UVO&#x110;ENJE eura jedan je od najva&#x17E;nijih ekonomskih i politi&#x10D;kih projekata u modernoj povijesti Europe."
         }
       ]
     },
     "02-18": {
       "date": "02-18",
-      "source": "Index Kalendar",
-      "source_url": "https://www.index.hr/kalendar?datum=0218",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/",
       "events": [
         {
-          "year": 2000,
-          "text": "Milenijski bug ili Y2K problem"
+          "year": 1358,
+          "text": "U Zadru sklopljen glasoviti Zadarski mir između Mletačke Republike i ugarsko-hrvatskog kralja Ludovika I. Anžuvinca kojim su se Mlečani odrekli Dalmacije."
         },
         {
-          "year": 1863,
-          "text": "Lincoln objavio dokument o ukidanju ropstva ABRAHAM Lincoln, &#x161;esnaesti predsjednik Sjedinjenih Ameri&#x10D;kih Dr&#x17E;ava, ostao je zapam&#x107;en kao jedna od najzna&#x10D;ajnijih figura u povijesti."
-        },
-        {
-          "year": 2023,
-          "text": "Hrvatska prestaje koristiti kunu, uvodi se euro JEDAN od glavnih razloga za prelazak na euro bio je gospodarski."
-        },
-        {
-          "year": 1989,
-          "text": "Stupa na snagu Montrealski sporazum MONTREALSKI protokol me&#x111;unarodni je sporazum kojim je rije&#x161;en problem ozonskih rupa."
-        },
-        {
-          "year": 1527,
-          "text": "Cetinski sabor NA CETINSKOM saboru hrvatsko je plemstvo izabralo novog kralja, Ferdinanda Habsbur&#x161;kog."
-        },
-        {
-          "year": 1999,
-          "text": "Uveden euro UVO&#x110;ENJE eura jedan je od najva&#x17E;nijih ekonomskih i politi&#x10D;kih projekata u modernoj povijesti Europe."
+          "year": 2008,
+          "text": "Afganistan postao prva država koja je priznala nezavisnost Kosova."
         }
       ]
     },
     "02-19": {
       "date": "02-19",
-      "source": "Index Kalendar",
-      "source_url": "https://www.index.hr/kalendar?datum=0219",
+      "source": "Hrvatska Wikipedija",
+      "source_url": "https://hr.wikipedia.org/",
       "events": [
         {
-          "year": 2000,
-          "text": "Milenijski bug ili Y2K problem"
+          "year": 1291,
+          "text": "Potpisan sporazum iz Tarascona."
         },
         {
-          "year": 1863,
-          "text": "Lincoln objavio dokument o ukidanju ropstva ABRAHAM Lincoln, &#x161;esnaesti predsjednik Sjedinjenih Ameri&#x10D;kih Dr&#x17E;ava, ostao je zapam&#x107;en kao jedna od najzna&#x10D;ajnijih figura u povijesti."
+          "year": 1594,
+          "text": "Sigismund III., kralj Poljsko-litavske Unije, okrunjen je za kralja Švedske."
         },
         {
-          "year": 2023,
-          "text": "Hrvatska prestaje koristiti kunu, uvodi se euro JEDAN od glavnih razloga za prelazak na euro bio je gospodarski."
+          "year": 1674,
+          "text": "Treći englesko-nizozemski rat završio je potpisivanjem Westminsterskog sporazuma."
         },
         {
-          "year": 1989,
-          "text": "Stupa na snagu Montrealski sporazum MONTREALSKI protokol me&#x111;unarodni je sporazum kojim je rije&#x161;en problem ozonskih rupa."
+          "year": 1826,
+          "text": "Rodio se Matija Mesić, povjesničar i prvi rektor zagrebačkog sveučilišta."
         },
         {
-          "year": 1527,
-          "text": "Cetinski sabor NA CETINSKOM saboru hrvatsko je plemstvo izabralo novog kralja, Ferdinanda Habsbur&#x161;kog."
+          "year": 1910,
+          "text": "Manchester United odigrao prvu utakmicu na Old Traffordu."
+        },
+        {
+          "year": 1935,
+          "text": "Sibinjske žrtve; u sibinjskom kraju režim Kraljevine Jugoslavije ubio hrvatske seljake."
+        },
+        {
+          "year": 1939,
+          "text": "Talijanske vojne jedinice u Adis Abebi počinile masakr u znak odmazde zbog neuspjelog atentata na potkralja maršala Grazianija."
+        },
+        {
+          "year": 1942,
+          "text": "Zračni napadi na Darwin, glavni grad Sjevernog Teritorija, Australija uništili su 242 bombardera i lovaca japanske carske mornarice."
+        },
+        {
+          "year": 1942,
+          "text": "Potpisana je U.S. Executive Order 9066, odobrivši premještaj i zatvaranje 112.000 japanskih Amerikanaca."
+        },
+        {
+          "year": 1945,
+          "text": "Započela bitka za Iwo Jimu."
+        },
+        {
+          "year": 1982,
+          "text": "Probni let Boeinga 757."
+        },
+        {
+          "year": 1986,
+          "text": "U okviru sovjetskog svemirskog programa lansirana je svemirska postaja Mir, prva dugoročna istraživačka postaja u svemiru."
+        },
+        {
+          "year": 1990,
+          "text": "osnovan Istarski demokratski sabor."
+        },
+        {
+          "year": 1996,
+          "text": "Institut za suvremenu povijest postao dio Hrvatskog instituta za povijest."
         },
         {
           "year": 1999,
-          "text": "Uveden euro UVO&#x110;ENJE eura jedan je od najva&#x17E;nijih ekonomskih i politi&#x10D;kih projekata u modernoj povijesti Europe."
+          "text": "Posljednji koncert Animatora u klubu Kulušić."
+        },
+        {
+          "year": 2002,
+          "text": "Objavljen album Don't Worry About Me Joeyja Ramonea."
+        },
+        {
+          "year": 2020,
+          "text": "Zoran Milanović prisegnuo za Predsjednika Republike Hrvatske."
         }
       ]
     },
@@ -7578,6 +7594,10 @@
           "text": "Sovjetska letjelica napravila prve fotografije druge strane Mjeseca SVE DO 1959. godine &#x10D;ovje&#x10D;anstvo je poznavalo samo jednu stranu Mjeseca. Zbog njegove sinkrone rotacije, prema Zemlji je gotovo uvijek okrenuta ista hemisfera, pa je druga strana stolje&#x107;ima ostajala potpuno skrivena od pogleda."
         },
         {
+          "year": 1919,
+          "text": "Osnovana aviokompanija KLM DANA 7. listopada 1919. godine u Nizozemskoj je osnovan KLM, zrakoplovna kompanija koja danas nosi zanimljivu titulu najstarijeg zrakoplovnog poduze&#x107;a na svijetu koje jo&#x161; uvijek posluje pod svojim izvornim imenom."
+        },
+        {
           "year": 1900,
           "text": "Heinrich Himmler - kompleksaš opsjednut rasnim pitanjem u Njemačkoj"
         },
@@ -7596,10 +7616,6 @@
         {
           "year": 1849,
           "text": "1849."
-        },
-        {
-          "year": 2025,
-          "text": "2025."
         }
       ]
     },
@@ -8777,8 +8793,8 @@
           "text": "Najveći snijeg u Zagrebu od 1955. godine 8. PROSINCA 2012. godine, Zagreb se probudio pod najve&#x107;im snje&#x17E;nim nanosima u posljednjih vi&#x161;e od pola stolje&#x107;a."
         },
         {
-          "year": 1980,
-          "text": "Poludjeli fan je dobio autogram od najveće svjetske zvijezde. Onda ga je ubio"
+          "year": 1638,
+          "text": "Većinu života bavio se upravnim poslovima po Dubrovniku, ali ne pamtimo ga po tome"
         },
         {
           "year": 1821,
@@ -8793,12 +8809,12 @@
           "text": "1971."
         },
         {
-          "year": 1980,
-          "text": "1980."
-        },
-        {
           "year": 1638,
           "text": "1638."
+        },
+        {
+          "year": 1980,
+          "text": "1980."
         }
       ]
     },
@@ -9812,6 +9828,10 @@
           "text": "Sjeverna Koreja dobila nuklearno oružje SJEVERNA Koreja, dugogodi&#x161;nja enigma svjetske politike, 9. listopada 2006. godine u&#x161;la je u ekskluzivni klub nuklearnih sila."
         },
         {
+          "year": 2020,
+          "text": "Premijera serije \"The Haunting of Bly Manor\" NETFLIXOVA miniserija donijela je devet epizoda goti&#x10D;kog horora u kojem su ljubav, gubitak i sje&#x107;anja jednako va&#x17E;ni kao nadnaravne pojave."
+        },
+        {
           "year": 1760,
           "text": "Austrijanci i Rusi okupirali Berlin U BURNIM danima Sedmogodi&#x161;njeg rata (1756.-1763.), koji je potresao Europu i preoblikovao ravnote&#x17E;u snaga, Berlin, prijestolnica Kraljevine Pruske, do&#x17E;ivio je trenutak poni&#x17E;enja."
         },
@@ -9828,24 +9848,20 @@
           "text": "Vjenčanje Luja XII. i Marije Tudor DANA 9. listopada 1514. godine, u rasko&#x161;noj crkvi sv. Wulfraa u Abbevilleu, Francuska je bila svjedok neobi&#x10D;nog vjen&#x10D;anja: 52-godi&#x161;nji kralj Luj XII., krhki vladar oslabljen godinama i bole&#x161;&#x107;u, o&#x17E;enio je 18-godi&#x161;nju Mariju Tudor, &#x17E;ivahnu i privla&#x10D;nu englesku princezu."
         },
         {
-          "year": 1975,
-          "text": "Jedan od najboljih Hrvata koji nikada nisu igrali za Hrvatsku bio je stroj za golove"
-        },
-        {
-          "year": 1975,
-          "text": "Mark Viduka"
-        },
-        {
-          "year": 1940,
-          "text": "1980."
+          "year": 1967,
+          "text": "Postao je simbol revolucije, milijuni ga nose na majicama. Kriv je za brojne zločine"
         },
         {
           "year": 1892,
           "text": "1975."
         },
         {
-          "year": 1974,
-          "text": "1974."
+          "year": 1964,
+          "text": "Guillermo del Toro"
+        },
+        {
+          "year": 1996,
+          "text": "Bella Hadid"
         },
         {
           "year": 1967,
@@ -10764,42 +10780,44 @@
       "source_url": "https://www.index.hr/kalendar?datum=1008",
       "events": [
         {
-          "year": 2011,
-          "title": "U kina stigao film „Tajni život kućnih pomoćnica“",
-          "text": "Film „Tajni život kućnih pomoćnica“ (The Help) počeo se prikazivati u američkim kinima 2011. godine.",
-          "category": "Kultura"
-        },
-        {
-          "year": 2001,
-          "title": "Na velika platna stigla „Američka pita 2“",
-          "text": "Nastavak filmske komedije „Američka pita“ stigao je u kina 2001. godine.",
-          "category": "Kultura"
-        },
-        {
-          "year": 1991,
-          "title": "Hrvatski sabor donio odluku o raskidu svih državnopravnih veza s bivšom SFRJ",
-          "text": "Hrvatski sabor je 8. listopada 1991. jednoglasno donio odluku kojom je Republika Hrvatska raskinula sve državnopravne veze s bivšom SFRJ.",
-          "category": "Povijest",
-          "source": "Hrvatski sabor",
-          "source_url": "https://www.sabor.hr/hr/o-saboru/povijest-saborovanja/vazni-datumi/8-listopada-dan-hrvatskoga-sabora"
+          "year": 1920,
+          "text": "Potpisan ugovor iz Sevresa"
         },
         {
           "year": 1984,
-          "title": "Počelo prikazivanje filma „Crvena zora“",
-          "text": "Film „Crvena zora“ počeo se prikazivati 1984. godine i podijelio je filmske kritičare.",
-          "category": "Kultura"
+          "text": "Počelo prikazivanje filma \"Crvena zora\" FILM je podijelio kriti&#x10D;are, ali prona&#x161;ao svoju publiku."
+        },
+        {
+          "year": 2011,
+          "text": "U kina je stigao film Tajni život kućnih pomoćnica 10. KOLOVOZA 2011. godine u ameri&#x10D;ka kina stigao je Tajni &#x17E;ivot ku&#x107;nih pomo&#x107;nica (The Help), sna&#x17E;na drama temeljena na istoimenom romanu Kathryn Stockett."
+        },
+        {
+          "year": 2001,
+          "text": "Na velika platna stigla \"Američka pita 2\" NASTAVAK je postao najve&#x107;i kinohit cijele fran&#x161;ize."
         },
         {
           "year": 1977,
-          "title": "Uhićen serijski ubojica Son of Sam",
-          "text": "David Berkowitz, poznat kao Son of Sam, uhićen je u New Yorku 1977. godine.",
-          "category": "Povijest"
+          "text": "Uhićen serijski ubojica Son of Sam NEW YORK je u ljeto 1977. ve&#x107; bio grad na rubu &#x17E;ivaca."
         },
         {
-          "year": 1920,
-          "title": "Potpisan ugovor iz Sevresa",
-          "text": "Ugovor iz Sevresa potpisan je 1920. godine nakon Prvog svjetskog rata.",
-          "category": "Povijest"
+          "year": 1971,
+          "text": "Nije bio najbolji ni najtalentiraniji, \"samo\" najvažniji. Mučni mit o njemu je laž"
+        },
+        {
+          "year": 1971,
+          "text": "Roy Keane"
+        },
+        {
+          "year": 1874,
+          "text": "1964."
+        },
+        {
+          "year": 1960,
+          "text": "Antonio Banderas"
+        },
+        {
+          "year": 1991,
+          "text": "1991."
         }
       ]
     },
