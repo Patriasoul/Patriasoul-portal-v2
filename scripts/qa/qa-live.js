@@ -2,9 +2,13 @@ const BASE_URL = (process.env.BASE_URL || "https://patriasoul-portal-v2.patriaso
 const routes = [
   "/",
   "/kategorije/domovina/",
+  "/kategorije/domovina",
   "/kategorije/povijest/",
+  "/kategorije/povijest",
   "/kategorije/vjera/",
+  "/kategorije/vjera",
   "/cuvari-nasljedja/",
+  "/cuvari-nasljedja",
   "/cuvari-nasljedja/prijavi-pricu.html",
 ];
 
