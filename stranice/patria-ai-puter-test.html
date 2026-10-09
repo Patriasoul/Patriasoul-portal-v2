@@ -175,9 +175,21 @@ async function loadKnowledge(){
    console.warn('PatriaSoul baza znanja nije osvježena:',error);
  }
 }
-function retrieve(q){
+function retrieve(q,historyText=''){
  const all=[...knowledge,PATRIASOUL_CONTEXT];
- return all.map(a=>({a,s:score(q,a.title+' '+a.text)})).filter(x=>x.s>0.08).sort((x,y)=>y.s-x.s).slice(0,5);
+ const currentWords=words(q).filter(w=>w.length>2);
+ const combined=(q+' '+historyText).trim();
+ return all.map(a=>{
+   const titleWords=words(a.title);
+   const titleText=titleWords.join(' ');
+   let s=Math.max(score(q,a.title+' '+a.text),score(combined,a.title+' '+a.text)*0.8);
+   // Naslovna podudaranja imaju prednost, osobito za upite "članci o [osobi]".
+   const entityTerms=currentWords.filter(w=>titleWords.includes(w));
+   if(entityTerms.length) s+=0.16*entityTerms.length;
+   if(/thompson|marko perkovic|marka perkovica/i.test(combined)&&/thompson|marko perkovic/i.test(titleText)) s+=0.55;
+   if(/hrvatski sabor|visestranackog sabora|konstituiranja sabora/i.test(combined)&&/sabor|konstituiranje/i.test(titleText)) s+=0.35;
+   return {a,s};
+ }).filter(x=>x.s>0.055).sort((x,y)=>y.s-x.s).slice(0,7);
 }
 function buildContext(matches){
  if(!matches.length)return 'Nema dovoljno relevantnog sadržaja iz PatriaSoul baze za ovo pitanje. Nemoj tvrditi da postoji PatriaSoul izvor ako ga nema.';
@@ -185,6 +197,12 @@ function buildContext(matches){
 }
 async function ask(){
  const q=input.value.trim(); if(!q||send.disabled)return;
+ // Sačuvaj kontekst zadnjih poruka kako bi "o njemu", "ti članci" i slični nastavci imali smisla.
+ const priorMessages=[...messages.querySelectorAll('.msg')].slice(-10).map(el=>({
+   role:el.classList.contains('user')?'user':'assistant',
+   text:(el.innerText||'').trim()
+ })).filter(m=>m.text);
+ const historyText=priorMessages.map(m=>m.text).join(' ');
  add('user',q); input.value=''; send.disabled=true; status.textContent=kbReady?'Čuvari nasljeđa pretražuju bazu…':'Čuvari nasljeđa odgovaraju…';
  const reply=add('ai','');
  try{
@@ -194,9 +212,10 @@ async function ask(){
      status.textContent='PatriaSoul stranica · spremno';
      return;
    }
-   const matches=retrieve(q), context=buildContext(matches);
-   const system='Ti si Čuvari nasljeđa, službeni AI razgovorni asistent portala PatriaSoul. Odgovaraj na hrvatskom. Pitanja o navigaciji i službenim stranicama PatriaSoula rješavaj kao vodič kroz portal: kada postoji odgovarajuća PatriaSoul stranica, odgovori kratko i ponudi izravnu poveznicu, bez odjeljka "PatriaSoul izvori". Za sadržajna pitanja prioritetno koristi dostavljeni sadržaj PatriaSoul baze znanja. Ne izmišljaj činjenice, izvore, citate ni PatriaSoul članke. Ako baza ne sadrži dovoljno podataka, jasno reci da u PatriaSoul bazi nema dovoljno podataka i tek tada odgovori općim znanjem, uz oprez kod povijesnih i osjetljivih tema. Ako koristiš sadržaj iz baze, na kraju dodaj odjeljak "PatriaSoul izvori" i za relevantne članke koristi samo Markdown poveznice oblika [Naslov članka](URL). Ne prikazuj sirove URL-ove i ne koristi zvjezdice za podebljanje. Baza znanja:\n\n'+context;
-   const response=await puter.ai.chat([{role:'system',content:system},{role:'user',content:q}],{model:'gpt-6-luna',stream:true});
+   const matches=retrieve(q,historyText), context=buildContext(matches);
+   const system='Ti si Čuvari nasljeđa, službeni AI razgovorni asistent portala PatriaSoul. Odgovaraj na hrvatskom. OBAVEZNO prati prethodne poruke u razgovoru: zamjenice poput „on”, „njega”, „o njima” i nastavci poput „članci o njemu” odnose se na već spomenutu osobu/temu; nemoj ponovno pitati za ime ako je jasno iz konteksta. Ako korisnik traži članke o osobi ili temi, pregledaj sve dostavljene izvore i navedi konkretne relevantne naslove i poveznice. Ako je trenutna poruka kratka, koristi povijest razgovora za razumijevanje namjere i pretraživanje. Ne tvrdi da PatriaSoul nema članaka dok dostavljeni izvori nisu provjereni. Pitanja o navigaciji i službenim stranicama PatriaSoula rješavaj kao vodič kroz portal: kada postoji odgovarajuća PatriaSoul stranica, odgovori kratko i ponudi izravnu poveznicu, bez odjeljka "PatriaSoul izvori". Za sadržajna pitanja prioritetno koristi dostavljeni sadržaj PatriaSoul baze znanja. Ne izmišljaj činjenice, izvore, citate ni PatriaSoul članke. Ako baza ne sadrži dovoljno podataka, jasno reci da u PatriaSoul bazi nema dovoljno podataka i tek tada odgovori općim znanjem, uz oprez kod povijesnih i osjetljivih tema. Ako koristiš sadržaj iz baze, na kraju dodaj odjeljak "PatriaSoul izvori" i za relevantne članke koristi samo Markdown poveznice oblika [Naslov članka](URL). Ne prikazuj sirove URL-ove i ne koristi zvjezdice za podebljanje. Baza znanja:\n\n'+context;
+   const conversationContext=priorMessages.map(m=>(m.role==='user'?'KORISNIK':'ČUVARI NASLJEĐA')+': '+m.text).join('\n');
+   const response=await puter.ai.chat([{role:'system',content:system+'\n\nPRETHODNI TIJEK RAZGOVORA:\n'+(conversationContext||'(nema prethodnih poruka)')},{role:'user',content:q}],{model:'gpt-6-luna',stream:true});
    for await(const part of response){if(part?.text){reply.dataset.raw=(reply.dataset.raw||'')+part.text;reply.innerHTML=renderProfessional(reply.dataset.raw,matches);messages.scrollTop=messages.scrollHeight}}
    if(!reply.textContent.trim())reply.textContent='AI nije vratio tekstualni odgovor.';
    status.textContent='Baza: '+knowledge.length+' članaka · spremno';
