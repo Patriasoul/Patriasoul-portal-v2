@@ -2,11 +2,11 @@
 if(window.PatriaSoulHeaderNotices)return;window.PatriaSoulHeaderNotices=true;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=s=>{try{return new Intl.DateTimeFormat("hr-HR",{dateStyle:"medium",timeStyle:"short"}).format(new Date(s))}catch{return ""}};
-const quizCommunity="https://patriasoul.github.io/kviz/?mode=community";
+const quizCommunity=id=>"https://patriasoul.github.io/kviz/?mode=community#community-comment-"+encodeURIComponent(id);
 const forumUrl=id=>new URL("stranice/domoljubni-forum.html?topic="+encodeURIComponent(id),new URL("../../",document.querySelector('script[src*="/assets/js/portal.js"]')?.src||location.href)).href;
 function mount(){
  const header=document.querySelector(".ps-header");const actions=header?.querySelector(".ps-brand-actions");if(!actions||document.querySelector(".ps-notice-tools"))return;
- const tools=document.createElement("div");tools.className="ps-notice-tools";tools.innerHTML='<button class="ps-notice-trigger ps-notice-message" type="button" aria-label="Poruke i odgovori" title="Poruke i odgovori" aria-expanded="false"><span aria-hidden="true">✉</span><i class="ps-notice-count" hidden></i></button><button class="ps-notice-trigger ps-notice-bell" type="button" aria-label="Obavijesti foruma" title="Obavijesti foruma" aria-expanded="false"><span aria-hidden="true">♧</span><i class="ps-notice-count" hidden></i></button><section class="ps-notice-panel" hidden aria-live="polite"><div class="ps-notice-panel-head"><strong>Obavijesti</strong><button type="button" data-notice-close aria-label="Zatvori">×</button></div><div class="ps-notice-list"></div></section>';
+ const tools=document.createElement("div");tools.className="ps-notice-tools";tools.innerHTML='<button class="ps-notice-trigger ps-notice-message" type="button" aria-label="Poruke i odgovori" title="Poruke i odgovori" aria-expanded="false"><span aria-hidden="true">✉</span><i class="ps-notice-count" hidden></i></button><button class="ps-notice-trigger ps-notice-bell" type="button" aria-label="Obavijesti foruma" title="Obavijesti foruma" aria-expanded="false"><span aria-hidden="true">🔔</span><i class="ps-notice-count" hidden></i></button><section class="ps-notice-panel" hidden aria-live="polite"><div class="ps-notice-panel-head"><strong>Obavijesti</strong><button type="button" data-notice-close aria-label="Zatvori">×</button></div><div class="ps-notice-list"></div></section>';
  actions.prepend(tools);
  const message=tools.querySelector(".ps-notice-message"),bell=tools.querySelector(".ps-notice-bell"),panel=tools.querySelector(".ps-notice-panel"),list=tools.querySelector(".ps-notice-list");
  let currentUser=null,client=null,kind="community",communityRows=[],forumRows=[];
@@ -26,7 +26,7 @@ function mount(){
  actors.length?client.from("profiles").select("id,display_name").in("id",actors):Promise.resolve({data:[]})
  ]);
  const by=(arr,key="id")=>new Map((arr||[]).map(x=>[x[key],x]));const cm=by(cr.data),po=by(pr.data),to=by(tr.data),ac=by(ar.data);
- communityRows=comments.map(x=>{const c=cm.get(x.comment_id),a=ac.get(x.actor_id);return {...x,href:quizCommunity,title:(a?.display_name||"Član PatriaSoul")+" · "+(x.type==="mention"?"spomenuo/la vas":"odgovorio/la na komentar"),text:c?.content||"Otvori zajednicu i nastavi razgovor."}});
+ communityRows=comments.map(x=>{const c=cm.get(x.comment_id),a=ac.get(x.actor_id);return {...x,href:quizCommunity(x.comment_id),title:(a?.display_name||"Član PatriaSoul")+" · "+(x.type==="mention"?"spomenuo/la vas":"odgovorio/la na komentar"),text:c?.content||"Otvori zajednicu i nastavi razgovor."}});
  forumRows=forums.map(x=>{const a=ac.get(x.actor_id),t=to.get(x.topic_id),p=po.get(x.post_id);return {...x,href:forumUrl(x.topic_id),title:(a?.display_name||"Član PatriaSoul")+" · "+(x.type==="reply"?"odgovor na temu":"nova aktivnost na forumu"),text:(t?.title||"Forumska tema")+(p?.content?" — "+p.content:"")}});
  setCount(message,communityRows.length);setCount(bell,forumRows.length);if(!panel.hidden)render();
  }catch(e){console.warn("PatriaSoul obavijesti:",e);list.innerHTML='<p class="ps-notice-empty">Obavijesti se trenutačno ne mogu učitati. Pokušajte ponovno.</p>'}}
