@@ -2,7 +2,7 @@
   "use strict";
   const script = document.currentScript;
   // Svaka stranica portala dobiva isti vizualni shell, neovisno o tome koje je CSS datoteke prethodno imala.
-  const coreCss = ["base.css","header.css","navigation.css","footer.css","responsive.css","comments.css","auth.css"];
+  const coreCss = ["base.css","header.css","navigation.css","footer.css","responsive.css","comments.css","auth.css","notifications.css"];
   const cssRoot = new URL("../css/", script?.src || location.href).href;
   coreCss.forEach((file) => {
     if (!document.querySelector('link[data-ps-core-css="' + file + '"]')) {
@@ -98,6 +98,12 @@
     </div></div>
   `;
   document.body.prepend(header);
+
+  // Zajedničke poruke i obavijesti, u samom zaglavlju portala.
+  const notices = document.createElement("script");
+  notices.src = new URL("notifications.js?v=20261009-1", script?.src || location.href).href;
+  notices.async = true;
+  document.head.append(notices);
 
   // Mobilna navigacija: prvi dodir otvara padajući izbornik, drugi vodi na glavnu kategoriju.
   const positionDropdown = (group) => {
