@@ -41,7 +41,7 @@
       <div class="ps-brand-actions">
         <a class="ps-search-button" href="${link("stranice/pretraga.html")}" aria-label="Pretraži" title="Pretraži"><span class="ps-search-icon" aria-hidden="true">⌕</span><span class="ps-search-label">Pretraži</span></a>
         <a class="ps-tiktok" href="https://www.tiktok.com/@patriasoul" target="_blank" rel="noopener">TikTok</a>
-        <a class="ps-quiz-button" data-ps-private-link="true" href="https://patriasoul.github.io/Patriasoul-portal-v2/kviz/">Hrvatski kviz</a>
+        <a class="ps-quiz-button" data-ps-private-link="true" href="https://patriasoul-portal-v2.patriasoul.workers.dev/kviz/">Hrvatski kviz</a>
         <a class="ps-forum-button" data-ps-private-link="true" href="${link("stranice/domoljubni-forum.html")}" title="Otvori Domoljubni forum"><span aria-hidden="true">💬</span><span>Domoljubni forum</span></a>
         <a class="ps-forum-button ps-messages-button" data-ps-private-link="true" href="${link("stranice/poruke-obavijesti.html")}" title="Privatne poruke"><span aria-hidden="true">✉</span><span>Poruke</span></a>
         <a class="ps-forum-button ps-notifications-button" data-ps-private-link="true" href="${link("stranice/poruke-obavijesti.html#obavijesti")}" title="Obavijesti"><span aria-hidden="true">♧</span><span>Obavijesti</span></a>
@@ -92,7 +92,7 @@
     </div></nav>
     <div class="ps-service"><div class="ps-container ps-service-inner">
       <span class="ps-service-label">PatriaSoul</span>
-      <a href="https://patriasoul.github.io/Patriasoul-portal-v2/kviz/">Hrvatski kviz</a>
+      <a href="https://patriasoul-portal-v2.patriasoul.workers.dev/kviz/">Hrvatski kviz</a>
       <a href="${link("stranice/najnovije.html")}">Najnovije vijesti</a>
       <a href="${link("cuvari-nasljedja/prijavi-pricu.html")}">Pošalji priču</a>
       <a href="${link("stranice/newsletter.html")}">Prati PatriaSoul</a>
