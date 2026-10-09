@@ -20,13 +20,13 @@ function mount(){
  const comments=c.data||[],forums=f.data||[];
  const ids=[...new Set(comments.map(x=>x.comment_id).filter(Boolean))],actors=[...new Set([...comments,...forums].map(x=>x.actor_id).filter(Boolean))],topicIds=[...new Set(forums.map(x=>x.topic_id).filter(Boolean))],postIds=[...new Set(forums.map(x=>x.post_id).filter(Boolean))];
  const [cr,pr,tr,ar]=await Promise.all([
- ids.length?client.from("community_comments").select("id,content,article_slug").in("id",ids):Promise.resolve({data:[]}),
+ ids.length?client.from("community_comments").select("id,content,article_slug,parent_id").in("id",ids):Promise.resolve({data:[]}),
  postIds.length?client.from("forum_posts").select("id,content").in("id",postIds):Promise.resolve({data:[]}),
  topicIds.length?client.from("forum_topics").select("id,title").in("id",topicIds):Promise.resolve({data:[]}),
  actors.length?client.from("profiles").select("id,display_name").in("id",actors):Promise.resolve({data:[]})
  ]);
  const by=(arr,key="id")=>new Map((arr||[]).map(x=>[x[key],x]));const cm=by(cr.data),po=by(pr.data),to=by(tr.data),ac=by(ar.data);
- communityRows=comments.map(x=>{const c=cm.get(x.comment_id),a=ac.get(x.actor_id);return {...x,href:quizCommunity(x.comment_id),title:(a?.display_name||"Član PatriaSoul")+" · "+(x.type==="mention"?"spomenuo/la vas":"odgovorio/la na komentar"),text:c?.content||"Otvori zajednicu i nastavi razgovor."}});
+ communityRows=comments.map(x=>{const c=cm.get(x.comment_id),a=ac.get(x.actor_id);return {...x,href:quizCommunity(c?.parent_id||x.comment_id),title:(a?.display_name||"Član PatriaSoul")+" · "+(x.type==="mention"?"spomenuo/la vas":"odgovorio/la na komentar"),text:c?.content||"Otvori zajednicu i nastavi razgovor."}});
  forumRows=forums.map(x=>{const a=ac.get(x.actor_id),t=to.get(x.topic_id),p=po.get(x.post_id);return {...x,href:forumUrl(x.topic_id),title:(a?.display_name||"Član PatriaSoul")+" · "+(x.type==="reply"?"odgovor na temu":"nova aktivnost na forumu"),text:(t?.title||"Forumska tema")+(p?.content?" — "+p.content:"")}});
  setCount(message,communityRows.length);setCount(bell,forumRows.length);if(!panel.hidden)render();
  }catch(e){console.warn("PatriaSoul obavijesti:",e);list.innerHTML='<p class="ps-notice-empty">Obavijesti se trenutačno ne mogu učitati. Pokušajte ponovno.</p>'}}
