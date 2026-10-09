@@ -3,8 +3,8 @@
   const path = window.location.pathname;
   const marker = "/kviz/";
   const markerIndex = path.indexOf(marker);
-  const appBase = markerIndex >= 0 ? path.slice(0, markerIndex) + marker : "/Patriasoul-portal-v2/kviz/";
-  const portalUrl = "https://patriasoul.github.io/Patriasoul-portal-v2/";
+  const appBase = markerIndex >= 0 ? path.slice(0, markerIndex) + marker : "/kviz/";
+  const portalUrl = "https://patriasoul-portal-v2.patriasoul.workers.dev/";
   const links = {
     home: appBase,
     croatian: appBase + "?mode=croatian",
@@ -107,7 +107,7 @@
           <div>
             <p class="ps-heading">PatriaSoul</p>
             <div class="ps-footer-links">
-              <a href="https://patriasoul.github.io/Patriasoul-portal-v2/">Povratak na PatriaSoul portal</a>
+              <a href="https://patriasoul-portal-v2.patriasoul.workers.dev/">Povratak na PatriaSoul portal</a>
               <a href="${links.home}">Početna</a>
               <a href="${links.croatian}">Hrvatski kviz</a>
               <a href="${links.cities}">Brani svoj grad</a>
