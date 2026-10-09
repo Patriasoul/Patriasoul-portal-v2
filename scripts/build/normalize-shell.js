@@ -16,6 +16,9 @@ function walk(dir){
     if(relPage==="stranice/patria-ai-puter-test.html"){
       html=html.replace(/<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>/ig,"");
       html=html.replace(/<script[^>]+src=["'][^"']*assets\/js\/ai-widget\.js(?:\?[^"']*)?["'][^>]*><\/script>/ig,"");
+      // Ukloni i eventualno već umetnuti izbornik/zaglavlje portala iz samostalnog chata.
+      html=html.replace(/<(nav|header)[^>]*(?:class|id)=["'][^"']*(?:site-nav|site-header|portal-nav|portal-header|main-nav|primary-nav|ps-nav|ps-header|menu)[^"']*["'][^>]*>[\s\S]*?<\/\1>/ig,"");
+      html=html.replace(/<div[^>]*(?:class|id)=["'][^"']*(?:cookie|consent|portal-menu|site-menu|mobile-menu|nav-menu)[^"']*["'][^>]*>[\s\S]*?<\/div>/ig,"");
       fs.writeFileSync(full,html);
       changed++;
       continue;
