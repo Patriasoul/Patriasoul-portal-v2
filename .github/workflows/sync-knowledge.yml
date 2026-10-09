@@ -18,9 +18,30 @@ jobs:
           SUPABASE_URL: https://azerctpwfzdivydsxyex.supabase.co
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          set -e
+          set -euo pipefail
           test -n "$SUPABASE_ANON_KEY"
-          RESPONSE=$(curl --fail-with-body -sS             -X POST             -H "apikey: $SUPABASE_ANON_KEY"             -H "Authorization: Bearer $SUPABASE_ANON_KEY"             -H "Content-Type: application/json"             "$SUPABASE_URL/functions/v1/sync-patriasoul-knowledge")
+
+          set +e
+          RESPONSE=$(curl --silent --show-error \
+            --write-out "\nHTTP_STATUS:%{http_code}" \
+            -X POST \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Content-Type: application/json" \
+            "$SUPABASE_URL/functions/v1/sync-patriasoul-knowledge")
+          CURL_EXIT=$?
+          set -e
+
+          HTTP_STATUS=$(printf '%s\n' "$RESPONSE" | sed -n 's/^HTTP_STATUS://p' | tail -n 1)
+          BODY=$(printf '%s\n' "$RESPONSE" | sed '$d')
+
           echo "=== PATRIASOUL KNOWLEDGE SYNC ==="
-          echo "$RESPONSE"
+          echo "curl_exit=$CURL_EXIT"
+          echo "http_status=${HTTP_STATUS:-unknown}"
+          echo "response_body:"
+          printf '%s\n' "$BODY"
           echo "=== END SYNC ==="
+
+          if [ "$CURL_EXIT" -ne 0 ] || [ -z "$HTTP_STATUS" ] || [ "$HTTP_STATUS" -ge 400 ]; then
+            exit 1
+          fi
