@@ -4,3 +4,29 @@
 
 /* Broj nepročitanih poruka i obavijesti */
 .ps-unread-badge{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:#b51224;color:#fff;font-size:.68rem;font-weight:900;line-height:1}.ps-unread-badge[hidden]{display:none!important}
+
+
+/* Mobilno zaglavlje V2: jednostavan prvi red, dodatne poveznice u rasklopivom izborniku. */
+.ps-mobile-menu-toggle{display:none;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:0 13px;border:1px solid var(--ps-blue);border-radius:8px;background:var(--ps-blue);color:#fff;font:800 .88rem/1 system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+.ps-mobile-menu-toggle:focus-visible{outline:3px solid rgba(197,31,43,.35);outline-offset:3px}
+.ps-mobile-menu-icon{font-size:1.15rem;line-height:1}
+@media(max-width:680px){
+  .ps-topline-inner{padding:6px 0;font-size:.68rem;gap:8px}
+  .ps-topline-inner span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+  .ps-brand-inner{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 0}
+  .ps-brand{gap:8px;min-width:0}
+  .ps-brand-logo{width:46px;height:46px;flex:0 0 46px}
+  .ps-brand-copy{min-width:0}
+  .ps-brand strong{font-size:1.38rem;line-height:1.05}
+  .ps-brand span{font-size:.57rem;letter-spacing:.09em}
+  .ps-brand-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex:0 0 auto;flex-wrap:nowrap;margin-left:auto}
+  .ps-brand-actions>.ps-tiktok,.ps-brand-actions>.ps-quiz-button,.ps-brand-actions>.ps-forum-button{display:none!important}
+  .ps-brand-actions>.ps-search-button{display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:42px;padding:0 9px;border:1px solid var(--ps-border);border-radius:8px;background:#fff}
+  .ps-brand-actions>.ps-search-button .ps-search-label{display:none}
+  .ps-mobile-menu-toggle{display:inline-flex}
+  .ps-mobile-menu-text{display:inline}
+  .ps-mobile-menu-open .ps-brand-inner{row-gap:10px}
+  .ps-mobile-menu-open .ps-brand-actions{order:3;flex:1 0 100%;justify-content:flex-start;flex-wrap:wrap;margin:0;padding-top:10px;border-top:1px solid var(--ps-border)}
+  .ps-mobile-menu-open .ps-brand-actions>.ps-tiktok,.ps-mobile-menu-open .ps-brand-actions>.ps-quiz-button,.ps-mobile-menu-open .ps-brand-actions>.ps-forum-button{display:inline-flex!important;align-items:center;justify-content:center;min-height:38px;padding:0 10px;font-size:.78rem}
+  .ps-mobile-menu-open .ps-brand-actions>.ps-search-button{min-height:38px}
+}
