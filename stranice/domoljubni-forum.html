@@ -43,6 +43,6 @@ root.addEventListener('submit',async ev=>{ev.preventDefault();const f=new FormDa
 ;(async()=>{try{await auth();if(!user){const next=encodeURIComponent(location.href);location.replace(new URL('../stranice/prijava.html?next='+next,location.href).href);return}root.hidden=false;await home()}catch(e){root.hidden=false;root.innerHTML='<div class="psf-empty"><b>Forum se trenutačno ne može povezati s bazom.</b><p>'+esc(e.message||'Provjeri Supabase konfiguraciju i pravila pristupa.')+'</p></div>'}})()
 })();
 </script>
-  <script src="../assets/js/portal.js?v=20261009-shell"></script>
+  <script src="../assets/js/portal.js?v=20261009-mobile-menu"></script>
 </body>
 </html>
