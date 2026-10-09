@@ -265,6 +265,7 @@ async function ask(){
  try{
    if(isGeneralPortalHelp(q)){
      reply.innerHTML=renderGeneralPortalHelp();
+     wireSuggestions(reply);
      status.textContent='PatriaSoul pomoć · spremno';
      return;
    }
@@ -290,7 +291,19 @@ async function ask(){
 }
 send.addEventListener('click',ask);
 input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask()}});
-messages.addEventListener('click',e=>{const b=e.target.closest('.suggestion');if(!b||send.disabled)return;input.value=b.textContent.trim();ask()});
+// Poveži ponuđena pitanja izravno s klikom; ovo radi i za početne i za naknadno prikazane prijedloge.
+function wireSuggestions(root){
+ root.querySelectorAll('button.suggestion').forEach(button=>{
+   if(button.dataset.suggestionBound==='1') return;
+   button.dataset.suggestionBound='1';
+   button.addEventListener('click',()=>{
+     if(send.disabled) return;
+     input.value=button.textContent.trim();
+     ask();
+   });
+ });
+}
+wireSuggestions(messages);
 loadKnowledge();
 </script>
 </body>
