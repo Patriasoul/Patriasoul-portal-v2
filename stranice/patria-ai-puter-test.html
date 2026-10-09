@@ -50,7 +50,7 @@ html.embed-mode .hint{font-size:10px;padding-top:6px}
 <script src="https://js.puter.com/v2/"></script>
 <script>
 const messages=document.getElementById('messages'),input=document.getElementById('input'),send=document.getElementById('send'),status=document.getElementById('status');
-const BASE='../',SITEMAP=BASE+'sitemap.xml',CACHE_KEY='patriasoul_kb_v1';
+const BASE='../',SITEMAP=BASE+'sitemap.xml',CACHE_KEY='patriasoul_kb_v2';
 let knowledge=[],kbReady=false;
 
 // Temeljne informacije o samom PatriaSoulu uvijek su dostupne Čuvarima nasljeđa.
@@ -127,22 +127,34 @@ function cleanHtml(html){
  return (root?.innerText||doc.body.innerText||'').replace(/\s+/g,' ').trim();
 }
 async function loadKnowledge(){
- status.textContent='Baza: učitavanje članaka…';
+ status.textContent='Baza: provjera novih članaka…';
+ // Prikaži zadnju spremljenu bazu odmah, ali je nemoj smatrati konačnom:
+ // nakon toga se sitemap uvijek ponovno provjerava kako novi članci ne bi ostali skriveni.
  try{
    const cached=localStorage.getItem(CACHE_KEY);
    if(cached){
      const parsed=JSON.parse(cached);
-     if(Array.isArray(parsed)&&parsed.length){knowledge=parsed;kbReady=true;status.textContent='Baza: '+knowledge.length+' članaka · spremno';return}
+     if(Array.isArray(parsed)&&parsed.length){
+       knowledge=parsed;
+       kbReady=true;
+       status.textContent='Baza: '+knowledge.length+' članaka · provjeravam novosti…';
+     }
    }
  }catch(e){}
  try{
-   const xml=await fetch(SITEMAP,{cache:'no-cache'}).then(r=>r.text());
+   const response=await fetch(SITEMAP+'?kb_refresh='+Date.now(),{cache:'no-store'});
+   if(!response.ok) throw new Error('Sitemap HTTP '+response.status);
+   const xml=await response.text();
    const doc=new DOMParser().parseFromString(xml,'application/xml');
-   const urls=[...doc.querySelectorAll('loc')].map(x=>x.textContent.trim()).filter(u=>/\/clanci\//i.test(u));
+   if(doc.querySelector('parsererror')) throw new Error('Sitemap nije valjan XML');
+   const urls=[...new Set([...doc.querySelectorAll('loc')].map(x=>x.textContent.trim()).filter(u=>/\/clanci\//i.test(u)))];
+   if(!urls.length) throw new Error('U sitemapu nisu pronađeni URL-ovi članaka');
    const results=[];
    const batch=async arr=>Promise.all(arr.map(async url=>{
      try{
-       const html=await fetch(url,{cache:'no-cache'}).then(r=>r.text());
+       const response=await fetch(url,{cache:'no-store'});
+       if(!response.ok) return;
+       const html=await response.text();
        const d=new DOMParser().parseFromString(html,'text/html');
        const title=(d.querySelector('h1')?.textContent||d.title||url.split('/').pop()).replace(/\s+/g,' ').trim();
        const text=cleanHtml(html);
@@ -150,12 +162,17 @@ async function loadKnowledge(){
      }catch(e){}
    }));
    for(let i=0;i<urls.length;i+=6) await batch(urls.slice(i,i+6));
+   if(!results.length) throw new Error('Nijedan članak nije uspješno pročitan');
+   results.sort((a,b)=>a.title.localeCompare(b.title,'hr'));
    knowledge=results;
    kbReady=true;
    try{localStorage.setItem(CACHE_KEY,JSON.stringify(knowledge))}catch(e){}
-   status.textContent='Baza: '+knowledge.length+' članaka · spremno';
+   status.textContent='Baza: '+knowledge.length+' članaka · ažurirano';
  }catch(error){
-   status.textContent='Baza: nije učitana · AI radi bez baze';
+   status.textContent=kbReady
+     ? 'Baza: '+knowledge.length+' spremljenih članaka · osvježavanje nije uspjelo'
+     : 'Baza: nije učitana · AI radi bez baze';
+   console.warn('PatriaSoul baza znanja nije osvježena:',error);
  }
 }
 function retrieve(q){
