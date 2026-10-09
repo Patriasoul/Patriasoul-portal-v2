@@ -100,6 +100,24 @@
         <a href="${link("stranice/na-danasnji-dan.html")}">Na današnji dan</a>
     </div></div>
   `;
+  // Pristupačan gumb mobilnog izbornika; desktop raspored ostaje nepromijenjen.
+  const mobileMenuButton = document.createElement("button");
+  mobileMenuButton.type = "button";
+  mobileMenuButton.className = "ps-mobile-menu-toggle";
+  mobileMenuButton.setAttribute("aria-expanded", "false");
+  mobileMenuButton.setAttribute("aria-controls", "ps-main-navigation");
+  mobileMenuButton.setAttribute("aria-label", "Otvori mobilni izbornik");
+  mobileMenuButton.innerHTML = '<span class="ps-mobile-menu-icon" aria-hidden="true">☰</span><span class="ps-mobile-menu-text">Izbornik</span>';
+  header.querySelector(".ps-brand-actions").append(mobileMenuButton);
+  const setMobileMenu = (open) => {
+    header.classList.toggle("ps-mobile-menu-open", open);
+    mobileMenuButton.setAttribute("aria-expanded", String(open));
+    mobileMenuButton.setAttribute("aria-label", open ? "Zatvori mobilni izbornik" : "Otvori mobilni izbornik");
+    mobileMenuButton.querySelector(".ps-mobile-menu-icon").textContent = open ? "✕" : "☰";
+  };
+  mobileMenuButton.addEventListener("click", () => setMobileMenu(!header.classList.contains("ps-mobile-menu-open")));
+  header.querySelector(".ps-nav").id = "ps-main-navigation";
+
   document.body.prepend(header);
 
   // Globalna tipka "Natrag": vraća na prethodnu stranicu portala, a ne napušta portal.
@@ -161,8 +179,12 @@
   });
   window.addEventListener("resize", () => header.querySelectorAll(".ps-nav-group.is-open").forEach(positionDropdown));
   document.addEventListener("click", (event) => {
-    if (!header.contains(event.target)) header.querySelectorAll(".ps-nav-group.is-open").forEach((g) => g.classList.remove("is-open"));
+    if (!header.contains(event.target)) {
+      header.querySelectorAll(".ps-nav-group.is-open").forEach((g) => g.classList.remove("is-open"));
+      setMobileMenu(false);
+    }
   });
+  header.querySelectorAll(".ps-nav-inner > a").forEach((anchor) => anchor.addEventListener("click", () => setMobileMenu(false)));
 
   const footer = document.createElement("footer");
   footer.className = "ps-footer";
