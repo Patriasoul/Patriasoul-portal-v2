@@ -91,6 +91,9 @@ jobs:
       - name: QA komentara i prijave
         run: node scripts/qa/qa-comments.js
 
+      - name: QA administracije i RSS
+        run: node scripts/qa/qa-admin.js
+
       - name: Build Hrvatski kviz
         working-directory: kviz
         run: |
