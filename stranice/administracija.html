@@ -96,12 +96,13 @@
 <div class="ps-editor-grid">
 <label>Naslov<input id="article-title" type="text" maxlength="220"></label>
 <label>Rubrika<input id="article-kicker" type="text" maxlength="120"></label>
-<label>Kategorija<input id="article-category" type="text" maxlength="120"></label>
+<label>Kategorija<select id="article-category"><option value="Domovina">Domovina</option><option value="Povijest">Povijest</option><option value="Vjera">Vjera</option><option value="Čuvari nasljeđa">Čuvari nasljeđa</option></select></label>
 <label>Podkategorija<input id="article-subcategory" type="text" maxlength="120"></label>
+<label>Autor<input id="article-author" type="text" maxlength="160" value="PatriaSoul"></label>
 <label>Putanja / slug<input id="article-path" type="text" maxlength="300" placeholder="clanci/domovina/novi-clanak.html"></label>
 <label>Fotografija URL<input id="article-image-url" type="url"></label>
 <label>Alt tekst fotografije<input id="article-image-alt" type="text" maxlength="220"></label>
-<label>Status<select id="article-status"><option value="draft">Nacrt</option><option value="review">Za provjeru</option><option value="published">Objavljeno</option><option value="archived">Arhivirano</option></select></label>
+<label>Status<select id="article-status"><option value="draft">Nacrt</option><option value="review">Urednička provjera</option><option value="approved">Odobreno</option><option value="scheduled">Zakazano</option><option value="published">Objavljeno</option><option value="archived">Arhivirano</option></select></label>
 <label class="ps-editor-full">Sažetak<textarea id="article-excerpt" rows="3" maxlength="500"></textarea></label>
 <label class="ps-editor-full">Tekst članka (HTML)<textarea id="article-body" rows="16"></textarea></label>
 <label class="ps-editor-full">Izvori — jedan po retku<textarea id="article-sources" rows="6" placeholder="https://..."></textarea></label>
