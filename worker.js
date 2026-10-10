@@ -27,8 +27,20 @@ export default {
       "/poruke-obavijesti": "/stranice/poruke-obavijesti.html",
     };
 
-    // Podrži URL-ove s kosom crtom i bez nje. Zadržavamo query string.
+    // Kanoniziraj stare javne /stranice/... adrese na kratke URL-ove.
+    // Zadržavamo query string, a stari URL-ovi i dalje rade preko preusmjeravanja.
     if (request.method === "GET" || request.method === "HEAD") {
+      const legacyMatch = url.pathname.match(/^\\/stranice\\/([^/]+?)(?:\\.html)?\\/?$/);
+      if (legacyMatch) {
+        const legacySlug = legacyMatch[1];
+        if (rootPageAliases["/" + legacySlug]) {
+          const canonicalUrl = new URL(url);
+          canonicalUrl.pathname = "/" + legacySlug + "/";
+          return Response.redirect(canonicalUrl.toString(), 302);
+        }
+      }
+
+      // Podrži URL-ove s kosom crtom i bez nje. Zadržavamo query string.
       const aliasKey = url.pathname.replace(/\\/+$/, "") || "/";
       const aliasedAsset = rootPageAliases[aliasKey];
       if (aliasedAsset) {
