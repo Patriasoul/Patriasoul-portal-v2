@@ -10,11 +10,13 @@
 <section class="ps-container" id="admin-dashboard" hidden>
 <nav class="ps-admin-nav" aria-label="Odjeljci administracije" id="admin-module-nav">
 <button type="button" class="is-active" data-admin-tab="overview"><span>01</span><strong>Pregled</strong><small>Stanje portala</small></button>
-<button type="button" data-admin-tab="content"><span>02</span><strong>Članci i CMS</strong><small>Nacrti i objave</small></button>
-<button type="button" data-admin-tab="ai"><span>03</span><strong>AI i RSS</strong><small>Prijedlozi i izvori</small></button>
-<button type="button" data-admin-tab="community"><span>04</span><strong>Zajednica</strong><small>Priče i komentari</small></button>
-<button type="button" data-admin-tab="forum"><span>05</span><strong>Forum</strong><small>Teme i moderacija</small></button>
-<button type="button" data-admin-tab="users"><span>06</span><strong>Korisnici</strong><small>Profili i ovlasti</small></button>
+<button type="button" data-admin-tab="content"><span>02</span><strong>Sadržaj</strong><small>Članci i stranice</small></button>
+<button type="button" data-admin-tab="editorial"><span>03</span><strong>Uredništvo</strong><small>Provjera i izvori</small></button>
+<button type="button" data-admin-tab="ai"><span>04</span><strong>AI i RSS</strong><small>Prijedlozi i izvori</small></button>
+<button type="button" data-admin-tab="community"><span>05</span><strong>Zajednica</strong><small>Priče i komentari</small></button>
+<button type="button" data-admin-tab="forum"><span>06</span><strong>Forum</strong><small>Teme i moderacija</small></button>
+<button type="button" data-admin-tab="archive"><span>07</span><strong>Arhiv i mediji</strong><small>Fotografije i izvori</small></button>
+<button type="button" data-admin-tab="users"><span>08</span><strong>Korisnici i postavke</strong><small>Ovlasti i sustav</small></button>
 </nav>
 <div class="ps-admin-view-label" id="admin-view-label"><span>RADNI PROSTOR</span><strong>Pregled sustava</strong><small>Odaberite odjeljak za upravljanje.</small></div>
 <div class="ps-admin-grid" data-admin-group="overview">
@@ -89,7 +91,7 @@
 
 <section class="ps-admin-preview-modal" id="article-preview-modal" hidden><div class="ps-admin-preview-dialog"><div class="ps-admin-preview-head"><div><p class="ps-kicker">UREDNIČKI PREGLED</p><h2 id="article-preview-title">Pregled članka</h2><p id="article-preview-meta" class="ps-admin-muted"></p></div><button type="button" class="ps-admin-button ps-admin-button-light" id="article-preview-close">Zatvori</button></div><img id="article-preview-image" class="ps-admin-preview-image" alt="" hidden><div id="article-preview-body" class="ps-admin-preview-body"></div><div id="article-preview-sources" class="ps-admin-preview-sources"></div></div></section>
 <section class="ps-admin-panel ps-admin-editor" id="article-editor" data-admin-group="content">
-<div class="ps-admin-panel-head"><div><p class="ps-kicker">CMS UREDNIK</p><h2>Uredi članak</h2></div><span class="ps-admin-muted">Sprema se u portal_articles</span></div>
+<div class="ps-admin-panel-head"><div><p class="ps-kicker">CMS UREDNIK</p><h2>Uredi članak</h2></div><div class="ps-admin-actions"><button type="button" class="ps-admin-button ps-admin-button-light" id="article-editor-back">← Natrag na popis</button><span class="ps-admin-muted">Sprema se u portal_articles</span></div></div>
 <input id="article-id" type="hidden">
 <div class="ps-editor-grid">
 <label>Naslov<input id="article-title" type="text" maxlength="220"></label>
@@ -103,6 +105,12 @@
 <label class="ps-editor-full">Sažetak<textarea id="article-excerpt" rows="3" maxlength="500"></textarea></label>
 <label class="ps-editor-full">Tekst članka (HTML)<textarea id="article-body" rows="16"></textarea></label>
 <label class="ps-editor-full">Izvori — jedan po retku<textarea id="article-sources" rows="6" placeholder="https://..."></textarea></label>
+<label>Razdoblje (povijesne teme)<input id="article-period" type="text" maxlength="180" placeholder="Npr. 15. stoljeće / 1991.–1995."></label>
+<label>Mjesto / lokacija<input id="article-place" type="text" maxlength="220" placeholder="Mjesto, grad, regija"></label>
+<label>Osobe<input id="article-people" type="text" maxlength="500" placeholder="Imena osoba, odvojena zarezom"></label>
+<label>Arhivski izvor<input id="article-archive-source" type="text" maxlength="500" placeholder="Arhiv, fond, signatura, zbirka"></label>
+<label class="ps-editor-full">Napomena o spornim ili nepotvrđenim tvrdnjama<textarea id="article-claims-note" rows="3" placeholder="Jasno označi što je potvrđeno, sporno, predaja ili svjedočanstvo."></textarea></label>
+<label class="ps-editor-full">Urednička napomena / provjera činjenica<textarea id="article-editorial-note" rows="3" placeholder="Što još treba provjeriti prije objave?"></textarea></label>
 <label>SEO naslov<input id="article-seo-title" type="text" maxlength="180"></label>
 <label>Meta opis<input id="article-meta-description" type="text" maxlength="180"></label>
 <label class="ps-editor-full">SEO ključne riječi<input id="article-seo-keywords" type="text" maxlength="500" placeholder="ključna riječ, Hrvatska, povijest…"></label>
@@ -110,6 +118,8 @@
 <div class="ps-admin-footer-actions"><button class="ps-admin-button" id="article-save" type="button">Spremi članak</button><button class="ps-admin-button ps-admin-button-light" id="article-clear" type="button">Novi / očisti</button><span id="article-editor-message" class="ps-editor-message">Odaberi članak ili pokreni novi.</span></div>
 </section>
 
+<section class="ps-admin-panel" data-admin-group="editorial" hidden><div class="ps-admin-panel-head"><div><p class="ps-kicker">UREĐIVAČKI TIJEK</p><h2>Od nacrta do objave</h2></div></div><p class="ps-admin-section-note">Svaki članak prolazi uredničku provjeru, provjeru činjenica i odobrenje. Činjenične i povijesne tvrdnje trebaju imati provjerljive izvore. Mišljenja i sponzorirani sadržaji moraju biti jasno označeni.</p><ol class="ps-editorial-flow"><li>Nacrt</li><li>Urednička provjera</li><li>Provjera činjenica</li><li>Odobreno</li><li>Zakazano / Objavljeno</li></ol><p class="ps-admin-muted">Detalji o razdoblju, mjestu, osobama, arhivskom izvoru i spornim tvrdnjama spremaju se uz članak u CMS metapodatke.</p></section>
+<section class="ps-admin-panel" data-admin-group="archive" hidden><div class="ps-admin-panel-head"><div><p class="ps-kicker">MEDIJSKA KNJIŽNICA I ARHIV</p><h2>Fotografije, dokumenti i arhivski materijali</h2></div></div><p class="ps-admin-section-note">Za svaku fotografiju ili dokument bilježi izvor, autora ako je poznat, datum, kontekst i prava korištenja. Arhivski materijali trebaju imati signaturu ili poveznicu na ustanovu koja ih čuva.</p><p class="ps-admin-muted">Ovaj odjeljak trenutačno prikazuje urednička pravila; zasebna knjižnica datoteka i događaja zahtijeva povezivanje tablica za medije i događaje.</p></section>
 <section class="ps-admin-panel ps-admin-forum-panel" data-admin-group="forum">
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">FORUM PATRIASOUL</p><h2>Teme i moderacija foruma</h2></div><span class="ps-admin-muted">Teme, odgovori i prijave</span></div>
 <div class="ps-admin-forum-stats"><div><span>Teme</span><strong id="forum-topic-total">—</strong></div><div><span>Objave</span><strong id="forum-post-total">—</strong></div><div><span>Otvorene prijave</span><strong id="forum-report-total">—</strong></div></div>
@@ -134,6 +144,6 @@
 </section></main>
 <script src="../assets/js/portal.js"></script><script src="../assets/js/auth.js"></script><script src="https://js.puter.com/v2/"></script><script src="../assets/js/article-editor.js"></script><script src="../assets/js/ai-article.js"></script><script src="../assets/js/admin.js"></script>
 <script>
-(()=>{const nav=document.getElementById("admin-module-nav");if(!nav)return;const names={overview:"Pregled sustava",content:"Članci i CMS",ai:"AI urednik i RSS redakcija",community:"Zajednica i moderacija",forum:"Forum i moderacija tema",users:"Korisnici i ovlasti"};const desc={overview:"Stanje portala, najnoviji članci i operativne provjere.",content:"Upravljajte nacrtima, člancima i objavama iz jednog radnog prostora.",ai:"AI generiranje, RSS izvori i urednički prijedlozi vijesti.",community:"Prijavljene priče i komentari zajednice.",forum:"Pregled tema, odgovora, prikvačenih rasprava i prijava na forumu.",users:"Korisnički profili i upravljanje ulogama prema vašim ovlastima."};const activate=tab=>{nav.querySelectorAll("[data-admin-tab]").forEach(b=>{const on=b.dataset.adminTab===tab;b.classList.toggle("is-active",on);b.setAttribute("aria-pressed",String(on))});document.querySelectorAll("[data-admin-group]").forEach(el=>{el.hidden=el.dataset.adminGroup!==tab});const label=document.getElementById("admin-view-label");if(label)label.innerHTML="<span>RADNI PROSTOR</span><strong>"+names[tab]+"</strong><small>"+desc[tab]+"</small>";try{sessionStorage.setItem("ps-admin-view",tab)}catch(e){}};nav.querySelectorAll("[data-admin-tab]").forEach(b=>b.addEventListener("click",()=>activate(b.dataset.adminTab)));let initial="overview";try{const saved=sessionStorage.getItem("ps-admin-view");if(saved&&names[saved])initial=saved}catch(e){}activate(initial)})();
+(()=>{const nav=document.getElementById("admin-module-nav");if(!nav)return;const names={overview:"Pregled sustava",content:"Sadržaj i CMS",editorial:"Urednički tijek",ai:"AI urednik i RSS redakcija",community:"Zajednica i moderacija",forum:"Forum i moderacija tema",archive:"Arhiv i medijska knjižnica",users:"Korisnici i postavke"};const desc={overview:"Stanje portala, najnoviji članci i operativne provjere.",content:"Članci, nacrti, objave i osnovne stranice portala.",editorial:"Urednička provjera, provjera činjenica, izvori i odobravanje.",ai:"AI generiranje, RSS izvori i urednički prijedlozi vijesti.",community:"Prijavljene priče i komentari zajednice.",forum:"Pregled tema, odgovora, prikvačenih rasprava i prijava na forumu.",archive:"Pravila za fotografije, dokumente, prava korištenja i arhivske metapodatke.",users:"Korisnički profili, ovlasti i sigurnosne postavke."};const activate=tab=>{nav.querySelectorAll("[data-admin-tab]").forEach(b=>{const on=b.dataset.adminTab===tab;b.classList.toggle("is-active",on);b.setAttribute("aria-pressed",String(on))});document.querySelectorAll("[data-admin-group]").forEach(el=>{el.hidden=el.dataset.adminGroup!==tab});const label=document.getElementById("admin-view-label");if(label)label.innerHTML="<span>RADNI PROSTOR</span><strong>"+names[tab]+"</strong><small>"+desc[tab]+"</small>";try{sessionStorage.setItem("ps-admin-view",tab)}catch(e){}};nav.querySelectorAll("[data-admin-tab]").forEach(b=>b.addEventListener("click",()=>activate(b.dataset.adminTab)));let initial="overview";try{const saved=sessionStorage.getItem("ps-admin-view");if(saved&&names[saved])initial=saved}catch(e){}activate(initial)})();
 </script>
 </body></html>
