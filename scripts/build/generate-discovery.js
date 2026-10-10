@@ -1,5 +1,5 @@
 const fs=require("fs"),path=require("path");
-const root=process.cwd(),base="https://patriasoul-portal-v2.patriasoul.workers.dev/";
+const root=process.cwd(),base="https://ps.patriasoul.workers.dev/";
 const urls=[];
 function walk(d){for(const e of fs.readdirSync(d,{withFileTypes:true})){if([".git","node_modules","_site","kviz"].includes(e.name))continue;const p=path.join(d,e.name);if(e.isDirectory())walk(p);else if(e.name.endsWith(".html")&&e.name!=="404.html"&&e.name!=="googlef31b6b8a66adf403.html"&&e.name!=="prijava.html"&&e.name!=="registracija.html"&&e.name!=="racun.html"&&e.name!=="administracija.html"&&e.name!=="newsletter.html"&&e.name!=="kolacici.html"){const rel=path.relative(root,p).replaceAll(path.sep,"/");urls.push(rel.endsWith("/index.html")?base+rel.slice(0,-"index.html".length):base+rel);}}}
 walk(root);
