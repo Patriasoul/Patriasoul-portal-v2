@@ -103,6 +103,19 @@ jobs:
           mkdir -p _site/kviz
           cp -R kviz/dist/. _site/kviz/
 
+      - name: Provjeri glavne kategorije u izgrađenom portalu
+        shell: bash
+        run: |
+          set -euo pipefail
+          for category in domovina povijest vjera cuvari-nasljedja; do
+            file="_site/kategorije/$category/index.html"
+            if [ ! -s "$file" ]; then
+              echo "::error::Nedostaje glavna stranica kategorije: $file"
+              exit 1
+            fi
+            echo "OK $file"
+          done
+
       - name: Postavi službeni PatriaSoul favicon na cijeli portal
         run: node scripts/build/ensure-favicon.js _site
 
