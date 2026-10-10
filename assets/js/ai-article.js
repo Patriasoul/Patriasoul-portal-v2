@@ -181,6 +181,15 @@ async function bootRSS(){
     try{await refreshAllFeeds()}catch(e){status("RSS automatsko osvježavanje: "+(e.message||e),false)}
   }
 }
+window.PatriaSoulAIArticle={generateFromRSS:async item=>{
+  if(!item||!item.title||!item.link)throw new Error("RSS prijedlog nema naslov ili izvornu poveznicu.");
+  rssItems=[{title:item.title,description:item.description||"",link:item.link,date:item.date||"",source:item.source||"RSS izvor"}];
+  selectedRss=new Set([0]);
+  set("ai-topic","Napiši originalan, provjeren članak na temelju ove vijesti. Naslov vijesti: "+item.title+"\nSažetak: "+(item.description||"Nije dostavljen.")+"\nIzvorna poveznica: "+item.link+"\nNemoj prepisivati izvor. Provjeri što je potvrđeno i ne izmišljaj činjenice.");
+  set("ai-mode","rss");
+  $("#article-ai")?.scrollIntoView({behavior:"smooth",block:"start"});
+  await generate();
+}};
 $("#ai-rss-refresh-all")?.addEventListener("click",()=>refreshAllFeeds().catch(e=>status("RSS: "+(e.message||e),false)));
 $("#ai-rss-load")?.addEventListener("click",()=>loadSingleRSS().catch(e=>status("RSS: "+(e.message||e),false)));
 $("#ai-rss-add")?.addEventListener("click",addFeed);
