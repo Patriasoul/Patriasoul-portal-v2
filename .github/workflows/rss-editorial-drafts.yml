@@ -1,0 +1,36 @@
+name: PatriaSoul · RSS urednički nacrti
+
+on:
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: patriasoul-rss-editorial-drafts
+  cancel-in-progress: false
+
+jobs:
+  create-editorial-drafts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Preuzmi repozitorij
+        uses: actions/checkout@v6
+
+      - name: Postavi Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Provjeri sintaksu RSS tijeka rada
+        run: node --check scripts/rss/create-editorial-drafts.js
+
+      - name: Prikupi odobrene RSS izvore i otvori uredničke nacrte
+        run: node scripts/rss/create-editorial-drafts.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
