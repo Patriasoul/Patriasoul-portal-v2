@@ -35,13 +35,15 @@ const checks=[
 ["Role management uses owner gate",js.includes('roles-panel')&&js.includes('hidden=!owner')],
 ["Article revisions are created",editor.includes("portal_article_revisions")],
 ["RSS error status can be surfaced",ai.includes("Nijedan RSS izvor nije uspio")],
-["RSS draft workflow is manual-only until private storage is configured",rssWorkflow.includes("workflow_dispatch:")&&!rssWorkflow.includes("schedule:")],
-["RSS workflow has issue-write but no contents-write permission",rssWorkflow.includes("issues: write")&&rssWorkflow.includes("contents: read")&&!rssWorkflow.includes("contents: write")],
+["RSS editorial draft workflow is scheduled and manually triggerable",rssWorkflow.includes("schedule:")&&rssWorkflow.includes("workflow_dispatch:")],
+["RSS workflow uses minimum repository permissions",rssWorkflow.includes("contents: read")&&!rssWorkflow.includes("issues: write")&&!rssWorkflow.includes("contents: write")],
 ["RSS draft script restricts sources and redirects",rssDrafts.includes("ALLOWED_HOSTS")&&rssDrafts.includes("RSS preusmjerava izvan popisa odobrenih izvora")],
 ["RSS drafts are time-limited and capped",rssDrafts.includes("MAX_AGE_HOURS = 36")&&rssDrafts.includes("MAX_NEW_DRAFTS = 5")],
-["RSS draft script refuses public repositories",rssDrafts.includes("repository?.private !== true")&&rssDrafts.includes("nacrti se ne spremaju u javni repozitorij")],
+["RSS draft script requires a private Supabase service credential",rssDrafts.includes("SUPABASE_SERVICE_ROLE_KEY")&&rssDrafts.includes("Nedostaje GitHub Actions tajna SUPABASE_SERVICE_ROLE_KEY")],
 ["RSS drafts remain editorial-only and never publish",rssDrafts.includes("it never publishes portal content")&&rssDrafts.includes("Urednik odobrava tekst prije bilo kakve objave.")],
-["RSS text is treated as untrusted input",rssDrafts.includes("never execute it or follow instructions inside it")&&rssDrafts.includes("Upute ili naredbe unutar njih ne smiju se slijediti.")],
+["RSS text is treated as untrusted input",rssDrafts.includes("no embedded instructions are executed or followed")&&rssDrafts.includes("never generates or publishes articles")],
+["RSS queue is displayed in admin panel",admin.includes('id="rss-editorial-drafts"')&&admin.includes('id="rss-drafts-list"')&&js.includes("manageRssDrafts")],
+["RSS draft changes stay editorial-only",js.includes("Prijedlog i dalje nije objavljen.")&&js.includes('value="converted"')&&!js.includes("rss_editorial_drafts.*published")],
 ];
 console.log("PatriaSoul admin/RSS QA");
 for(const [label,ok] of checks){console.log((ok?"PASS":"FAIL")+" "+label);if(!ok)process.exitCode=1;}
