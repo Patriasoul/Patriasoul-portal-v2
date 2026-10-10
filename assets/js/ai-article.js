@@ -47,52 +47,50 @@ function parseXml(xml,source){
   return [...doc.querySelectorAll("entry")].map(n=>({title:stripHtml(n.querySelector("title")?.textContent),description:stripHtml(n.querySelector("summary")?.textContent||n.querySelector("content")?.textContent),link:(n.querySelector("link")?.getAttribute("href")||"").trim(),date:(n.querySelector("published")?.textContent||n.querySelector("updated")?.textContent||"").trim(),source})).filter(x=>x.title);
 }
 async function fetchText(url){
-  if(window.puter?.net?.fetch){
-    const r=await puter.net.fetch(url,{cache:"no-store"});
-    if(!r.ok)throw new Error("RSS HTTP "+r.status);
-    return r.text();
+  let parsed;
+  try{parsed=new URL(url)}catch(_){throw new Error("RSS poveznica nije valjana.")}
+  if(parsed.protocol!=="https:")throw new Error("RSS izvor mora koristiti sigurnu HTTPS poveznicu.");
+  const endpoint="/api/rss?url="+encodeURIComponent(parsed.href);
+  const r=await fetch(endpoint,{cache:"no-store",headers:{"Accept":"application/rss+xml, application/atom+xml, application/xml, text/xml, */*"}});
+  if(!r.ok){
+    let detail="";
+    try{detail=(await r.text()).slice(0,180)}catch(_){}
+    throw new Error("RSS poslužitelj vratio je HTTP "+r.status+(detail?": "+detail:""));
   }
-  const r=await fetch(url,{cache:"no-store"});
-  if(!r.ok)throw new Error("RSS HTTP "+r.status);
   return r.text();
 }
 async function fetchFeed(feed){
-  try{
-    const xml=await fetchText(feed.url);
-    const items=parseXml(xml,feed.name||feedName(feed.url));
-    if(!items.length)throw new Error("RSS nije prepoznat kao RSS/Atom.");
-    return items;
-  }catch(primaryError){
-    try{
-      const proxy="https://api.allorigins.win/raw?url="+encodeURIComponent(feed.url);
-      const xml=await fetch(proxy,{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error("Proxy HTTP "+r.status);return r.text()});
-      const items=parseXml(xml,feed.name||feedName(feed.url));
-      if(!items.length)throw new Error("Proxy nije vratio RSS/Atom.");
-      return items;
-    }catch(_){
-      throw primaryError;
-    }
-  }
+  const xml=await fetchText(feed.url);
+  const items=parseXml(xml,feed.name||feedName(feed.url));
+  if(!items.length)throw new Error("Izvor ne sadrži prepoznatljive RSS/Atom stavke.");
+  return items;
 }
 async function refreshAllFeeds(){
   const enabled=feeds.filter(f=>f.enabled!==false&&f.url);
   if(!enabled.length)throw new Error("Nema uključenih RSS izvora.");
-  status("Učitavam odabrane RSS izvore…");
-  const results=await Promise.all(enabled.map(f=>fetchFeed(f).catch(()=>[])));
+  status("Učitavam "+enabled.length+" RSS izvora preko PatriaSoul poslužitelja…");
+  const results=await Promise.all(enabled.map(async f=>{try{return {feed:f,items:await fetchFeed(f),error:null}}catch(error){return {feed:f,items:[],error:error?.message||"nepoznata greška"}}}));
   const seen=new Set();
-  rssItems=results.flat().filter(x=>x.title&&x.link).filter(x=>{const k=x.link||x.title;if(seen.has(k))return false;seen.add(k);return true});
+  rssItems=results.flatMap(x=>x.items).filter(x=>x.title&&x.link).filter(x=>{const k=x.link||x.title;if(seen.has(k))return false;seen.add(k);return true});
   rssItems.sort((a,b)=>(Date.parse(b.date)||0)-(Date.parse(a.date)||0));
   rssItems=rssItems.slice(0,60);
   selectedRss=new Set();
   renderRSS();
+  const failed=results.filter(x=>x.error);
+  if(!rssItems.length){
+    const details=failed.map(x=>(x.feed.name||feedName(x.feed.url))+": "+x.error).join(" | ");
+    throw new Error("Nijedan RSS izvor nije uspio. "+details);
+  }
   localStorage.setItem(LAST_KEY,String(Date.now()));
-  status("RSS osvježen · "+rssItems.length+" novih stavki za izbor.",true);
+  status("RSS učitan · "+rssItems.length+" stavki"+(failed.length?" · Neuspjeli izvori: "+failed.map(x=>x.feed.name||feedName(x.feed.url)).join(", "):" · Svi izvori rade."),true);
 }
 async function loadSingleRSS(){
-  const url=get("ai-rss-url");if(!url)throw new Error("Unesi RSS poveznicu.");
-  const feed={name:feedName(url),url};
+  const raw=get("ai-rss-url");if(!raw)throw new Error("Unesi RSS poveznicu.");
+  let parsed;try{parsed=new URL(raw)}catch(_){throw new Error("RSS poveznica nije valjana.")}
+  if(parsed.protocol!=="https:")throw new Error("RSS poveznica mora počinjati s https://.");
+  const feed={name:feedName(parsed.href),url:parsed.href};
   const items=await fetchFeed(feed);rssItems=items.slice(0,30);selectedRss=new Set();renderRSS();
-  status("RSS učitan · "+rssItems.length+" stavki",true);
+  status("RSS učitan · "+rssItems.length+" stavki iz "+feed.name+".",true);
 }
 function renderRSS(){
   const box=$("#ai-rss-results");if(!box)return;
@@ -164,9 +162,10 @@ function fill(d){
 }
 function addFeed(){
   const input=$("#ai-rss-new-url"),url=input?.value.trim();if(!url)return;
-  try{new URL(url)}catch(_){status("RSS: neispravna poveznica.",false);return}
-  if(feeds.some(f=>f.url===url)){status("RSS: taj izvor već postoji.",false);return}
-  feeds.push({name:feedName(url),url,enabled:true});saveFeeds();renderFeeds();if(input)input.value="";status("RSS izvor dodan.",true);
+  let parsed;try{parsed=new URL(url)}catch(_){status("RSS: neispravna poveznica.",false);return}
+  if(parsed.protocol!=="https:"){status("RSS: koristi poveznicu koja počinje s https://.",false);return}
+  if(feeds.some(f=>f.url===parsed.href)){status("RSS: taj izvor već postoji.",false);return}
+  feeds.push({name:feedName(parsed.href),url:parsed.href,enabled:true});saveFeeds();renderFeeds();if(input)input.value="";status("RSS izvor dodan.",true);
 }
 async function bootRSS(){
   loadFeeds();
