@@ -41,7 +41,7 @@ export default {
     // Izravno razriješi glavne kategorije na njihov index.html.
     // Time se ne oslanjamo na implicitno razrješavanje direktorija u statičkom asset sloju.
     if ((request.method === "GET" || request.method === "HEAD")) {
-      const categoryMatch = url.pathname.match(/^\\/kategorije\\/(domovina|povijest|vjera|cuvari-nasljedja)\\/?$/);
+      const categoryMatch = url.pathname.match(/^\/kategorije\/(domovina|povijest|vjera|cuvari-nasljedja)\/?$/);
       if (categoryMatch) {
         const categoryIndexUrl = new URL(url);
         categoryIndexUrl.pathname = `/kategorije/${categoryMatch[1]}/index.html`;
