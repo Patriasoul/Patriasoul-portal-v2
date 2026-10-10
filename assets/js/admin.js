@@ -39,8 +39,8 @@ async function manageRssDrafts(c,currentUserId){
     const saved=await c.from("rss_editorial_drafts").update(patch).eq("id",id).select("id").maybeSingle();
     if(saved.error)throw saved.error;
     if(!saved.data)throw new Error("Promjena nije spremljena. Provjeri uredničke ovlasti.");
-    statusEl.textContent=next==="rejected"?"Prijedlog je odbijen i uklonjen s aktivnih lista.":next==="reviewed"?"Prijedlog je pregledan i premješten u blok za izradu.":next==="converted"?"Prijedlog je premješten u blok preuzetih u CMS.":"Prijedlog je spremljen među nove prijedloge.";
     await manageRssDrafts(c,currentUserId);
+    statusEl.textContent=next==="rejected"?"Prijedlog je odbijen i uklonjen s aktivnih lista.":next==="reviewed"?"Prijedlog je pregledan i premješten u blok za izradu.":next==="converted"?"Prijedlog je premješten u blok preuzetih u CMS.":"Prijedlog je vraćen među nove prijedloge.";
    }catch(e){alert("RSS prijedlog nije spremljen: "+(e?.message||"nepoznata greška"));btn.textContent=prior}
    finally{btn.disabled=false}
   }));
