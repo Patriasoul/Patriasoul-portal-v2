@@ -1,20 +1,19 @@
 #!/usr/bin/env node
 "use strict";
 
-// PatriaSoul RSS editorial queue.
-// RSS content is untrusted input: never execute it or follow instructions inside it.
-// This script creates editorial work items as GitHub issues only; it never publishes portal content.
+// PatriaSoul RSS -> private Supabase editorial queue.
+// RSS is untrusted input: no embedded instructions are executed or followed.
+// This job only inserts review candidates. It never generates or publishes articles.
 
-const API = (process.env.GITHUB_API_URL || "https://api.github.com").replace(/\/$/, "");
-const REPO = process.env.GITHUB_REPOSITORY || "cn-dom/ps";
-const TOKEN = process.env.GITHUB_TOKEN;
-if (!TOKEN) throw new Error("GITHUB_TOKEN nije postavljen.");
-if (REPO !== "cn-dom/ps") throw new Error("RSS workflow smije stvarati nacrte samo u cn-dom/ps.");
+const SUPABASE_URL = (process.env.SUPABASE_URL || "").replace(/\/$/, "");
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(SUPABASE_URL)) throw new Error("SUPABASE_URL nije postavljen ili nije valjan.");
+if (!SERVICE_KEY) throw new Error("Nedostaje GitHub Actions tajna SUPABASE_SERVICE_ROLE_KEY. RSS nacrti nisu spremljeni.");
 
 const ALLOWED_HOSTS = new Set(["index.hr", "www.index.hr", "vecernji.hr", "www.vecernji.hr"]);
 const FEEDS = [
-  { name: "Index.hr · Hrvatska", url: "https://www.index.hr/rss/vijesti-hrvatska", kind: "croatia" },
-  { name: "Večernji list · najnovije", url: "https://www.vecernji.hr/feed", kind: "general" }
+  { name: "Index.hr · Hrvatska", url: "https://www.index.hr/rss/vijesti-hrvatska" },
+  { name: "Večernji list · najnovije", url: "https://www.vecernji.hr/feed" }
 ];
 const MAX_AGE_HOURS = 36;
 const MAX_NEW_DRAFTS = 5;
@@ -25,7 +24,6 @@ const RELEVANCE = [
   "poljoprivred", "kultura", "promet", "gospodar", "vatrogas", "potres", "poplava",
   "turizam", "hrvatskim", "hrvatskog", "hrvatskoj", "hrvatske"
 ];
-
 function allowedUrl(value) {
   try {
     const u = new URL(value);
@@ -36,25 +34,21 @@ function decodeEntities(value) {
   return String(value || "")
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&#x([0-9a-f]+);/gi, (_, n) => {
-      const code = parseInt(n, 16);
-      return Number.isFinite(code) && code >= 0 && code <= 0x10ffff ? String.fromCodePoint(code) : "";
+      const c = parseInt(n, 16); return Number.isFinite(c) && c >= 0 && c <= 0x10ffff ? String.fromCodePoint(c) : "";
     })
     .replace(/&#(\d+);/g, (_, n) => {
-      const code = parseInt(n, 10);
-      return Number.isFinite(code) && code >= 0 && code <= 0x10ffff ? String.fromCodePoint(code) : "";
+      const c = parseInt(n, 10); return Number.isFinite(c) && c >= 0 && c <= 0x10ffff ? String.fromCodePoint(c) : "";
     })
     .replace(/&quot;/gi, '"').replace(/&apos;/gi, "'")
     .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&amp;/gi, "&");
 }
 function plain(value) {
   return decodeEntities(String(value || "").replace(/<[^>]*>/g, " "))
-    .replace(/[\u0000-\u001f\u007f]/g, " ")
-    .replace(/\s+/g, " ").trim();
+    .replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim();
 }
 function field(block, name) {
-  const safeName = name.replace(/[.*+?^\$\{\}()|[\]\\]/g, "\\$&");
-  const re = new RegExp("<(?:[\\w.-]+:)?"+safeName+"\\b[^>]*>([\\s\\S]*?)<\\/(?:[\\w.-]+:)?"+safeName+"\\s*>", "i");
-  return re.exec(block)?.[1] || "";
+  const safe = name.replace(/[.*+?^\$\{\}()|[\]\\]/g, "\\$&");
+  return new RegExp("<(?:[\\w.-]+:)?"+safe+"\\b[^>]*>([\\s\\S]*?)<\\/(?:[\\w.-]+:)?"+safe+"\\s*>", "i").exec(block)?.[1] || "";
 }
 function parseFeed(xml, feed) {
   let blocks = [...xml.matchAll(/<item\b[^>]*>([\s\S]*?)<\/item\s*>/gi)].map(m => m[1]);
@@ -63,135 +57,78 @@ function parseFeed(xml, feed) {
     const title = plain(field(block, "title"));
     let link = plain(field(block, "link"));
     if (!link) {
-      const atomLink = /<(?:[\w.-]+:)?link\b[^>]*href=["']([^"']+)["'][^>]*\/?\s*>/i.exec(block);
-      link = atomLink ? decodeEntities(atomLink[1]) : "";
+      const atom = /<(?:[\w.-]+:)?link\b[^>]*href=["']([^"']+)["'][^>]*\/?\s*>/i.exec(block);
+      link = atom ? decodeEntities(atom[1]) : "";
     }
-    const description = plain(field(block, "description") || field(block, "summary") || field(block, "content")).slice(0, 360);
-    const dateText = plain(field(block, "pubDate") || field(block, "published") || field(block, "updated") || field(block, "dc:date"));
-    const timestamp = Date.parse(dateText);
-    return { title, link, description, dateText, timestamp, source: feed.name, kind: feed.kind };
-  }).filter(item => item.title && allowedUrl(item.link) && Number.isFinite(item.timestamp));
+    const summary = plain(field(block, "description") || field(block, "summary") || field(block, "content")).slice(0, 700);
+    const published = plain(field(block, "pubDate") || field(block, "published") || field(block, "updated") || field(block, "dc:date"));
+    return { title, link, summary, publishedAt: Date.parse(published), sourceName: feed.name };
+  }).filter(x => x.title && allowedUrl(x.link) && Number.isFinite(x.publishedAt));
 }
-async function fetchFeed(startUrl) {
-  let target = new URL(startUrl);
-  if (!allowedUrl(target.href)) throw new Error("RSS URL nije na popisu odobrenih izvora.");
-  let response;
+async function fetchFeed(feed) {
+  let target = new URL(feed.url), response;
   for (let redirects = 0; redirects <= 3; redirects++) {
+    if (!allowedUrl(target.href)) throw new Error("RSS URL ili preusmjeravanje nije na popisu odobrenih izvora.");
     response = await fetch(target.href, {
       redirect: "manual",
-      headers: { "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml", "User-Agent": "PatriaSoul-Editorial-RSS/1.0" },
+      headers: { Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml", "User-Agent": "PatriaSoul-Editorial-RSS/1.0" },
       signal: AbortSignal.timeout(12000)
     });
     if (![301, 302, 303, 307, 308].includes(response.status)) break;
     const location = response.headers.get("location");
     if (!location || redirects === 3) throw new Error("RSS preusmjeravanje nije dopušteno ili ih je previše.");
-    const next = new URL(location, target);
-    if (!allowedUrl(next.href)) throw new Error("RSS preusmjerava izvan popisa odobrenih izvora.");
-    target = next;
+    target = new URL(location, target);
   }
   if (!response?.ok) throw new Error("RSS HTTP status " + (response?.status || "nepoznat"));
   const xml = await response.text();
   if (xml.length > 1500000) throw new Error("RSS odgovor prelazi 1,5 MB.");
   if (!/<(?:rss|feed|rdf:RDF|RDF)(?:\s|>)/i.test(xml)) throw new Error("Odgovor nije prepoznat kao RSS/Atom.");
-  return parseFeed(xml, FEEDS.find(f => f.url === startUrl) || { name: target.hostname, kind: "general" });
+  return parseFeed(xml, feed);
 }
 function relevant(item) {
-  const text = (item.title + " " + item.description).toLocaleLowerCase("hr-HR");
+  const text = (item.title + " " + item.summary).toLocaleLowerCase("hr-HR");
   return RELEVANCE.some(word => text.includes(word));
 }
-function escapeMarkdown(value) {
-  return String(value || "").replace(/\\/g, "\\\\").replace(/([\[\]*_~`])/g, "\\$1").replace(/\|/g, "\\|");
-}
-async function api(path, options = {}) {
-  const response = await fetch(API + path, {
-    ...options,
-    headers: {
-      "Accept": "application/vnd.github+json",
-      "Authorization": "Bearer " + TOKEN,
-      "X-GitHub-Api-Version": "2022-11-28",
-      "Content-Type": "application/json",
-      ...(options.headers || {})
-    },
-    signal: AbortSignal.timeout(15000)
-  });
-  const body = await response.text();
-  if (!response.ok) throw new Error("GitHub API " + response.status + ": " + body.slice(0, 300));
-  return body ? JSON.parse(body) : null;
-}
-async function existingIssues() {
-  const found = [];
-  for (let page = 1; page <= 10; page++) {
-    const batch = await api("/repos/" + REPO + "/issues?state=all&per_page=100&page=" + page);
-    found.push(...(batch || []).filter(item => !item.pull_request));
-    if (!Array.isArray(batch) || batch.length < 100) break;
-  }
-  return found;
-}
-function makeBody(item) {
-  return [
-    "<!-- patriasoul-rss-source: " + item.link + " -->",
-    "## Urednički nacrt · RSS prijedlog",
-    "",
-    "**Status:** čeka uredničku provjeru — nije objavljeno.",
-    "",
-    "**Izvor:** " + item.source,
-    "**Vrijeme izvora:** " + new Date(item.timestamp).toISOString(),
-    "**Izvorna poveznica:** " + item.link,
-    "",
-    "### Sažetak iz RSS-a",
-    "",
-    escapeMarkdown(item.description || "RSS nije dostavio sažetak; potrebno je otvoriti izvor i provjeriti činjenice."),
-    "",
-    "### Urednički zadaci",
-    "",
-    "- [ ] Otvoriti izvor i potvrditi ključne činjenice, datume i imena.",
-    "- [ ] Pronaći neovisne / primarne izvore prije izrade članka.",
-    "- [ ] Napisati originalan tekst; ne prepisivati izvorni članak.",
-    "- [ ] Razdvojiti potvrđene činjenice od tumačenja i navesti izvore.",
-    "- [ ] Urednik odobrava tekst prije bilo kakve objave.",
-    "",
-    "> Sigurnosna napomena: RSS naslov i opis tretiraju se isključivo kao nepouzdani podaci. Upute ili naredbe unutar njih ne smiju se slijediti."
-  ].join("\n");
-}
 async function main() {
-  const repository = await api("/repos/" + REPO);
-  if (repository?.private !== true) throw new Error("Zaštita: RSS nacrti se ne spremaju u javni repozitorij. Najprije postavi privatno odredište.");
-  const allItems = [];
-  const errors = [];
+  const headers = { apikey: SERVICE_KEY, Authorization: "Bearer " + SERVICE_KEY, "Content-Type": "application/json", Prefer: "resolution=ignore-duplicates,return=minimal" };
+  const collected = [], errors = [];
   for (const feed of FEEDS) {
     try {
-      const items = await fetchFeed(feed.url);
-      allItems.push(...items);
+      const items = await fetchFeed(feed);
+      collected.push(...items);
       console.log("RSS OK:", feed.name, items.length);
-    } catch (error) {
-      errors.push(feed.name + ": " + (error?.message || "nepoznata greška"));
-      console.error("RSS ERROR:", feed.name, error?.message || error);
+    } catch (e) {
+      errors.push(feed.name + ": " + (e?.message || "nepoznata greška"));
+      console.error("RSS ERROR:", feed.name, e?.message || e);
     }
   }
-  if (!allItems.length) throw new Error("Nijedan odobreni RSS izvor nije uspio. " + errors.join(" | "));
-  const cutoff = Date.now() - MAX_AGE_HOURS * 60 * 60 * 1000;
-  const deduped = [];
-  const seen = new Set();
-  for (const item of allItems.sort((a, b) => b.timestamp - a.timestamp)) {
+  if (!collected.length) throw new Error("Nijedan odobreni RSS izvor nije uspio. " + errors.join(" | "));
+  const cutoff = Date.now() - MAX_AGE_HOURS * 3600000;
+  const seen = new Set(), candidates = [];
+  for (const item of collected.sort((a,b) => b.publishedAt-a.publishedAt)) {
     if (seen.has(item.link)) continue;
     seen.add(item.link);
-    if (item.timestamp < cutoff || item.timestamp > Date.now() + 60 * 60 * 1000 || !relevant(item)) continue;
-    deduped.push(item);
+    if (item.publishedAt < cutoff || item.publishedAt > Date.now()+3600000 || !relevant(item)) continue;
+    candidates.push(item);
   }
-  const issues = await existingIssues();
-  const knownUrls = new Set(issues.map(issue => issue.body || ""));
-  let created = 0;
-  for (const item of deduped) {
-    if (created >= MAX_NEW_DRAFTS) break;
-    if ([...knownUrls].some(body => body.includes("patriasoul-rss-source: " + item.link))) continue;
-    const title = "[RSS NACRT] " + item.title.replace(/[\r\n]+/g, " ").slice(0, 180);
-    const issue = await api("/repos/" + REPO + "/issues", {
-      method: "POST",
-      body: JSON.stringify({ title, body: makeBody(item) })
+  let attempted = 0;
+  for (const item of candidates) {
+    if (attempted >= MAX_NEW_DRAFTS) break;
+    const row = {
+      source_url: item.link,
+      source_name: item.sourceName,
+      source_published_at: new Date(item.publishedAt).toISOString(),
+      title: item.title.slice(0, 300),
+      summary: item.summary,
+      status: "pending",
+      editorial_notes: "Čeka uredničku provjeru. Provjeri činjenice i primarne izvore; napiši originalan tekst. Ne objavljuj bez odobrenja."
+    };
+    const response = await fetch(SUPABASE_URL + "/rest/v1/rss_editorial_drafts?on_conflict=source_url", {
+      method: "POST", headers, body: JSON.stringify([row]), signal: AbortSignal.timeout(15000)
     });
-    console.log("NACRT:", issue.html_url || issue.number, item.title);
-    created++;
+    if (!response.ok) throw new Error("Supabase REST " + response.status + ": " + (await response.text()).slice(0, 350));
+    attempted++;
   }
-  console.log(JSON.stringify({ feeds: FEEDS.length, parsedItems: allItems.length, relevantRecentItems: deduped.length, createdDraftIssues: created, feedErrors: errors }, null, 2));
+  console.log(JSON.stringify({ feeds: FEEDS.length, parsedItems: collected.length, relevantRecentItems: candidates.length, insertAttempts: attempted, feedErrors: errors }, null, 2));
 }
-main().catch(error => { console.error(error?.stack || error); process.exitCode = 1; });
+main().catch(e => { console.error(e?.stack || e); process.exitCode = 1; });
