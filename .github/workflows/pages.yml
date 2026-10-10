@@ -58,6 +58,10 @@ jobs:
       - name: Generiraj sitemap, robots i indeks pretrage
         run: node scripts/build/generate-discovery.js
 
+      - name: Izradi objedinjeni QA izvještaj
+        if: always()
+        run: node scripts/qa/qa-report.js
+
       - name: QA strukture
         run: node scripts/qa/qa-structure.js
 
@@ -87,6 +91,17 @@ jobs:
 
       - name: QA komentara i prijave
         run: node scripts/qa/qa-comments.js
+
+      - name: Pohrani QA izvještaj kao artefakt
+        if: always() && hashFiles('qa-report/report.md', 'qa-report/report.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: patriasoul-qa-report
+          path: |
+            qa-report/report.md
+            qa-report/report.json
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Build Hrvatski kviz
         working-directory: kviz
