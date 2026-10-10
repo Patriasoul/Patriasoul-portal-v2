@@ -331,7 +331,7 @@ export default function App() {
     const baseUrl = import.meta.env.BASE_URL || "/";
     const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
     if (isLocal) return new URL(baseUrl, window.location.origin).toString();
-    return "https://patriasoul.github.io/Patriasoul-portal-v2/kviz/";
+    return "https://cn-dom.github.io/ps/kviz/";
   };
 
   const validateAuth = () => {
