@@ -130,9 +130,28 @@
     back.setAttribute("aria-label", "Vrati se na prethodnu stranicu");
     back.title = "Vrati se korak unatrag";
     back.addEventListener("click", () => {
-      // Uvijek idi točno jedan korak unatrag u povijesti preglednika.
-      // Ne preusmjeravaj na kategoriju ili naslovnicu ako prethodna stranica nije s iste domene.
-      window.history.back();
+      // Najprije vrati na prethodnu stranicu samo ako je unutar istog portala.
+      if (document.referrer) {
+        try {
+          const previous = new URL(document.referrer);
+          if (previous.origin === location.origin && previous.href !== location.href) {
+            location.href = previous.href;
+            return;
+          }
+        } catch (_) {}
+      }
+      // Pouzdan izlaz kad je stranica otvorena izravno ili nema povijesti preglednika.
+      if (path.includes("/stranice/administracija.html")) {
+        const editor = document.getElementById("article-editor");
+        if (editor) editor.hidden = true;
+        document.getElementById("articles-manage")?.scrollIntoView({behavior:"smooth",block:"start"});
+        return;
+      }
+      if (path.includes("/clanci/domovina/")) { location.href = link("kategorije/domovina/"); return; }
+      if (path.includes("/clanci/povijest/")) { location.href = link("kategorije/povijest/"); return; }
+      if (path.includes("/clanci/vjera/")) { location.href = link("kategorije/vjera/"); return; }
+      if (path.includes("/clanci/cuvari-nasljedja/")) { location.href = link("kategorije/cuvari-nasljedja/"); return; }
+      location.href = link("index.html");
     });
     document.body.append(back);
     const backStyle = document.createElement("style");
@@ -339,7 +358,7 @@
   document.head.append(style);
   // Jedinstveni pregled fotografija za sve članke (naslovne i slike unutar teksta).
   document.addEventListener("click", event => {
-    const img = event.target.closest("article.article-page img, .article-page img, .article-figure img, .article-body img, .article-hero");
+    const img = event.target.closest("article img, main article img, .article-page img, .article-figure img, .article-body img, .article-hero img, img.article-hero");
     if (!img || img.closest(".ps-image-lightbox") || img.classList.contains("ps-brand-logo") || img.classList.contains("ps-footer-logo")) return;
     const src = img.currentSrc || img.src;
     if (!src) return;
@@ -373,7 +392,7 @@
     modal.style.display = "flex";
     document.body.style.overflow = "hidden";
   }, true);
-  document.querySelectorAll("article.article-page img, .article-page img, .article-figure img, .article-body img, .article-hero").forEach(img => {
+  document.querySelectorAll("article img, main article img, .article-page img, .article-figure img, .article-body img, .article-hero img, img.article-hero").forEach(img => {
     if (!img.classList.contains("ps-brand-logo") && !img.classList.contains("ps-footer-logo")) {
       img.style.cursor = "zoom-in";
       img.title = img.title || "Kliknite za povećanje fotografije";
