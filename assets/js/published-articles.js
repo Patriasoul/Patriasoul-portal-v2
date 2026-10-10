@@ -90,59 +90,13 @@
       .catch(() => [])
       .then(items => Array.isArray(items) ? items.map(normalizeStaticArticle) : []);
 
-    let databaseArticles = [];
-    try {
-      // Vanjska baza ne smije blokirati otvaranje kategorije. Ako CDN ili
-      // Supabase ne odgovore brzo, stranica koristi već učitani lokalni indeks.
-      const databaseRequest = (async () => {
-        const supabase = await client();
-        const result = await supabase
-          .from("portal_articles")
-          .select("id,path,title,kicker,category,subcategory,excerpt,image_url,image_alt,author_display,published_at")
-          .eq("status", "published")
-          .order("published_at", { ascending: false })
-          .limit(100);
-        if (result.error) throw result.error;
-        return result.data || [];
-      })();
-      const timeout = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error("Isteklo je vrijeme čekanja baze; koristi se lokalni indeks članaka.")), 4000);
-      });
-      const rows = await Promise.race([databaseRequest, timeout]);
-      databaseArticles = rows.map(article => ({
-        id: article.id,
-        url: String(article.path || "").replace(/^\.\//, ""),
-        title: article.title,
-        description: article.excerpt || "",
-        image: article.image_url || "",
-        alt: article.image_alt || article.title,
-        category: slug(article.category),
-        categoryLabel: categoryLabels[slug(article.category)] || article.category || "",
-        subcategory: slug(article.subcategory || ""),
-        subcategoryLabel: article.subcategory || "",
-        dateISO: article.published_at,
-        date: formatDate(article.published_at),
-        dynamic: true
-      }));
-    } catch (error) {
-      console.warn("PatriaSoul: Supabase nije dostupan; prikazujem GitHub indeks članaka.", error);
-    }
-
-    // Ako isti članak postoji u bazi i u GitHub indeksu, prednost ima zapis iz baze.
-    const merged = [...databaseArticles, ...staticArticles];
-    const seen = new Set();
-    return merged
-      .filter(article => {
-        if (!article?.title || !article.url) return false;
-        const key = article.url.replace(/^\/+/, "").replace(/\/$/, "");
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      })
-      .sort((a, b) =>
-        parseDate(b.dateISO || b.date) - parseDate(a.dateISO || a.date) ||
-        String(a.title).localeCompare(String(b.title), "hr")
-      );
+    // Kategorije i popisi koriste lokalni indeks koji se objavljuje zajedno
+    // s portalom. Ne čekamo CDN ni Supabase: vanjska usluga ne smije učiniti
+    // postojeće HTML stranice praznima ili neaktivnima.
+    return staticArticles.sort((a, b) =>
+      parseDate(b.dateISO || b.date) - parseDate(a.dateISO || a.date) ||
+      String(a.title).localeCompare(String(b.title), "hr")
+    );
   }
 
   window.PatriaSoulPublished = { all, esc, slug, date: formatDate };
