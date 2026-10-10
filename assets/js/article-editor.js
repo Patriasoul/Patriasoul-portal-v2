@@ -15,6 +15,7 @@ async function openEditor(id=null){
   client=client||await auth.client();
   currentUser=currentUser||await auth.getUser();
   currentId=id||null;
+  const editorPanel=$("#article-editor");if(editorPanel)editorPanel.hidden=false;
   $("#article-editor")?.scrollIntoView({behavior:"smooth",block:"start"});
   message("Učitavanje…");
   if(!id){
@@ -81,6 +82,9 @@ async function save(){
     currentId=article.id;val("article-id",article.id);
     message((finalSlug!==baseSlug?"Spremljeno kao "+finalSlug+" — postojeći slug je već postojao. ":"Spremljeno: ")+statusLabel(status),true);
     if(window.PatriaSoulAdmin?.refreshArticles) await window.PatriaSoulAdmin.refreshArticles();
+    // Nakon uspješnog spremanja zatvori CMS urednik; članak ostaje spremljen u svom statusu.
+    const editorPanel=$("#article-editor");if(editorPanel)editorPanel.hidden=true;
+    $("#articles-manage")?.scrollIntoView({behavior:"smooth",block:"start"});
   }catch(e){console.error(e);message("Spremanje nije uspjelo: "+(e?.message||"nepoznata greška"));}
 }
 
