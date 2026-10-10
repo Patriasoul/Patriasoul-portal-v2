@@ -12,3 +12,9 @@
 .ps-auth-message{min-height:1.4em;margin:0!important;color:var(--ps-red,#c51f2b)!important;font-size:.88rem}
 .ps-auth-link{text-align:center;margin-top:18px}
 @media(max-width:560px){.ps-auth-page{width:min(calc(100% - 20px),560px);margin:26px auto 50px}.ps-auth-card{padding:20px 16px;border-radius:11px}}
+/* Tamnija i čitljivija potvrda pravila na prijavi i registraciji. */
+.ps-auth-card .ps-legal-accept{background:#10263d!important;border-color:#49627b!important;color:#fff!important}
+.ps-auth-card .ps-legal-accept a{color:#fff!important;text-decoration:underline;text-underline-offset:3px}
+.ps-auth-card .ps-legal-accept input{accent-color:#c51f2b}
+.ps-auth-card .ps-auth-legal-note{color:#46566a}
+.ps-auth-card .ps-auth-legal-note a{color:#9d1722;text-decoration:underline;text-underline-offset:2px}
