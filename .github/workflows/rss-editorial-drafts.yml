@@ -1,6 +1,8 @@
 name: PatriaSoul · RSS urednički nacrti
 
 on:
+  schedule:
+    - cron: "17,47 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -30,5 +32,5 @@ jobs:
       - name: Prikupi odobrene RSS izvore i otvori uredničke nacrte
         run: node scripts/rss/create-editorial-drafts.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          SUPABASE_URL: https://ijimozjfdffejbczwyzb.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
