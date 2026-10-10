@@ -23,7 +23,7 @@ async function manageRssDrafts(c,currentUserId){
   if(!rows.length){list.innerHTML="<p>Nema novih RSS prijedloga. Automatizacija sprema samo relevantne vijesti iz posljednjih 36 sati.</p>";statusEl.textContent="Nema prijedloga za prikaz.";return}
   const date=v=>v?fmt(v):"—";
   const sourceLink=value=>{try{const u=new URL(value);if(u.protocol!=="https:"||!["index.hr","www.index.hr","vecernji.hr","www.vecernji.hr"].includes(u.hostname.toLowerCase()))return "";return '<a href="'+esc(u.href)+'" target="_blank" rel="noopener noreferrer">Otvori izvor ↗</a>'}catch{return ""}};
-  list.innerHTML=rows.map(x=>'<article class="ps-rss-draft" data-rss-draft="'+esc(x.id)+'"><div class="ps-rss-draft-head"><div><span class="ps-rss-status ps-rss-status-'+esc(x.status)+'">'+esc(({pending:"Čeka provjeru",reviewed:"Pregledano",rejected:"Odbijeno",converted:"Preuzeto u CMS"})[x.status]||x.status)+'</span><h3>'+esc(x.title)+'</h3></div><small>'+date(x.source_published_at)+'</small></div><p class="ps-rss-draft-summary">'+esc(x.summary||"Izvor nije dostavio sažetak.")+'</p><div class="ps-rss-draft-meta"><span>'+esc(x.source_name)+'</span>'+sourceLink(x.source_url)+'</div><label class="ps-rss-draft-note">Urednička bilješka<textarea rows="3" maxlength="4000" data-rss-note>'+esc(x.editorial_notes||"")+'</textarea></label><div class="ps-admin-actions ps-rss-draft-actions"><label>Status<select data-rss-status><option value="pending" '+(x.status==="pending"?"selected":"")+'>Čeka provjeru</option><option value="reviewed" '+(x.status==="reviewed"?"selected":"")+'>Pregledano</option><option value="rejected" '+(x.status==="rejected"?"selected":"")+'>Odbijeno</option><option value="converted" '+(x.status==="converted"?"selected":"")+'>Preuzeto u CMS</option></select></label><button type="button" class="ps-admin-button" data-rss-save>Spremi bilješku i status</button></div></article>').join("");
+  list.innerHTML=rows.map(x=>'<article class="ps-rss-draft" data-rss-draft="'+esc(x.id)+'"><div class="ps-rss-draft-head"><div><span class="ps-rss-status ps-rss-status-'+esc(x.status)+'">'+esc(({pending:"Čeka provjeru",reviewed:"Pregledano",rejected:"Odbijeno",converted:"Preuzeto u CMS"})[x.status]||x.status)+'</span><h3>'+esc(x.title)+'</h3></div><small>'+date(x.source_published_at)+'</small></div><p class="ps-rss-draft-summary">'+esc(x.summary||"Izvor nije dostavio sažetak.")+'</p><div class="ps-rss-draft-meta"><span>'+esc(x.source_name)+'</span>'+sourceLink(x.source_url)+'</div><label class="ps-rss-draft-note">Urednička bilješka<textarea rows="3" maxlength="4000" data-rss-note>'+esc(x.editorial_notes||"")+'</textarea></label><div class="ps-admin-actions ps-rss-draft-actions"><label>Status<select data-rss-status><option value="pending" '+(x.status==="pending"?"selected":"")+'>Čeka provjeru</option><option value="reviewed" '+(x.status==="reviewed"?"selected":"")+'>Pregledano</option><option value="rejected" '+(x.status==="rejected"?"selected":"")+'>Odbijeno</option><option value="converted" '+(x.status==="converted"?"selected":"")+'>Preuzeto u CMS</option></select></label><button type="button" class="ps-admin-button" data-rss-save>Spremi bilješku i status</button><button type="button" class="ps-admin-button ps-admin-button-light" data-rss-create>Izradi članak</button></div></article>').join("");
   list.querySelectorAll("[data-rss-save]").forEach(btn=>btn.addEventListener("click",async()=>{
    const card=btn.closest("[data-rss-draft]"),id=card?.dataset.rssDraft,note=card?.querySelector("[data-rss-note]")?.value||"",next=card?.querySelector("[data-rss-status]")?.value||"pending";
    if(!id)return;btn.disabled=true;const prior=btn.textContent;btn.textContent="Spremam…";
@@ -36,6 +36,17 @@ async function manageRssDrafts(c,currentUserId){
     btn.textContent="Spremljeno";
    }catch(e){alert("RSS prijedlog nije spremljen: "+(e?.message||"nepoznata greška"));btn.textContent=prior}
    finally{btn.disabled=false}
+  }));
+  list.querySelectorAll("[data-rss-create]").forEach(btn=>btn.addEventListener("click",async()=>{
+   const card=btn.closest("[data-rss-draft]");
+   const row=rows.find(x=>String(x.id)===String(card?.dataset.rssDraft));
+   if(!row)return;
+   if(!window.PatriaSoulAIArticle?.generateFromRSS){alert("AI generator nije učitan. Osvježi administraciju i pokušaj ponovno.");return}
+   btn.disabled=true;const oldText=btn.textContent;btn.textContent="Pokrećem AI…";
+   try{
+    await window.PatriaSoulAIArticle.generateFromRSS({title:row.title,description:row.summary||"",link:row.source_url,date:row.source_published_at||"",source:row.source_name||"RSS izvor"});
+   }catch(e){alert("Članak nije izrađen: "+(e?.message||"nepoznata greška"))}
+   finally{btn.disabled=false;btn.textContent=oldText}
   }));
   statusEl.textContent=rows.length+" privatnih RSS prijedloga. Nijedan se ne objavljuje automatski.";
  }catch(e){console.error("PatriaSoul RSS drafts error",e);statusEl.textContent="RSS prijedlozi nisu dostupni: "+(e?.message||"provjeri pristup bazi");list.innerHTML="<p>Provjeri da je RSS tablica postavljena i da je tvoj račun ovlašten za urednički pristup.</p>"}
