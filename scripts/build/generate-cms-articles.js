@@ -41,13 +41,13 @@ async function main() {
     if (!category) throw new Error("Nepoznata CMS kategorija: "+(article.title || article.id)+" ("+article.category+")");
     // The CMS public path is the source of truth; otherwise a stale slug can
     // generate the page at a different URL than the one shown in administration.
-    const storedPath = String(article.path || "").replace(/^\\/+/, "");
-    const safeStoredPath = storedPath.match(/^clanci\\/(domovina|povijest|vjera|cuvari-nasljedja)\\/(clanak-[a-z0-9-]+\\.html)$/i);
+    const storedPath = String(article.path || "").replace(/^\/+/, "");
+    const safeStoredPath = storedPath.match(/^clanci\/(domovina|povijest|vjera|cuvari-nasljedja)\/(clanak-[a-z0-9-]+\.html)$/i);
     let relativePath;
     let slug;
     if (safeStoredPath && safeStoredPath[1].toLowerCase() === category) {
       relativePath = "clanci/" + category + "/" + safeStoredPath[2];
-      slug = safeStoredPath[2].replace(/^clanak-/, "").replace(/\\.html$/i, "");
+      slug = safeStoredPath[2].replace(/^clanak-/, "").replace(/\.html$/i, "");
     } else {
       slug = slugify(article.slug || path.basename(storedPath, ".html").replace(/^clanak-/, ""));
       if (!slug) throw new Error("Članak nema valjan slug: "+(article.title || article.id));
