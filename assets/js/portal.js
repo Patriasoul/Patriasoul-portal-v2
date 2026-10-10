@@ -130,22 +130,9 @@
     back.setAttribute("aria-label", "Vrati se na prethodnu stranicu");
     back.title = "Vrati se korak unatrag";
     back.addEventListener("click", () => {
-      const previous = document.referrer;
-      let sameSite = false;
-      try { sameSite = Boolean(previous) && new URL(previous).origin === location.origin; } catch (_) {}
-      if (sameSite && window.history.length > 1) {
-        window.history.back();
-        return;
-      }
-      // Siguran povratak kad je stranica otvorena izravno ili u novoj kartici.
-      const pathNow = location.pathname;
-      const lastSlash = pathNow.lastIndexOf("/");
-      const lastPart = pathNow.slice(lastSlash + 1);
-      if (lastSlash > 0 && lastPart.endsWith(".html")) {
-        const candidate = pathNow.slice(0, lastSlash + 1);
-        if (candidate !== pathNow) { location.href = candidate; return; }
-      }
-      location.href = link("index.html");
+      // Uvijek idi točno jedan korak unatrag u povijesti preglednika.
+      // Ne preusmjeravaj na kategoriju ili naslovnicu ako prethodna stranica nije s iste domene.
+      window.history.back();
     });
     document.body.append(back);
     const backStyle = document.createElement("style");
