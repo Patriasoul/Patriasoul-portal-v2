@@ -79,7 +79,7 @@
           <a href="${link("kategorije/vjera/vjera-i-hrvatska-bastina.html")}">Vjera i hrvatska baština</a>
         </div>
       </div>
-      <a class="ps-nav-direct${active("/cuvari-nasljedja")}" href="${link("cuvari-nasljedja/")}">Čuvari nasljeđa</a>
+      <a class="ps-nav-direct${active("/kategorije/cuvari-nasljedja")}" href="${link("kategorije/cuvari-nasljedja/")}">Čuvari nasljeđa</a>
       <a class="ps-nav-direct${active("/stranice/o-patriasoul.html")}" href="${link("stranice/o-patriasoul.html")}">O PatriaSoul</a>
       <div class="ps-nav-group ps-more${active("/stranice/")}">
         <a href="${link("stranice/kontakt.html")}">Više <span>⌄</span></a>
@@ -217,7 +217,7 @@
         <a href="${link("kategorije/domovina/")}">Domovina</a>
         <a href="${link("kategorije/povijest/")}">Povijest</a>
         <a href="${link("kategorije/vjera/")}">Vjera</a>
-        <a href="${link("cuvari-nasljedja/")}">Čuvari nasljeđa</a>
+        <a href="${link("kategorije/cuvari-nasljedja/")}">Čuvari nasljeđa</a>
       </div>
     </div>
     <div class="ps-container ps-footer-social">
