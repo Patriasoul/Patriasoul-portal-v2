@@ -14,6 +14,16 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;b
 .hero{text-align:center;padding:26px 10px 24px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#f2b3bd;font-size:11px;font-weight:900;letter-spacing:.18em}.dot{width:7px;height:7px;background:var(--red);border-radius:50%;box-shadow:0 0 16px var(--red)}h1{font-size:clamp(34px,6vw,64px);line-height:.98;margin:13px 0 12px;letter-spacing:-.045em}h1 em{font-style:normal;color:#e01d38}.hero p{max-width:760px;margin:auto;color:#aeb6c4;line-height:1.7;font-size:15px}
 .chat{overflow:hidden;background:linear-gradient(180deg,#121720,#0d1118);border:1px solid var(--line);border-radius:20px;box-shadow:0 25px 70px #0009}.chatbar{display:none!important}.chatbar{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--line);background:#151b25}.ai-id{display:flex;align-items:center;gap:10px}.ai-orb{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 7%,#f03a52 8% 30%,#8e0d1e 70%);box-shadow:0 0 22px #c5162e55}.ai-logo{width:34px;height:34px;flex:0 0 34px;object-fit:contain;border-radius:50%;background:#050505;border:1px solid #dba83b}.ai-id strong{font-size:14px}.online{font-size:11px;color:#a7d5b4}.online:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#4fba73;margin-right:6px}
 #messages{height:min(55vh,560px);min-height:390px;overflow:auto;padding:24px}.msg{max-width:78%;padding:14px 16px;margin:0 0 15px;border-radius:17px;line-height:1.65;white-space:normal;word-wrap:break-word}.msg p{margin:0 0 12px}.msg a{color:#f08a99;text-decoration:none;font-weight:750}.msg a:hover{text-decoration:underline}.source-box{margin-top:16px;padding-top:14px;border-top:1px solid #2a3340}.source-title{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:900;color:#dfe4eb;margin-bottom:9px}.source-link{display:block;padding:10px 12px;margin-top:8px;border:1px solid #303a49;border-radius:12px;background:#111721;color:#e9edf3!important}.read-more{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:9px 13px;border-radius:10px;background:linear-gradient(135deg,#c5162e,#941124);color:#fff!important;font-size:12px;font-weight:900}.ai{background:#171e29;border:1px solid #273141;border-top-left-radius:5px;color:#e8ebf0}.user{margin-left:auto;background:linear-gradient(135deg,#c5162e,#941124);border-top-right-radius:5px;color:#fff;box-shadow:0 8px 25px #c5162e22}.welcome{max-width:760px}.welcome .mini{font-size:10px;letter-spacing:.15em;font-weight:900;color:#e28b98;margin-bottom:6px}.suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.suggestion{border:1px solid #303a49;background:#111721;color:#cbd2dd;border-radius:999px;padding:8px 11px;font-size:12px;cursor:pointer}.suggestion:hover{border-color:#a9162c;color:#fff}
+.welcome-prompt{margin:16px 0 10px;color:#aeb6c4;font-size:13px}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px;max-width:690px}
+.topic-button{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:42px;padding:10px 14px;border:1px solid #343e4d;border-radius:11px;background:linear-gradient(180deg,#171e29,#111720);color:#edf0f5;font:inherit;font-size:13px;font-weight:750;text-align:left;cursor:pointer;transition:border-color .15s,background .15s}
+.topic-button span{color:#e04a5d;font-size:16px}
+.topic-button:hover,.topic-button[aria-pressed="true"]{border-color:#c5162e;background:#21141b}
+.topic-choices{margin-top:12px;padding:12px;border:1px solid #2b3442;border-radius:12px;background:#10151d}
+.topic-choices[hidden]{display:none}
+.topic-choices-title{margin:0 0 9px;color:#f0c0c6;font-size:12px;font-weight:850;letter-spacing:.04em}
+.topic-choices .suggestion{border-radius:10px;padding:9px 12px;font-size:12px}
+@media(max-width:420px){.topic-grid{grid-template-columns:1fr}.topic-button{min-height:40px}}
 .composer{padding:15px;border-top:1px solid var(--line);background:#0c1017}.row{display:flex;gap:10px;align-items:flex-end}textarea{width:100%;min-height:54px;max-height:150px;resize:vertical;background:#151b24;border:1px solid #303948;border-radius:16px;color:#fff;padding:15px;font:inherit;outline:none}textarea:focus{border-color:#a9162c;box-shadow:0 0 0 3px #c5162e18}button#send{min-width:112px;height:54px;border:0;border-radius:15px;background:linear-gradient(135deg,#d21a35,#a40f24);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 10px 25px #c5162e30}button:disabled{opacity:.55;cursor:not-allowed}.hint{display:flex;justify-content:space-between;gap:10px;color:#697383;font-size:11px;padding:8px 3px 0}.status{color:#9da6b4}.portal-link-box{margin-top:14px}.portal-link-box .read-more{margin-top:0}.note{text-align:center;color:#687181;font-size:11px;margin:15px 0 0;line-height:1.5}
 @media(max-width:650px){.wrap{width:min(100% - 14px,1120px);padding-top:12px}.back{display:none}.hero{padding:20px 4px}.chat{border-radius:19px}.chatbar{height:53px}.msg{max-width:90%}#messages{min-height:430px;padding:17px}.row{align-items:stretch;flex-direction:column}button#send{width:100%}.hint{display:block}.hint .status{display:block;margin-top:4px}}
 
@@ -37,7 +47,7 @@ html.embed-mode .hint{font-size:10px;padding-top:6px}
 <header class="top"><div class="brand"><img class="mark" src="../assets/images/patriasoul-logo.jpg" alt="PatriaSoul"><div><strong>Čuvari nasljeđa</strong><span>AI pomoćnik PatriaSoula</span></div></div></header>
 <section class="chat">
 <div class="chatbar"><div class="ai-id"><img class="ai-logo" src="../assets/images/patriasoul-logo.jpg" alt="" aria-hidden="true"><div><strong>Čuvari nasljeđa</strong><div class="online">Spremni za razgovor</div></div></div><div class="kicker">PATRIASOUL</div></div>
-<div id="messages"><div class="msg ai welcome"><div class="mini">ČUVARI NASLJEĐA</div><strong>Pozdrav. Mi smo Čuvari nasljeđa.</strong><br><br>Čuvamo priče, pamćenje i vrijednosti Hrvatske — njezinu povijest, baštinu, vjeru, gradove i Domovinski rat.<br><br><strong>Pitajte nas. Istražimo zajedno ono što je Hrvatsku činilo, što je čuva i što moramo prenijeti budućim naraštajima.</strong><div class="suggestions"><button class="suggestion">Tko je PatriaSoul?</button><button class="suggestion">Gdje mogu pronaći najnovije priče i članke?</button><button class="suggestion">Kako mogu zaigrati Hrvatski kviz?</button><button class="suggestion">Kako mogu poslati svoju priču ili svjedočanstvo?</button></div></div></div>
+<div id="messages"><div class="msg ai welcome"><div class="mini">ČUVARI NASLJEĐA</div><strong>Pozdrav. Mi smo Čuvari nasljeđa.</strong><br><br>Čuvamo priče, pamćenje i vrijednosti Hrvatske — njezinu povijest, baštinu, vjeru, gradove i Domovinski rat.<br><br><strong>Pitajte nas. Istražimo zajedno ono što je Hrvatsku činilo, što je čuva i što moramo prenijeti budućim naraštajima.</strong><p class="welcome-prompt">Odaberi područje za lakši početak ili jednostavno napiši svoje pitanje.</p><div class="topic-grid" id="topicGrid"><button type="button" class="topic-button" data-topic="povijest">Povijest Hrvatske <span>→</span></button><button type="button" class="topic-button" data-topic="rat">Domovinski rat <span>→</span></button><button type="button" class="topic-button" data-topic="vjera">Vjera i obitelj <span>→</span></button><button type="button" class="topic-button" data-topic="danas">Hrvatska danas <span>→</span></button><button type="button" class="topic-button" data-topic="portal">Članci PatriaSoula <span>→</span></button><button type="button" class="topic-button" data-topic="opce">Opća pitanja <span>→</span></button></div><div id="topicChoices" class="topic-choices" hidden></div></div></div>
 <div class="composer"><div class="row"><textarea id="input" placeholder="Napišite svoje pitanje…" aria-label="Pitanje za Čuvare nasljeđa"></textarea><button id="send">Pošalji →</button></div><div class="hint"><span>Enter · pošalji &nbsp; Shift + Enter · novi red</span><span class="status" id="status">Baza: učitavanje · Model: gpt-6-luna</span></div></div>
 </section>
 </div>
@@ -299,6 +309,26 @@ function wireSuggestions(root){
  });
 }
 wireSuggestions(messages);
+// Početni tematski izbornik: mali, široki gumbi otvaraju konkretne prijedloge.
+// Slobodno polje za upit ostaje stalno dostupno, a odabir teme ne briše razgovor.
+const topicOptions={
+ povijest:{title:'Povijest Hrvatske',items:['Kako je nastala hrvatska država?','Važni događaji hrvatske povijesti','Poznate osobe iz hrvatske povijesti','Hrvatska baština i povijesni gradovi']},
+ rat:{title:'Domovinski rat',items:['Bitka za Vukovar','Operacija Oluja','Branitelji i njihova svjedočanstva','Nestali u Domovinskom ratu']},
+ vjera:{title:'Vjera i obitelj',items:['Vjera u hrvatskoj tradiciji','Hrvatski sveci i blaženici','Obiteljski običaji i nasljeđe','Blagdani i njihovo značenje']},
+ danas:{title:'Hrvatska danas',items:['Najnovije vijesti iz Hrvatske','Važne teme i događaji','Vrijeme u Hrvatskoj','Što se danas obilježava?']},
+ portal:{title:'Članci PatriaSoula',items:['Pronađi članke o Domovinskom ratu','Pronađi povijesne članke','Najnovije priče i objave','Kako poslati svoju priču?']},
+ opce:{title:'Opća pitanja',items:['Objasni mi neku temu jednostavno','Pomozi mi provjeriti povijesnu tvrdnju','Preporuči temu za istraživanje','Imam svoje pitanje']}
+};
+const topicGrid=document.getElementById('topicGrid'),topicChoices=document.getElementById('topicChoices');
+if(topicGrid&&topicChoices){
+ topicGrid.querySelectorAll('[data-topic]').forEach(button=>button.addEventListener('click',()=>{
+   const topic=topicOptions[button.dataset.topic];if(!topic)return;
+   topicGrid.querySelectorAll('[data-topic]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+   topicChoices.hidden=false;
+   topicChoices.innerHTML='<div class="topic-choices-title">'+escapeHtml(topic.title)+' · odaberi pitanje</div><div class="suggestions">'+topic.items.map(q=>'<button type="button" class="suggestion">'+escapeHtml(q)+'</button>').join('')+'</div>';
+   wireSuggestions(topicChoices);
+ }));
+}
 loadKnowledge();
 </script>
 </body>
