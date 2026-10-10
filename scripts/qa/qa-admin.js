@@ -40,6 +40,7 @@ const checks=[
 ["RSS draft script restricts sources and redirects",rssDrafts.includes("ALLOWED_HOSTS")&&rssDrafts.includes("RSS URL ili preusmjeravanje nije na popisu odobrenih izvora")],
 ["RSS drafts are time-limited and capped",rssDrafts.includes("MAX_AGE_HOURS = 36")&&rssDrafts.includes("MAX_NEW_DRAFTS = 5")],
 ["RSS draft script requires a private Supabase service credential",rssDrafts.includes("SUPABASE_SERVICE_ROLE_KEY")&&rssDrafts.includes("Nedostaje GitHub Actions tajna SUPABASE_SERVICE_ROLE_KEY")],
+["RSS workflow safely pauses when Supabase secret is missing",rssWorkflow.includes("steps.supabase-config.outputs.configured == 'true'")&&rssWorkflow.includes("SUPABASE_SERVICE_ROLE_KEY")],
 ["RSS drafts remain editorial-only and never publish",rssDrafts.includes("never generates or publishes articles")&&rssDrafts.includes('status: "pending"')],
 ["RSS text is treated as untrusted input",rssDrafts.includes("no embedded instructions are executed or followed")&&rssDrafts.includes("never generates or publishes articles")],
 ["RSS queue is displayed in admin panel",admin.includes('id="rss-editorial-drafts"')&&admin.includes('id="rss-drafts-list"')&&js.includes("manageRssDrafts")],
