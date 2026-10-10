@@ -84,6 +84,7 @@ async function save(){
     if(rssDraftId){const moved=await client.from("rss_editorial_drafts").update({status:"converted",updated_at:new Date().toISOString(),reviewed_by:currentUser.id,reviewed_at:new Date().toISOString()}).eq("id",rssDraftId).select("id").maybeSingle();if(moved.error)throw moved.error;if(!moved.data)throw new Error("Članak je spremljen, ali RSS prijedlog nije mogao biti premješten u spremljene.");window.PatriaSoulAIArticle.currentRSSDraftId=null;}
     message((finalSlug!==baseSlug?"Spremljeno kao "+finalSlug+" — postojeći slug je već postojao. ":"Spremljeno: ")+statusLabel(status),true);
     if(window.PatriaSoulAdmin?.refreshArticles) await window.PatriaSoulAdmin.refreshArticles();
+    if(window.PatriaSoulAdmin?.refreshRssDrafts) await window.PatriaSoulAdmin.refreshRssDrafts();
     // Nakon uspješnog spremanja zatvori CMS urednik; članak ostaje spremljen u svom statusu.
     const editorPanel=$("#article-editor");if(editorPanel)editorPanel.hidden=true;
     $("#articles-manage")?.scrollIntoView({behavior:"smooth",block:"start"});
