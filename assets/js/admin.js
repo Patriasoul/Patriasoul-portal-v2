@@ -23,7 +23,14 @@ async function manageRssDrafts(c,currentUserId){
   if(!rows.length){list.innerHTML="<p>Nema novih RSS prijedloga. Automatizacija sprema samo relevantne vijesti iz posljednjih 36 sati.</p>";statusEl.textContent="Nema prijedloga za prikaz.";return}
   const date=v=>v?fmt(v):"—";
   const sourceLink=value=>{try{const u=new URL(value);if(u.protocol!=="https:"||!["index.hr","www.index.hr","vecernji.hr","www.vecernji.hr"].includes(u.hostname.toLowerCase()))return "";return '<a href="'+esc(u.href)+'" target="_blank" rel="noopener noreferrer">Otvori izvor ↗</a>'}catch{return ""}};
-  list.innerHTML=rows.map(x=>'<article class="ps-rss-draft" data-rss-draft="'+esc(x.id)+'"><div class="ps-rss-draft-head"><div><span class="ps-rss-status ps-rss-status-'+esc(x.status)+'">'+esc(({pending:"Čeka provjeru",reviewed:"Pregledano",rejected:"Odbijeno",converted:"Preuzeto u CMS"})[x.status]||x.status)+'</span><h3>'+esc(x.title)+'</h3></div><small>'+date(x.source_published_at)+'</small></div><p class="ps-rss-draft-summary">'+esc(x.summary||"Izvor nije dostavio sažetak.")+'</p><div class="ps-rss-draft-meta"><span>'+esc(x.source_name)+'</span>'+sourceLink(x.source_url)+'</div><label class="ps-rss-draft-note">Urednička bilješka<textarea rows="3" maxlength="4000" data-rss-note>'+esc(x.editorial_notes||"")+'</textarea></label><div class="ps-admin-actions ps-rss-draft-actions"><label>Status<select data-rss-status><option value="pending" '+(x.status==="pending"?"selected":"")+'>Čeka provjeru</option><option value="reviewed" '+(x.status==="reviewed"?"selected":"")+'>Pregledano</option><option value="rejected" '+(x.status==="rejected"?"selected":"")+'>Odbijeno</option><option value="converted" '+(x.status==="converted"?"selected":"")+'>Preuzeto u CMS</option></select></label><button type="button" class="ps-admin-button" data-rss-save>Spremi bilješku i status</button><button type="button" class="ps-admin-button ps-admin-button-light" data-rss-create>Izradi članak</button></div></article>').join("");
+  const cardHtml=x=>'<article class="ps-rss-draft" data-rss-draft="'+esc(x.id)+'"><div class="ps-rss-draft-head"><div><span class="ps-rss-status ps-rss-status-'+esc(x.status)+'">'+esc(({pending:"Čeka provjeru",reviewed:"Pregledano",rejected:"Odbijeno",converted:"Preuzeto u CMS"})[x.status]||x.status)+'</span><h3>'+esc(x.title)+'</h3></div><small>'+date(x.source_published_at)+'</small></div><p class="ps-rss-draft-summary">'+esc(x.summary||"Izvor nije dostavio sažetak.")+'</p><div class="ps-rss-draft-meta"><span>'+esc(x.source_name)+'</span>'+sourceLink(x.source_url)+'</div><label class="ps-rss-draft-note">Urednička bilješka<textarea rows="3" maxlength="4000" data-rss-note>'+esc(x.editorial_notes||"")+'</textarea></label><div class="ps-admin-actions ps-rss-draft-actions"><label>Status<select data-rss-status><option value="pending" '+(x.status==="pending"?"selected":"")+'>Čeka provjeru</option><option value="reviewed" '+(x.status==="reviewed"?"selected":"")+'>Pregledano</option><option value="rejected" '+(x.status==="rejected"?"selected":"")+'>Odbijeno</option><option value="converted" '+(x.status==="converted"?"selected":"")+'>Preuzeto u CMS</option></select></label><button type="button" class="ps-admin-button" data-rss-save>Spremi bilješku i status</button><button type="button" class="ps-admin-button ps-admin-button-light" data-rss-create>Izradi članak</button></div></article>');
+  const active=rows.filter(x=>x.status!=="rejected");
+  const sections=[
+   {status:"pending",title:"1. Novi prijedlozi",hint:"Čekaju urednički pregled."},
+   {status:"reviewed",title:"2. Spremno za izradu",hint:"Pregledani prijedlozi koje možeš pretvoriti u članak."},
+   {status:"converted",title:"3. U CMS-u · spremno za provjeru",hint:"Preuzeto u CMS; provjeri nacrt prije objave."}
+  ];
+  list.innerHTML=sections.map(sec=>{const items=active.filter(x=>x.status===sec.status);return '<section class="ps-rss-workflow-stage" data-rss-stage="'+sec.status+'"><h3>'+sec.title+' <span>('+items.length+')</span></h3><p>'+sec.hint+'</p><div class="ps-rss-stage-items">'+(items.map(cardHtml).join("")||'<p class="ps-admin-muted">Nema prijedloga u ovom koraku.</p>')+'</div></section>'}).join("");
   list.querySelectorAll("[data-rss-save]").forEach(btn=>btn.addEventListener("click",async()=>{
    const card=btn.closest("[data-rss-draft]"),id=card?.dataset.rssDraft,note=card?.querySelector("[data-rss-note]")?.value||"",next=card?.querySelector("[data-rss-status]")?.value||"pending";
    if(!id)return;btn.disabled=true;const prior=btn.textContent;btn.textContent="Spremam…";
@@ -32,8 +39,8 @@ async function manageRssDrafts(c,currentUserId){
     const saved=await c.from("rss_editorial_drafts").update(patch).eq("id",id).select("id").maybeSingle();
     if(saved.error)throw saved.error;
     if(!saved.data)throw new Error("Promjena nije spremljena. Provjeri uredničke ovlasti.");
-    statusEl.textContent="Promjene su spremljene. Prijedlog i dalje nije objavljen.";
-    btn.textContent="Spremljeno";
+    statusEl.textContent=next==="rejected"?"Prijedlog je odbijen i uklonjen s aktivnih lista.":next==="reviewed"?"Prijedlog je pregledan i premješten u blok za izradu.":next==="converted"?"Prijedlog je premješten u blok preuzetih u CMS.":"Prijedlog je spremljen među nove prijedloge.";
+    await manageRssDrafts(c,currentUserId);
    }catch(e){alert("RSS prijedlog nije spremljen: "+(e?.message||"nepoznata greška"));btn.textContent=prior}
    finally{btn.disabled=false}
   }));
@@ -45,6 +52,9 @@ async function manageRssDrafts(c,currentUserId){
    btn.disabled=true;const oldText=btn.textContent;btn.textContent="Pokrećem AI…";
    try{
     await window.PatriaSoulAIArticle.generateFromRSS({title:row.title,description:row.summary||"",link:row.source_url,date:row.source_published_at||"",source:row.source_name||"RSS izvor"});
+    const moved=await c.from("rss_editorial_drafts").update({status:"converted",updated_at:new Date().toISOString(),reviewed_by:currentUserId,reviewed_at:new Date().toISOString()}).eq("id",row.id).select("id").maybeSingle();
+    if(moved.error)throw moved.error;if(!moved.data)throw new Error("Članak je izrađen, ali status prijedloga nije spremljen.");
+    await manageRssDrafts(c,currentUserId);
    }catch(e){alert("Članak nije izrađen: "+(e?.message||"nepoznata greška"))}
    finally{btn.disabled=false;btn.textContent=oldText}
   }));
