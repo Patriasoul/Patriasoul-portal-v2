@@ -12,19 +12,33 @@ export default {
       if (feedUrl.protocol !== "https:" || feedUrl.username || feedUrl.password) {
         return new Response("RSS izvor mora biti sigurna HTTPS poveznica.", { status: 400 });
       }
-      const host = feedUrl.hostname.toLowerCase();
-      const blockedHost = host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") ||
-        host === "metadata.google.internal" || host === "169.254.169.254" ||
-        /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|0\.)/.test(host) ||
-        host === "::1" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe80:");
-      if (blockedHost) return new Response("Taj RSS host nije dopušten.", { status: 400 });
+      const allowedHosts = new Set(["index.hr", "www.index.hr", "vecernji.hr", "www.vecernji.hr"]);
+      const isAllowedFeedUrl = candidate => {
+        try {
+          const parsed = new URL(candidate);
+          return parsed.protocol === "https:" && !parsed.username && !parsed.password && allowedHosts.has(parsed.hostname.toLowerCase());
+        } catch { return false; }
+      };
+      if (!isAllowedFeedUrl(feedUrl.toString())) {
+        return new Response("RSS izvor nije na popisu odobrenih PatriaSoul izvora.", { status: 403 });
+      }
       try {
-        const upstream = await fetch(feedUrl.toString(), {
-          headers: { "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*", "User-Agent": "PatriaSoul-RSS/1.0" },
-          redirect: "follow",
-          signal: AbortSignal.timeout(10000)
-        });
-        if (!upstream.ok) return new Response("RSS izvor vratio je HTTP " + upstream.status, { status: 502 });
+        let target = feedUrl;
+        let upstream;
+        for (let redirects = 0; redirects <= 3; redirects++) {
+          upstream = await fetch(target.toString(), {
+            headers: { "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*", "User-Agent": "PatriaSoul-RSS/1.0" },
+            redirect: "manual",
+            signal: AbortSignal.timeout(10000)
+          });
+          if (![301, 302, 303, 307, 308].includes(upstream.status)) break;
+          const location = upstream.headers.get("location");
+          if (!location || redirects === 3) return new Response("RSS izvor ima previše preusmjeravanja.", { status: 502 });
+          const next = new URL(location, target);
+          if (!isAllowedFeedUrl(next.toString())) return new Response("Preusmjeravanje RSS izvora nije dopušteno.", { status: 403 });
+          target = next;
+        }
+        if (!upstream || !upstream.ok) return new Response("RSS izvor vratio je HTTP " + (upstream?.status || 502), { status: 502 });
         const type = upstream.headers.get("content-type") || "application/xml; charset=utf-8";
         const body = await upstream.text();
         if (body.length > 1500000) return new Response("RSS odgovor je prevelik (maks. 1,5 MB).", { status: 413 });
