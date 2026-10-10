@@ -153,7 +153,8 @@
     document.head.append(backStyle);
   }
 
-  // Mobilna navigacija: prvi dodir otvara padajući izbornik, drugi vodi na glavnu kategoriju.
+  // Na mobitelu je naziv kategorije uvijek izravna poveznica.
+  // Strelica otvara podizbornik, tako da korisnik ne mora pogađati treba li kliknuti jednom ili dvaput.
   const positionDropdown = (group) => {
     const navRect = header.querySelector(".ps-nav").getBoundingClientRect();
     const dropdown = group.querySelector(".ps-dropdown");
@@ -164,16 +165,23 @@
   };
   header.querySelectorAll(".ps-nav-group > a").forEach((anchor) => {
     anchor.addEventListener("click", (event) => {
-      if (window.matchMedia("(max-width: 680px)").matches) {
-        const group = anchor.parentElement;
-        if (!group.classList.contains("is-open")) {
-          event.preventDefault();
-          header.querySelectorAll(".ps-nav-group.is-open").forEach((open) => {
-            if (open !== group) open.classList.remove("is-open");
-          });
-          group.classList.add("is-open");
-          positionDropdown(group);
-        }
+      if (!window.matchMedia("(max-width: 680px)").matches) return;
+      const arrow = event.target.closest("span");
+      if (!arrow) {
+        setMobileMenu(false);
+        return;
+      }
+      event.preventDefault();
+      const group = anchor.parentElement;
+      const shouldOpen = !group.classList.contains("is-open");
+      header.querySelectorAll(".ps-nav-group.is-open").forEach((open) => {
+        if (open !== group) open.classList.remove("is-open");
+      });
+      if (shouldOpen) {
+        group.classList.add("is-open");
+        positionDropdown(group);
+      } else {
+        group.classList.remove("is-open");
       }
     });
   });
