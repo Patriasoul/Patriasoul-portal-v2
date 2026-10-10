@@ -1,4 +1,5 @@
 {
+  "id": "/kviz/",
   "name": "PatriaSoul — Hrvatski kviz",
   "short_name": "PatriaSoul",
   "description": "Hrvatski kviz znanja — povijest, baština, Domovinski rat, geografija, kultura i Brani svoj grad.",
@@ -10,10 +11,16 @@
   "theme_color": "#193452",
   "icons": [
     {
-      "src": "/assets/images/patriasoul-logo.jpg",
-      "sizes": "any",
-      "type": "image/jpeg",
+      "src": "https://raw.githubusercontent.com/Patriasoul/patriasoul/main/images/file_0000000082ec81f4a6fc17bdbd959622_114540.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/Patriasoul/patriasoul/main/images/file_0000000082ec81f4a6fc17bdbd959622_114540.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
