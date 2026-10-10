@@ -2,9 +2,43 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Podrži direktorijske URL-ove i čiste URL-ove bez nastavka.
-    // Primjer: /stranice/o-patriasoul -> /stranice/o-patriasoul.html
+    // Javni sadržaj ima kratke, kanonske URL-ove u korijenu domene.
+    // Stari /stranice/... URL-ovi ostaju podržani radi postojećih poveznica.
+    // Kategorije zadržavaju vlastitu strukturu, npr. /kategorije/domovina/.
+    const rootPageAliases = {
+      "/o-patriasoul": "/stranice/o-patriasoul.html",
+      "/kontakt": "/stranice/kontakt.html",
+      "/kolacici": "/stranice/kolacici.html",
+      "/na-danasnji-dan": "/stranice/na-danasnji-dan.html",
+      "/najnovije": "/stranice/najnovije.html",
+      "/newsletter": "/stranice/newsletter.html",
+      "/domoljubni-forum": "/stranice/domoljubni-forum.html",
+      "/pravila-foruma": "/stranice/pravila-foruma.html",
+      "/pravila-koristenja-i-sigurnosti": "/stranice/pravila-koristenja-i-sigurnosti.html",
+      "/pravilnik-o-igranju-kvizova": "/stranice/pravilnik-o-igranju-kvizova.html",
+      "/pravne-informacije": "/stranice/pravne-informacije.html",
+      "/pretraga": "/stranice/pretraga.html",
+      "/privatnost": "/stranice/privatnost.html",
+      "/urednicki-standard": "/stranice/urednicki-standard.html",
+      "/vrijeme": "/stranice/vrijeme.html",
+      "/prijava": "/stranice/prijava.html",
+      "/registracija": "/stranice/registracija.html",
+      "/racun": "/stranice/racun.html",
+      "/poruke-obavijesti": "/stranice/poruke-obavijesti.html",
+    };
+
+    // Podrži URL-ove s kosom crtom i bez nje. Zadržavamo query string.
     if (request.method === "GET" || request.method === "HEAD") {
+      const aliasKey = url.pathname.replace(/\\/+$/, "") || "/";
+      const aliasedAsset = rootPageAliases[aliasKey];
+      if (aliasedAsset) {
+        const aliasUrl = new URL(url);
+        aliasUrl.pathname = aliasedAsset;
+        return env.ASSETS.fetch(new Request(aliasUrl, request));
+      }
+
+      // Podrži direktorijske URL-ove i čiste URL-ove bez nastavka.
+      // Primjer: /stranice/o-patriasoul -> /stranice/o-patriasoul.html
       const lastSegment = url.pathname.split("/").filter(Boolean).at(-1) || "";
       const isDirectoryUrl = url.pathname.endsWith("/");
       const isExtensionlessPath = !isDirectoryUrl && !lastSegment.includes(".");
