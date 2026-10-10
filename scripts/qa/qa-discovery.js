@@ -16,12 +16,12 @@ if(!locs.length) throw new Error("Sitemap nema nijedan <loc> URL.");
 const unique=[...new Set(locs)];
 if(unique.length!==locs.length) throw new Error("Sitemap sadrži duplikate URL-ova.");
 
-const bad=locs.filter(u=>!u.startsWith("https://patriasoul-portal-v2.patriasoul.workers.dev/"));
+const bad=locs.filter(u=>!u.startsWith("https://ps.patriasoul.workers.dev/"));
 if(bad.length) throw new Error("Sitemap sadrži URL izvan PatriaSoul Pages domene.");
 
 const robots=fs.readFileSync("robots.txt","utf8");
 if(!robots.includes("User-agent: *")) throw new Error("robots.txt nema User-agent.");
 if(!robots.includes("Allow: /")) throw new Error("robots.txt nema Allow: /.");
-if(!robots.includes("Sitemap: https://patriasoul-portal-v2.patriasoul.workers.dev/sitemap.xml")) throw new Error("robots.txt ne pokazuje na službeni Workers sitemap.");
+if(!robots.includes("Sitemap: https://ps.patriasoul.workers.dev/sitemap.xml")) throw new Error("robots.txt ne pokazuje na službeni Workers sitemap.");
 
 console.log("DISCOVERY QA: OK —",locs.length,"URL-ova u sitemapu.");
