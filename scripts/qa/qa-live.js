@@ -7,6 +7,8 @@ const routes = [
   "/kategorije/povijest",
   "/kategorije/vjera/",
   "/kategorije/vjera",
+  "/kategorije/cuvari-nasljedja/",
+  "/kategorije/cuvari-nasljedja",
   "/cuvari-nasljedja/",
   "/cuvari-nasljedja",
   "/cuvari-nasljedja/prijavi-pricu.html",
