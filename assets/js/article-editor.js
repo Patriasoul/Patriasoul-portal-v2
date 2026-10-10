@@ -4,7 +4,7 @@ const $=s=>document.querySelector(s);
 const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const val=(id,v)=>{const e=$("#"+id);if(e)e.value=v??""};
 const get=(id)=>$("#"+id)?.value.trim()||"";
-const statusLabel=s=>({draft:"Nacrt",review:"Za provjeru",published:"Objavljeno",archived:"Arhivirano"}[s]||s||"—");
+const statusLabel=s=>({draft:"Nacrt",review:"Urednička provjera",approved:"Odobreno",scheduled:"Zakazano",published:"Objavljeno",archived:"Arhivirano"}[s]||s||"—");
 let client=null,currentUser=null,currentId=null;
 
 function message(text,ok=false){const e=$("#article-editor-message");if(!e)return;e.textContent=text;e.className="ps-editor-message "+(ok?"is-ok":"is-error");}
@@ -20,7 +20,7 @@ async function openEditor(id=null){
   message("Učitavanje…");
   if(!id){
     val("article-id","");val("article-title","");val("article-kicker","");val("article-category","Domovina");
-    val("article-subcategory","");val("article-path","clanci/domovina/novi-clanak.html");val("article-image-url","");
+    val("article-subcategory","");val("article-author","PatriaSoul");val("article-path","clanci/domovina/novi-clanak.html");val("article-image-url","");
     val("article-image-alt","");val("article-excerpt","");val("article-body","");val("article-sources","");val("article-period","");val("article-place","");val("article-people","");val("article-archive-source","");val("article-claims-note","");val("article-editorial-note","");
     val("article-status","draft"); message("Novi članak — spreman za unos.");
     return;
@@ -29,7 +29,7 @@ async function openEditor(id=null){
   if(r.error){message("Članak nije moguće učitati: "+r.error.message);return;}
   const a=r.data||{};
   val("article-id",a.id);val("article-title",a.title);val("article-kicker",a.kicker);val("article-category",a.category);
-  val("article-subcategory",a.subcategory);val("article-path",a.path||a.slug);val("article-image-url",a.image_url);val("article-image-alt",a.image_alt);
+  val("article-subcategory",a.subcategory);val("article-author",a.author_display||"PatriaSoul");val("article-path",a.path||a.slug);val("article-image-url",a.image_url);val("article-image-alt",a.image_alt);
   val("article-excerpt",a.excerpt);val("article-body",a.body_html);val("article-sources",sourceText(a.source_data));val("article-period",a.source_data?.history?.period||"");val("article-place",a.source_data?.history?.place||"");val("article-people",Array.isArray(a.source_data?.history?.people)?a.source_data.history.people.join(", "):(a.source_data?.history?.people||""));val("article-archive-source",a.source_data?.history?.archive_source||"");val("article-claims-note",a.source_data?.history?.claims_note||"");val("article-editorial-note",a.source_data?.editorial_note||"");val("article-seo-title",a.source_data?.seo?.title||"");val("article-meta-description",a.source_data?.seo?.description||"");val("article-seo-keywords",Array.isArray(a.source_data?.seo?.keywords)?a.source_data.seo.keywords.join(", "):(a.source_data?.seo?.keywords||""));val("article-status",a.status||"draft");
   message("Učitano: "+(a.title||"Bez naslova"));
 }
@@ -52,7 +52,7 @@ async function save(){
     val("article-path",path);
     const payload={
       title,kicker:get("article-kicker"),category,subcategory:get("article-subcategory"),excerpt:get("article-excerpt"),
-      body_html:body,image_url:get("article-image-url"),image_alt:get("article-image-alt"),author_display:"Čuvari nasljeđa",
+      body_html:body,image_url:get("article-image-url"),image_alt:get("article-image-alt"),author_display:get("article-author")||"PatriaSoul",
       status,published_at:status==="published"?now:null,updated_by:currentUser.id,updated_at:now,
       source_data:{sources:sourcesFrom(get("article-sources")),history:{period:get("article-period"),place:get("article-place"),people:sourcesFrom(get("article-people").replace(/,/g,"\n")),archive_source:get("article-archive-source"),claims_note:get("article-claims-note")},editorial_note:get("article-editorial-note"),seo:{title:get("article-seo-title"),description:get("article-meta-description"),keywords:sourcesFrom(get("article-seo-keywords").replace(/,/g,"\n"))}}
     };
