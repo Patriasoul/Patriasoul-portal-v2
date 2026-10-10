@@ -95,3 +95,58 @@
 .ps-admin-global-actions a,.ps-admin-global-actions button{font-size:.82rem}
 @media(max-width:900px){.ps-admin-nav{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:640px){.ps-admin-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ps-admin-nav button{min-height:94px;padding:12px}.ps-admin-view-label{display:grid;gap:5px}.ps-admin-view-label>small{line-height:1.45}}
+
+/* Polished card-based admin workspace */
+.ps-admin-page{background:linear-gradient(180deg,rgba(238,243,248,.7) 0,rgba(248,250,252,.2) 280px,transparent 560px)}
+.ps-admin-hero{padding:0 0 22px;border-bottom:1px solid var(--ps-border)}
+.ps-admin-status{box-shadow:0 4px 14px rgba(20,32,43,.05)}
+.ps-admin-grid{gap:14px;margin-bottom:20px}
+.ps-admin-card{position:relative;min-width:0;min-height:136px;border-radius:14px;padding:18px;box-shadow:0 5px 18px rgba(20,32,43,.045);transition:transform .16s ease,box-shadow .16s ease}
+.ps-admin-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(20,32,43,.08)}
+.ps-admin-card>span{letter-spacing:.08em}
+.ps-admin-card strong{overflow-wrap:anywhere}
+.ps-admin-panel{min-width:0;border-radius:14px;padding:22px;box-shadow:0 6px 22px rgba(20,32,43,.05);margin-top:16px}
+.ps-admin-panel-head{align-items:center;margin-bottom:16px}
+.ps-admin-panel-head>div{min-width:0}
+.ps-admin-panel-head h2{overflow-wrap:anywhere}
+.ps-admin-view-label{border:1px solid var(--ps-border);border-left:4px solid var(--ps-red);box-shadow:0 4px 14px rgba(20,32,43,.035);border-radius:10px}
+.ps-admin-nav{gap:12px}
+.ps-admin-nav button{position:relative;min-width:0;border-radius:13px;min-height:112px;padding:16px;box-shadow:0 4px 15px rgba(20,32,43,.035)}
+.ps-admin-nav button.is-active{background:linear-gradient(145deg,#f2f7fb,#fff);box-shadow:inset 0 0 0 1px var(--ps-blue),0 6px 16px rgba(20,32,43,.06)}
+.ps-admin-nav button strong{overflow-wrap:anywhere}
+.ps-admin-item{background:#fbfcfd;border:1px solid var(--ps-border);border-radius:10px;padding:13px;margin:8px 0;align-items:center}
+.ps-admin-item:last-child{border-bottom:1px solid var(--ps-border)}
+.ps-admin-manage-item{grid-template-columns:minmax(0,1fr);gap:10px}
+.ps-admin-manage-item .ps-admin-actions{display:flex;flex-wrap:wrap;gap:7px}
+.ps-admin-manage-item .ps-admin-actions>*{max-width:100%}
+.ps-admin-users .ps-admin-user{padding:14px;margin:8px 0;border:1px solid var(--ps-border);border-radius:10px;background:#fbfcfd}
+.ps-admin-user:last-child{border-bottom:1px solid var(--ps-border)}
+.ps-admin-comment{padding:16px;margin:9px 0;border:1px solid var(--ps-border);border-radius:10px;background:#fbfcfd}
+.ps-admin-comment:last-child{border-bottom:1px solid var(--ps-border)}
+.ps-admin-checks li{padding:12px 13px;border:1px solid var(--ps-border);border-radius:9px;background:#fbfcfd}
+.ps-admin-checks li:last-child{border-bottom:1px solid var(--ps-border)}
+.ps-admin-ai,.ps-admin-rss-drafts,.ps-admin-editor,.ps-admin-comments-panel{scroll-margin-top:20px}
+.ps-admin-footer-actions{padding-top:4px}
+.ps-admin-footer-actions .ps-admin-button{box-shadow:0 3px 10px rgba(20,32,43,.07)}
+.ps-ai-feed-manager{background:#f7f9fb;border-radius:12px}
+.ps-ai-feed-row{box-shadow:0 2px 8px rgba(20,32,43,.025)}
+.ps-rss-draft{border-radius:12px;box-shadow:0 3px 12px rgba(20,32,43,.035);margin:12px 0}
+.ps-rss-draft-actions>*{max-width:100%}
+.ps-admin-preview-dialog{border-radius:16px}
+.ps-editor-grid label,.ps-ai-grid label{min-width:0}
+.ps-editor-grid input,.ps-editor-grid select,.ps-editor-grid textarea,.ps-ai-grid input,.ps-ai-grid select,.ps-ai-grid textarea{border-radius:9px}
+@media(min-width:1050px){
+  .ps-admin-management-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+  .ps-admin-management-grid>.ps-admin-panel{margin-top:0}
+  .ps-admin-management-grid .ps-admin-manage-item .ps-admin-actions{justify-content:flex-start}
+}
+@media(max-width:760px){
+  .ps-admin-panel{padding:16px;margin-top:12px}
+  .ps-admin-nav{gap:8px}
+  .ps-admin-nav button{min-height:98px;padding:12px}
+  .ps-admin-grid{gap:9px}
+  .ps-admin-card{padding:15px;min-height:120px}
+  .ps-admin-manage-item .ps-admin-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ps-admin-manage-item .ps-admin-actions select{grid-column:1/-1}
+  .ps-admin-manage-item .ps-admin-actions button{width:100%}
+}
