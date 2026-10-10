@@ -30,7 +30,7 @@ export default {
     // Kanoniziraj stare javne /stranice/... adrese na kratke URL-ove.
     // Zadržavamo query string, a stari URL-ovi i dalje rade preko preusmjeravanja.
     if (request.method === "GET" || request.method === "HEAD") {
-      const legacyMatch = url.pathname.match(/^\\/stranice\\/([^/]+?)(?:\\.html)?\\/?$/);
+      const legacyMatch = url.pathname.match(/^\/stranice\/([^/]+?)(?:\.html)?\/?$/);
       if (legacyMatch) {
         const legacySlug = legacyMatch[1];
         if (rootPageAliases["/" + legacySlug]) {
@@ -41,7 +41,7 @@ export default {
       }
 
       // Podrži URL-ove s kosom crtom i bez nje. Zadržavamo query string.
-      const aliasKey = url.pathname.replace(/\\/+$/, "") || "/";
+      const aliasKey = url.pathname.replace(/\/+$/, "") || "/";
       const aliasedAsset = rootPageAliases[aliasKey];
       if (aliasedAsset) {
         const aliasUrl = new URL(url);
