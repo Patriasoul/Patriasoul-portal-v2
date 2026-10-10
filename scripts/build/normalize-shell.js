@@ -1,6 +1,7 @@
 const fs=require("fs"),path=require("path");
 const ROOT=process.cwd();
 const VERSION="20261010-3";
+const CATEGORY_VERSION="20261010-2";
 const SKIP=new Set(["kviz"]);
 let changed=0;
 function walk(dir){
@@ -23,6 +24,8 @@ function walk(dir){
       changed++;
       continue;
     }
+    // Kategorije moraju preuzeti najnoviju skriptu nakon popravaka učitavanja članaka.
+    html=html.replace(/(<script[^>]+src=["\'][^"\']*assets\/js\/category\.js)(?:\?[^"\']*)?(["\'][^>]*><\/script>)/ig,"$1?v="+CATEGORY_VERSION+"$2");
     if(/<script[^>]+src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["'][^>]*><\/script>/i.test(html)){
       html=html.replace(/<script([^>]+)src=["'][^"']*assets\/js\/portal\.js(?:\?[^"']*)?["']([^>]*)><\/script>/ig,(m,a,b)=>'<script'+a+'src="'+portalPath(full)+'?v='+VERSION+'"'+b+'></script>');
     }else{
