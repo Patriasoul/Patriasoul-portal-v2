@@ -32,6 +32,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Provjeri sintaksu Cloudflare Workera
+        run: node --check worker.js
+
       - name: Normaliziraj članke
         run: node scripts/build/normalize-articles.js
 
@@ -121,6 +124,9 @@ jobs:
 
       - name: QA poveznica na izgrađenom portalu
         run: node scripts/qa/qa-links.js _site
+
+      - name: Probna Wrangler izgradnja bez objave
+        run: npx --yes wrangler@4 deploy --dry-run
 
       - name: Upload Cloudflare Worker assets
         uses: actions/upload-artifact@v4
