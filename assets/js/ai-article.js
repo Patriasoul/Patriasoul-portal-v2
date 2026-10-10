@@ -154,6 +154,7 @@ Ako RSS nije dovoljan za siguran članak, jasno ograniči tvrdnje i ostavi sourc
     const expandedRaw=typeof expanded==="string"?expanded:expanded?.message?.content||expanded?.text||(expanded?.output?JSON.stringify(expanded.output):"");
     if(expandedRaw){const candidate=jsonFromAI(expandedRaw);if(wordCount(candidate.body_html)>words)article=candidate;words=wordCount(article.body_html)}
   }
+  const editorPanel=$("#article-editor");if(editorPanel)editorPanel.hidden=false;
   fill(article);
   // Novi AI članak uvijek ulazi u CMS kao nacrt; nikad ne nasljeđuje status prethodnog članka.
   set("article-status","draft");
