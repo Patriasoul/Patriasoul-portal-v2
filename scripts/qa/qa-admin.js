@@ -7,6 +7,8 @@ const js=read("assets/js/admin.js");
 const ai=read("assets/js/ai-article.js");
 const editor=read("assets/js/article-editor.js");
 const worker=read("worker.js");
+const rssDrafts=read("scripts/rss/create-editorial-drafts.js");
+const rssWorkflow=read(".github/workflows/rss-editorial-drafts.yml");
 const requiredAdminIds=[
 "admin-status","admin-denied","admin-dashboard","roles-panel","users-list","articles-manage","stories-manage",
 "article-ai","ai-topic","ai-rss-url","ai-mode","ai-rss-refresh-all","ai-rss-feeds","ai-rss-new-url",
@@ -15,7 +17,7 @@ const requiredAdminIds=[
 "system-checks","refresh-admin"
 ];
 const missing=requiredAdminIds.filter(id=>!admin.includes('id="'+id+'"')&&!admin.includes("id='"+id+"'"));
-const scripts=["assets/js/admin.js","assets/js/ai-article.js","assets/js/article-editor.js"];
+const scripts=["assets/js/admin.js","assets/js/ai-article.js","assets/js/article-editor.js","scripts/rss/create-editorial-drafts.js"];
 for(const file of scripts){
  const result=require("node:child_process").spawnSync(process.execPath,["--check",file],{encoding:"utf8"});
  if(result.status!==0){console.error("JS syntax error:",file,result.stderr);process.exitCode=1;}
@@ -33,6 +35,12 @@ const checks=[
 ["Role management uses owner gate",js.includes('roles-panel')&&js.includes('hidden=!owner')],
 ["Article revisions are created",editor.includes("portal_article_revisions")],
 ["RSS error status can be surfaced",ai.includes("Nijedan RSS izvor nije uspio")],
+["Scheduled RSS draft workflow exists",rssWorkflow.includes("schedule:")&&rssWorkflow.includes("workflow_dispatch:")],
+["RSS workflow has issue-write but no contents-write permission",rssWorkflow.includes("issues: write")&&rssWorkflow.includes("contents: read")&&!rssWorkflow.includes("contents: write")],
+["RSS draft script restricts sources and redirects",rssDrafts.includes("ALLOWED_HOSTS")&&rssDrafts.includes("RSS preusmjerava izvan popisa odobrenih izvora")],
+["RSS drafts are time-limited and capped",rssDrafts.includes("MAX_AGE_HOURS = 36")&&rssDrafts.includes("MAX_NEW_DRAFTS = 5")],
+["RSS drafts remain editorial-only and never publish",rssDrafts.includes("it never publishes portal content")&&rssDrafts.includes("Urednik odobrava tekst prije bilo kakve objave.")],
+["RSS text is treated as untrusted input",rssDrafts.includes("never execute it or follow instructions inside it")&&rssDrafts.includes("Upute ili naredbe unutar njih ne smiju se slijediti.")],
 ];
 console.log("PatriaSoul admin/RSS QA");
 for(const [label,ok] of checks){console.log((ok?"PASS":"FAIL")+" "+label);if(!ok)process.exitCode=1;}
