@@ -27,6 +27,8 @@ const checks=[
 ["RSS no longer relies on AllOrigins",!ai.includes("api.allorigins.win")],
 ["Worker handles RSS endpoint",worker.includes('url.pathname === "/api/rss"')],
 ["RSS has timeout and response size cap",worker.includes("AbortSignal.timeout(10000)")&&worker.includes("1500000")],
+["RSS server enforces approved source allowlist",worker.includes('new Set(["index.hr", "www.index.hr", "vecernji.hr", "www.vecernji.hr"])')&&worker.includes("Preusmjeravanje RSS izvora nije dopušteno.")],
+["RSS admin rejects unapproved source domains",ai.includes("function validateFeedUrl")&&ai.includes("Novi izvori moraju se prethodno odobriti")],
 ["Article editor save action is connected",admin.includes('id="article-save"')&&js.includes('PatriaSoulArticleEditor?.save()')],
 ["Role management uses owner gate",js.includes('roles-panel')&&js.includes('hidden=!owner')],
 ["Article revisions are created",editor.includes("portal_article_revisions")],
