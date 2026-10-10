@@ -154,6 +154,8 @@ function makeBody(item) {
   ].join("\n");
 }
 async function main() {
+  const repository = await api("/repos/" + REPO);
+  if (repository?.private !== true) throw new Error("Zaštita: RSS nacrti se ne spremaju u javni repozitorij. Najprije postavi privatno odredište.");
   const allItems = [];
   const errors = [];
   for (const feed of FEEDS) {
