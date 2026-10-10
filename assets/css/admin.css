@@ -173,3 +173,33 @@
 .ps-admin-page .ps-admin-button-light{background:#fff!important;color:#0c3252!important}
 .ps-admin-page .ps-admin-button-light:hover{background:#f0f4f8!important;color:#0c3252!important}
 @media(max-width:760px){.ps-admin-published-item{align-items:stretch;flex-direction:column}.ps-admin-published-item .ps-admin-actions{display:grid;grid-template-columns:1fr 1fr}.ps-admin-published-item .ps-admin-actions>*{width:100%;box-sizing:border-box}}
+
+
+/* Dashboard: latest articles get their own full-width block; forum workspace */
+.ps-admin-overview-latest{width:100%;box-sizing:border-box;margin-top:20px}
+.ps-admin-overview-latest .ps-admin-list{gap:8px}
+.ps-admin-overview-latest .ps-admin-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 14px;border:1px solid #d8e0e8;border-radius:10px;background:#f8fafc}
+.ps-admin-overview-latest .ps-admin-item a{display:block;min-width:0;flex:1;color:#0c3252!important;background:transparent!important;padding:0!important;border-radius:0!important;font-weight:850;line-height:1.45;overflow-wrap:anywhere}
+.ps-admin-overview-latest .ps-admin-item a:hover{color:#a01826!important;background:transparent!important;text-decoration:underline!important}
+.ps-admin-overview-latest .ps-admin-item small{flex:0 0 auto;color:#526273;background:transparent;font-size:.78rem}
+.ps-admin-overview-system{margin-top:18px;width:100%;box-sizing:border-box}
+.ps-admin-forum-panel{margin-top:16px}
+.ps-admin-forum-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 22px}
+.ps-admin-forum-stats>div{display:grid;gap:6px;padding:16px;border:1px solid #d8e0e8;border-radius:10px;background:#f8fafc}
+.ps-admin-forum-stats span{color:#526273;font-size:.75rem;font-weight:850;text-transform:uppercase;letter-spacing:.06em}
+.ps-admin-forum-stats strong{color:#0c3252;font-size:1.7rem;line-height:1.1}
+.ps-admin-subheading{margin:20px 0 10px;color:#0c3252;font-size:1.05rem}
+.ps-admin-forum-item{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:8px 0;padding:14px;border:1px solid #d8e0e8;border-radius:10px;background:#fff}
+.ps-admin-forum-copy{display:grid;gap:5px;min-width:0}
+.ps-admin-forum-copy strong{color:#0c3252;background:transparent;overflow-wrap:anywhere}
+.ps-admin-forum-copy small{color:#526273;background:transparent;line-height:1.45;overflow-wrap:anywhere}
+.ps-admin-forum-item .ps-admin-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px}
+.ps-admin-forum-item select{max-width:190px;min-height:38px;border:1px solid #c8d3df;border-radius:8px;padding:7px 10px;background:#fff;color:#18334b;font-weight:700}
+.ps-admin-forum-item select:disabled,.ps-admin-forum-item button:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:760px){
+ .ps-admin-overview-latest .ps-admin-item{align-items:flex-start;flex-direction:column;gap:5px}
+ .ps-admin-forum-stats{grid-template-columns:1fr}
+ .ps-admin-forum-item{align-items:stretch;flex-direction:column}
+ .ps-admin-forum-item .ps-admin-actions{display:grid;grid-template-columns:1fr}
+ .ps-admin-forum-item select{max-width:none;width:100%}
+}
