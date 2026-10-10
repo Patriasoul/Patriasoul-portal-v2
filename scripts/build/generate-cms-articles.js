@@ -47,6 +47,7 @@ async function main() {
     const output = path.join(process.cwd(), relativePath);
     fs.mkdirSync(path.dirname(output), { recursive:true });
     const title = String(article.title || "PatriaSoul članak");
+    const author = article.author_display && article.author_display !== "Čuvari nasljeđa" ? article.author_display : "PatriaSoul";
     const description = String(article.source_data?.seo?.description || article.excerpt || title).slice(0,300);
     const image = normalizeImageUrl(article.image_url || "");
     const imageAlt = String(article.image_alt || title);
@@ -60,7 +61,7 @@ async function main() {
       '<!doctype html><html lang="hr" data-patriasoul-cms="true"><head>',
       '<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
       '<title>'+esc(article.source_data?.seo?.title || title)+' · PatriaSoul</title>',
-      '<meta name="description" content="'+esc(description)+'"><meta name="author" content="'+esc(article.author_display || "PatriaSoul")+'">',
+      '<meta name="description" content="'+esc(description)+'"><meta name="author" content="'+esc(author)+'">',
       '<link rel="canonical" href="'+esc(canonical)+'">',
       '<meta property="og:type" content="article"><meta property="og:site_name" content="PatriaSoul"><meta property="og:locale" content="hr_HR">',
       '<meta property="og:title" content="'+esc(title)+'"><meta property="og:description" content="'+esc(description)+'"><meta property="og:url" content="'+esc(canonical)+'">',
