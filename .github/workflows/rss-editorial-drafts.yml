@@ -28,7 +28,21 @@ jobs:
       - name: Provjeri sintaksu RSS tijeka rada
         run: node --check scripts/rss/create-editorial-drafts.js
 
-      - name: Prikupi odobrene RSS izvore i otvori uredničke nacrte
+      - name: Provjeri tajnu za privatnu Supabase bazu
+        id: supabase-config
+        shell: bash
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::RSS prikupljanje je pauzirano. U GitHub Actions secrets dodaj SUPABASE_SERVICE_ROLE_KEY."
+          fi
+
+      - name: Prikupi odobrene RSS izvore i spremi privatne uredničke nacrte
+        if: steps.supabase-config.outputs.configured == 'true'
         run: node scripts/rss/create-editorial-drafts.js
         env:
           SUPABASE_URL: https://ijimozjfdffejbczwyzb.supabase.co
