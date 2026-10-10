@@ -12,6 +12,13 @@ const categorySlugs = {
 const categoryLabels = { domovina: "Domovina", povijest: "Povijest", vjera: "Vjera", "cuvari-nasljedja": "Čuvari nasljeđa" };
 const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
 const slugify = value => String(value || "").toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+const normalizeImageUrl = value => {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (/^(?:https?:|data:|blob:|\/\/)/i.test(raw)) return raw.startsWith("//") ? "https:"+raw : raw;
+  return BASE_URL + raw.replace(/^\.\//, "").replace(/^\//, "");
+};
+const normalizeBodyImages = html => String(html || "").replace(/(<img\b[^>]*\bsrc\s*=\s*)(["'])([^"']+)\2/gi, (all, before, quote, src) => before + quote + normalizeImageUrl(src) + quote);
 const formatDate = value => {
   if (!value) return "";
   const d = new Date(value);
@@ -41,7 +48,7 @@ async function main() {
     fs.mkdirSync(path.dirname(output), { recursive:true });
     const title = String(article.title || "PatriaSoul članak");
     const description = String(article.source_data?.seo?.description || article.excerpt || title).slice(0,300);
-    const image = String(article.image_url || "");
+    const image = normalizeImageUrl(article.image_url || "");
     const imageAlt = String(article.image_alt || title);
     const label = categoryLabels[category] || "PatriaSoul";
     const date = formatDate(article.published_at);
@@ -63,7 +70,7 @@ async function main() {
       '<h1>'+esc(title)+'</h1>',
       article.excerpt ? '<p class="article-deck">'+esc(article.excerpt)+'</p>' : "",
       '<div class="article-meta">Autor: '+esc(article.author_display || "PatriaSoul")+(date ? " · "+esc(date) : "")+'</div>',
-      imageHtml, '<article class="article-body">'+String(article.body_html || "")+'</article>', sourcesHtml,
+      imageHtml, '<article class="article-body">'+normalizeBodyImages(article.body_html || "")+'</article>', sourcesHtml,
       '<p class="editorial-note"><strong>PatriaSoul — Čuvari nasljeđa</strong><br>Čuvamo priče. Provjeravamo činjenice. Prenosimo nasljeđe.</p></main>',
       '<footer class="site-footer"><div class="container"><strong>PatriaSoul</strong><p>Čuvamo priče. Provjeravamo činjenice. Prenosimo nasljeđe.</p></div></footer>',
       '<script src="../../assets/js/portal.js"></script></body></html>'
