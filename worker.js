@@ -27,6 +27,17 @@ export default {
       "/poruke-obavijesti": "/stranice/poruke-obavijesti.html",
     };
 
+    // Čuvari nasljeđa sada imaju kanonsku kategoriju pod /kategorije/.
+    // Stare adrese kategorije preusmjeravamo na nju na razini Workera,
+    // bez oslanjanja na meta-refresh u HTML-u.
+    if (request.method === "GET" || request.method === "HEAD") {
+      if (["/cuvari-nasljedja", "/cuvari-nasljedja/", "/cuvari-nasljedja/index.html"].includes(url.pathname)) {
+        const canonicalCategoryUrl = new URL("/kategorije/cuvari-nasljedja/", url);
+        canonicalCategoryUrl.search = url.search;
+        return Response.redirect(canonicalCategoryUrl.toString(), 301);
+      }
+    }
+
     // Kanoniziraj stare javne /stranice/... adrese na kratke URL-ove.
     // Zadržavamo query string, a stari URL-ovi i dalje rade preko preusmjeravanja.
     if (request.method === "GET" || request.method === "HEAD") {
