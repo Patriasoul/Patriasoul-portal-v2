@@ -331,7 +331,7 @@ export default function App() {
     const baseUrl = import.meta.env.BASE_URL || "/";
     const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
     if (isLocal) return new URL(baseUrl, window.location.origin).toString();
-    return "https://cn-dom.github.io/ps/kviz/";
+    return new URL(baseUrl, window.location.origin).toString();
   };
 
   const validateAuth = () => {
