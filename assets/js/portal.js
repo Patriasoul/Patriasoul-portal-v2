@@ -337,6 +337,49 @@
   const style = document.createElement("style");
   style.textContent = ".ps-reading{color:var(--ps-muted);font-size:.82rem;margin:.35rem 0 1rem}.ps-share{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.ps-share button,.ps-share a{border:1px solid var(--ps-border);background:#fff;padding:9px 13px;border-radius:6px;cursor:pointer;font-weight:800;text-decoration:none;color:var(--ps-blue);font-size:.85rem}.ps-share button:hover,.ps-share a:hover{border-color:var(--ps-red);color:var(--ps-red)}.ps-article-tools{width:100%;max-width:820px;margin:54px auto 34px;padding:24px 0;border-top:1px solid var(--ps-border);border-bottom:1px solid var(--ps-border)}.ps-share-title{font:800 1.05rem/1.3 Georgia,serif;color:var(--ps-blue);margin-bottom:7px}.ps-comments{width:100%;max-width:820px;margin:42px auto 20px;padding:28px 0 10px;border-top:4px solid var(--ps-blue)}.ps-comments-head span{color:var(--ps-red);font-size:.7rem;font-weight:900;letter-spacing:.14em}.ps-comments-head h2{margin:7px 0 4px;color:var(--ps-blue);font:800 1.7rem/1.2 Georgia,serif}.ps-comments-head p{margin:0 0 22px;color:var(--ps-muted);font-size:.9rem}.ps-breadcrumb{font-size:.8rem;color:var(--ps-muted);margin-bottom:12px}.ps-breadcrumb a{color:var(--ps-red);text-decoration:none}.ps-cookie{position:fixed;z-index:9999;left:18px;right:18px;bottom:18px;max-width:760px;margin:auto;background:#10263d;color:#fff;border:1px solid #49627b;box-shadow:0 12px 40px rgba(0,0,0,.35);padding:18px;border-radius:10px;display:flex;gap:18px;align-items:center;justify-content:space-between}.ps-cookie p{margin:0;color:#fff;font-size:.9rem;line-height:1.55}.ps-cookie a{color:#fff!important;font-weight:800;text-decoration:underline;text-underline-offset:3px}.ps-cookie button{border:1px solid #ffb5ba;background:#c51f2b;color:#fff;padding:10px 16px;border-radius:6px;font-weight:800;cursor:pointer}.ps-cookie button:hover{background:#a91823}.ps-cookie button:focus-visible,.ps-cookie a:focus-visible{outline:3px solid #fff;outline-offset:3px}@media(max-width:560px){.ps-cookie{left:10px;right:10px;bottom:10px;display:block}.ps-cookie button{margin-top:10px}}";
   document.head.append(style);
+  // Jedinstveni pregled fotografija za sve članke (naslovne i slike unutar teksta).
+  document.addEventListener("click", event => {
+    const img = event.target.closest("article.article-page img, .article-page img, .article-figure img, .article-body img, .article-hero");
+    if (!img || img.closest(".ps-image-lightbox") || img.classList.contains("ps-brand-logo") || img.classList.contains("ps-footer-logo")) return;
+    const src = img.currentSrc || img.src;
+    if (!src) return;
+    event.preventDefault();
+    event.stopPropagation();
+    let modal = document.getElementById("ps-image-lightbox");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "ps-image-lightbox";
+      modal.className = "ps-image-lightbox";
+      modal.setAttribute("role", "dialog");
+      modal.setAttribute("aria-modal", "true");
+      modal.setAttribute("aria-label", "Pregled fotografije");
+      modal.innerHTML = '<button type="button" class="ps-image-lightbox-close" aria-label="Zatvori fotografiju">×</button><img alt=""><p></p>';
+      modal.style.cssText = "position:fixed;inset:0;z-index:10020;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:24px;background:rgba(4,13,23,.94);box-sizing:border-box";
+      const large = modal.querySelector("img");
+      large.style.cssText = "display:block;max-width:94vw;max-height:84vh;width:auto;height:auto;object-fit:contain;border-radius:5px;box-shadow:0 10px 40px rgba(0,0,0,.45)";
+      const caption = modal.querySelector("p");
+      caption.style.cssText = "margin:0;color:#fff;text-align:center;font:600 .9rem/1.4 system-ui,sans-serif";
+      const close = () => { modal.style.display = "none"; document.body.style.overflow = ""; };
+      modal.querySelector("button").style.cssText = "position:absolute;top:14px;right:18px;border:1px solid #fff;border-radius:50%;width:44px;height:44px;background:#10263d;color:#fff;font-size:30px;line-height:1;cursor:pointer";
+      modal.querySelector("button").addEventListener("click", close);
+      modal.addEventListener("click", e => { if (e.target === modal) close(); });
+      document.addEventListener("keydown", e => { if (e.key === "Escape" && modal.style.display !== "none") close(); });
+      document.body.append(modal);
+    }
+    const large = modal.querySelector("img");
+    large.src = src;
+    large.alt = img.alt || "Fotografija članka PatriaSoul";
+    modal.querySelector("p").textContent = img.alt || "";
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }, true);
+  document.querySelectorAll("article.article-page img, .article-page img, .article-figure img, .article-body img, .article-hero").forEach(img => {
+    if (!img.classList.contains("ps-brand-logo") && !img.classList.contains("ps-footer-logo")) {
+      img.style.cursor = "zoom-in";
+      img.title = img.title || "Kliknite za povećanje fotografije";
+    }
+  });
+
   const article=document.querySelector("article.article-page, .article-page");
   if(article){
     const commentsScript=new URL("comments.js?v=20261007-4", script?.src || location.href);
