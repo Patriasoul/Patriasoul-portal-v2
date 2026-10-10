@@ -38,10 +38,18 @@ async function save(){
   try{
     client=client||await auth.client();currentUser=currentUser||await auth.getUser();
     if(!currentUser)throw new Error("Niste prijavljeni.");
-    const title=get("article-title"), path=get("article-path"), body=get("article-body"), category=get("article-category");
-    if(!title||!path||!body||!category)throw new Error("Naslov, putanja, kategorija i tekst članka su obavezni.");
-    if(!/^clanci\//.test(path))throw new Error("Putanja članka mora počinjati s clanci/.");
+    const title=get("article-title"), requestedPath=get("article-path"), body=get("article-body"), category=get("article-category");
+    if(!title||!body||!category)throw new Error("Naslov, kategorija i tekst članka su obavezni.");
     const status=get("article-status")||"draft", now=new Date().toISOString(), id=get("article-id");
+    const categoryKey=category.toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+    const categoryPath=({"domovina":"domovina","povijest":"povijest","vjera":"vjera","cuvari nasljeda":"cuvari-nasljedja"})[categoryKey];
+    if(!categoryPath)throw new Error("Odabrana kategorija nema definiranu javnu putanju: "+category);
+    const slugify=value=>String(value||"").toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+    const requestedName=(requestedPath.split("/").pop()||"").replace(/\.html$/i,"").replace(/^clanak-/i,"");
+    const baseSlug=slugify(id ? (requestedName||title) : title);
+    if(!baseSlug)throw new Error("Nije moguće izraditi valjan naziv javne poveznice.");
+    const path="clanci/"+categoryPath+"/clanak-"+baseSlug+".html";
+    val("article-path",path);
     const payload={
       title,kicker:get("article-kicker"),category,subcategory:get("article-subcategory"),excerpt:get("article-excerpt"),
       body_html:body,image_url:get("article-image-url"),image_alt:get("article-image-alt"),author_display:"Čuvari nasljeđa",
@@ -49,8 +57,6 @@ async function save(){
       source_data:{sources:sourcesFrom(get("article-sources")),seo:{title:get("article-seo-title"),description:get("article-meta-description"),keywords:sourcesFrom(get("article-seo-keywords").replace(/,/g,"\n"))}}
     };
     let article,err;
-    const baseSlug=path.split("/").pop().replace(/\.html$/i,"").trim();
-    if(!baseSlug)throw new Error("Putanja mora sadržavati naziv članka.");
     const {data:slugRows,error:slugError}=await client.from("portal_articles").select("id,slug,path").or(`slug.eq.${baseSlug},path.eq.${path}`);
     if(slugError)throw slugError;
     const conflicts=(slugRows||[]).filter(x=>x.id!==id);
@@ -60,7 +66,7 @@ async function save(){
       let n=2;
       while(true){
         const candidate=`${baseSlug}-${n}`;
-        const candidatePath=path.replace(/[^/]+$/,`${candidate}.html`);
+        const candidatePath="clanci/"+categoryPath+"/clanak-"+candidate+".html";
         const {data:check,error:checkError}=await client.from("portal_articles").select("id").or(`slug.eq.${candidate},path.eq.${candidatePath}`);
         if(checkError)throw checkError;
         if(!(check||[]).some(x=>x.id!==id)){finalSlug=candidate;finalPath=candidatePath;break;}
