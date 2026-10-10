@@ -28,7 +28,7 @@ async function manageRssDrafts(c,currentUserId){
   const sections=[
    {status:"pending",title:"1. Novi prijedlozi",hint:"Čekaju urednički pregled."},
    {status:"reviewed",title:"2. Spremno za izradu",hint:"Pregledani prijedlozi koje možeš pretvoriti u članak."},
-   {status:"converted",title:"3. U CMS-u · spremno za provjeru",hint:"Preuzeto u CMS; provjeri nacrt prije objave."}
+   {status:"converted",title:"3. Spremljeno u CMS",hint:"Članci spremljeni kao nacrti; provjeri ih prije objave."}
   ];
   list.innerHTML=sections.map(sec=>{const items=active.filter(x=>x.status===sec.status);return '<section class="ps-rss-workflow-stage" data-rss-stage="'+sec.status+'"><h3>'+sec.title+' <span>('+items.length+')</span></h3><p>'+sec.hint+'</p><div class="ps-rss-stage-items">'+(items.map(cardHtml).join("")||'<p class="ps-admin-muted">Nema prijedloga u ovom koraku.</p>')+'</div></section>'}).join("");
   list.querySelectorAll("[data-rss-save]").forEach(btn=>btn.addEventListener("click",async()=>{
@@ -51,10 +51,8 @@ async function manageRssDrafts(c,currentUserId){
    if(!window.PatriaSoulAIArticle?.generateFromRSS){alert("AI generator nije učitan. Osvježi administraciju i pokušaj ponovno.");return}
    btn.disabled=true;const oldText=btn.textContent;btn.textContent="Pokrećem AI…";
    try{
-    await window.PatriaSoulAIArticle.generateFromRSS({title:row.title,description:row.summary||"",link:row.source_url,date:row.source_published_at||"",source:row.source_name||"RSS izvor"});
-    const moved=await c.from("rss_editorial_drafts").update({status:"converted",updated_at:new Date().toISOString(),reviewed_by:currentUserId,reviewed_at:new Date().toISOString()}).eq("id",row.id).select("id").maybeSingle();
-    if(moved.error)throw moved.error;if(!moved.data)throw new Error("Članak je izrađen, ali status prijedloga nije spremljen.");
-    await manageRssDrafts(c,currentUserId);
+    await window.PatriaSoulAIArticle.generateFromRSS({id:row.id,title:row.title,description:row.summary||"",link:row.source_url,date:row.source_published_at||"",source:row.source_name||"RSS izvor"});
+    statusEl.textContent="Članak je izrađen i prenesen u CMS urednik. Spremi ga ondje da se prijedlog premjesti u blok spremljenih.";
    }catch(e){alert("Članak nije izrađen: "+(e?.message||"nepoznata greška"))}
    finally{btn.disabled=false;btn.textContent=oldText}
   }));
