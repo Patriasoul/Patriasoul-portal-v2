@@ -41,7 +41,7 @@ async function save(){
     const title=get("article-title"), requestedPath=get("article-path"), body=get("article-body"), category=get("article-category");
     if(!title||!body||!category)throw new Error("Naslov, kategorija i tekst članka su obavezni.");
     const status=get("article-status")||"draft", now=new Date().toISOString(), id=get("article-id");
-    const categoryKey=category.toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+    const categoryKey=category.toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").trim();
     const categoryPath=({"domovina":"domovina","povijest":"povijest","vjera":"vjera","cuvari nasljeda":"cuvari-nasljedja"})[categoryKey];
     if(!categoryPath)throw new Error("Odabrana kategorija nema definiranu javnu putanju: "+category);
     const slugify=value=>String(value||"").toLocaleLowerCase("hr-HR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
