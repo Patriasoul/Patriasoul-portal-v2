@@ -16,7 +16,8 @@ let rssItems=[];
 let selectedRss=new Set();
 let imageItems=[];
 
-function stripHtml(s){const d=document.createElement("div");d.innerHTML=String(s||"");return (d.textContent||d.innerText||"").replace(/\s+/g," ").trim()}\nfunction wordCount(html){const text=stripHtml(html).replace(/[^a-zA-Z0-9À-ž]+/g," ").trim();return text?text.split(/\s+/).length:0}
+function stripHtml(s){const d=document.createElement("div");d.innerHTML=String(s||"");return (d.textContent||d.innerText||"").replace(/\s+/g," ").trim()}
+function wordCount(html){const text=stripHtml(html).replace(/[^a-zA-Z0-9À-ž]+/g," ").trim();return text?text.split(/\s+/).length:0}
 function slugify(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,90)}
 function jsonFromAI(raw){
   let s=String(raw||"").trim().replace(/^\uFEFF/,"");
