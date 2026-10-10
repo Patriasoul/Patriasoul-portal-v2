@@ -46,7 +46,7 @@ function enhanceArticle(s,file){
   const deck=((s.match(/<p class="article-deck"[^>]*>([\s\S]*?)<\/p>/i)||[])[1]||"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();
   const description=((s.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i)||[])[1]||deck||title).slice(0,160);
   const img=((s.match(/<img[^>]+src="([^"]+)"/i)||[])[1]||"").trim();
-  const canonical="https://patriasoul.github.io/Patriasoul-portal-v2/"+rel;
+  const canonical="https://patriasoul-portal-v2.patriasoul.workers.dev/"+rel;
   const imageAbs=img ? (img.startsWith("http")?img:new URL(img,canonical).href) : "";
   s=s.replace(/<meta[^>]+name="robots"[^>]*>\s*/gi,"");
   s=s.replace(/<meta[^>]+name="author"[^>]*>\s*/gi,"");
