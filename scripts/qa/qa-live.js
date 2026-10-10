@@ -1,4 +1,4 @@
-const BASE_URL = (process.env.BASE_URL || "https://patriasoul-portal-v2.patriasoul.workers.dev").replace(/\/$/, "");
+const BASE_URL = (process.env.BASE_URL || "https://ps.patriasoul.workers.dev").replace(/\/$/, "");
 const routes = [
   "/",
   "/kategorije/domovina/",
