@@ -155,8 +155,12 @@ Ako RSS nije dovoljan za siguran članak, jasno ograniči tvrdnje i ostavi sourc
     if(expandedRaw){const candidate=jsonFromAI(expandedRaw);if(wordCount(candidate.body_html)>words)article=candidate;words=wordCount(article.body_html)}
   }
   fill(article);
+  // Novi AI članak uvijek ulazi u CMS kao nacrt; nikad ne nasljeđuje status prethodnog članka.
+  set("article-status","draft");
   const count=wordCount(article.body_html);
-  status("Članak je spreman za pregled · "+count+" riječi"+(count<1500?" · UPOZORENJE: ispod minimuma 1.500 riječi.":" · duljina zadovoljena."),count>=1500);
+  status("Članak je prenesen u CMS urednik · "+count+" riječi"+(count<1500?" · UPOZORENJE: ispod minimuma 1.500 riječi.":" · duljina zadovoljena.")+" · status: Nacrt",count>=1500);
+  // Nakon generiranja prikaži korisniku stvarna polja u koja će članak spremiti.
+  requestAnimationFrame(()=>$("#article-editor")?.scrollIntoView({behavior:"smooth",block:"start"}));
 }
 function fill(d){
   set("article-title",d.title);set("article-kicker",d.kicker);set("article-category",d.category);set("article-subcategory",d.subcategory);
