@@ -8,7 +8,15 @@
 <section class="ps-admin-hero ps-container"><div><p class="ps-kicker">PATRIASOUL · ADMINISTRACIJA</p><h1>Nadzorna ploča</h1><p class="ps-admin-lead">Privatni centar za upravljanje sadržajem, korisnicima, zajednicom, pričama i sustavom.<br><span id="admin-access-note">Provjera ovlasti…</span></p></div><div class="ps-admin-status" id="admin-status">Provjera administratorskog pristupa…</div></section>
 <section class="ps-container" id="admin-denied" hidden><div class="ps-admin-panel ps-admin-denied"><h2>Pristup nije dopušten</h2><p>Ova stranica dostupna je samo ovlaštenim članovima PatriaSoul tima. Urednik upravlja sadržajem i moderacijom, Admin administracijom, a Vlasnik ima potpuni pristup.</p><a class="ps-admin-button" href="prijava.html">Prijava</a></div></section>
 <section class="ps-container" id="admin-dashboard" hidden>
-<div class="ps-admin-grid">
+<nav class="ps-admin-nav" aria-label="Odjeljci administracije" id="admin-module-nav">
+<button type="button" class="is-active" data-admin-tab="overview"><span>01</span><strong>Pregled</strong><small>Stanje portala</small></button>
+<button type="button" data-admin-tab="content"><span>02</span><strong>Članci i CMS</strong><small>Nacrti i objave</small></button>
+<button type="button" data-admin-tab="ai"><span>03</span><strong>AI i RSS</strong><small>Prijedlozi i izvori</small></button>
+<button type="button" data-admin-tab="community"><span>04</span><strong>Zajednica</strong><small>Priče i komentari</small></button>
+<button type="button" data-admin-tab="users"><span>05</span><strong>Korisnici</strong><small>Profili i ovlasti</small></button>
+</nav>
+<div class="ps-admin-view-label" id="admin-view-label"><span>RADNI PROSTOR</span><strong>Pregled sustava</strong><small>Odaberite odjeljak za upravljanje.</small></div>
+<div class="ps-admin-grid" data-admin-group="overview">
 <article class="ps-admin-card"><span>Članci</span><strong id="stat-articles">—</strong><small>Objavljeni sadržaj</small></article>
 <article class="ps-admin-card"><span>Zadnji članak</span><strong id="stat-latest" class="ps-admin-value">—</strong><small id="stat-latest-note">—</small></article>
 <article class="ps-admin-card"><span>Nacrti</span><strong id="stat-drafts">—</strong><small id="stat-review">—</small></article>
@@ -22,24 +30,26 @@
 <article class="ps-admin-card ps-admin-card-wide ps-admin-errors"><span>Greške sustava</span><strong id="stat-errors">—</strong><small id="stat-errors-note">—</small></article>
 </div>
 
-<section class="ps-admin-panel ps-admin-roles" id="roles-panel" hidden>
+<section class="ps-admin-panel ps-admin-roles" id="roles-panel" data-admin-group="users" hidden>
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">OVLASTI</p><h2>Korisnici i uloge</h2></div><span class="ps-owner-badge">Samo vlasnik</span></div>
 <p class="ps-admin-role-note">Svaki novi račun automatski je <strong>Korisnik</strong>. Samo vlasnik može dodijeliti Urednika ili Admina. Račun <strong>patriasoul@protonmail.com</strong> ostaje vlasnik PatriaSoul.</p>
 <div id="users-list" class="ps-admin-users"><p>Učitavanje korisnika…</p></div>
 </section>
 
-<div class="ps-admin-panels ps-admin-management-grid">
+<div class="ps-admin-panels ps-admin-management-grid" data-admin-group="content">
 <section class="ps-admin-panel">
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">SADRŽAJ</p><h2>Upravljanje člancima</h2></div><a href="najnovije.html">Najnovije</a></div>
 <div id="articles-manage" class="ps-admin-list"><p>Učitavanje članaka…</p></div>
 </section>
-<section class="ps-admin-panel">
-<div class="ps-admin-panel-head"><div><p class="ps-kicker">ČUVARI NASLJEĐA</p><h2>Prijavljene priče</h2></div></div>
-<div id="stories-manage" class="ps-admin-list"><p>Učitavanje priča…</p></div>
-</section>
+
 </div>
 
-<section class="ps-admin-panel ps-admin-ai" id="article-ai">
+<section class="ps-admin-panel" data-admin-group="community">
+<div class="ps-admin-panel-head"><div><p class="ps-kicker">ČUVARI NASLJEĐA</p><h2>Prijavljene priče</h2></div><span class="ps-admin-muted">Zapisi zajednice</span></div>
+<div id="stories-manage" class="ps-admin-list"><p>Učitavanje priča…</p></div>
+</section>
+
+<section class="ps-admin-panel ps-admin-ai" id="article-ai" data-admin-group="ai">
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">AI UREDNIK</p><h2>Čuvari nasljeđa · napiši članak</h2></div><span class="ps-admin-muted">Tema može biti dovoljna</span></div>
 <p class="ps-ai-lead">Upiši samo temu. AI će predložiti naslov, rubriku, kategoriju, podkategoriju, SEO, tekst, izvore i fotografiju. Ako imaš RSS, zalijepi poveznicu i AI će ga učitati kao dodatni izvor.</p>
 <div class="ps-ai-grid">
@@ -62,7 +72,7 @@
 <div id="ai-image-results" class="ps-ai-images" hidden></div>
 </section>
 
-<section class="ps-admin-panel ps-admin-rss-drafts" id="rss-editorial-drafts">
+<section class="ps-admin-panel ps-admin-rss-drafts" id="rss-editorial-drafts" data-admin-group="ai">
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">RSS · UREDNIČKA REDAKCIJA</p><h2>Prijedlozi vijesti</h2></div><button type="button" class="ps-admin-button ps-admin-button-light" id="rss-drafts-refresh">Osvježi nacrte</button></div>
 <p class="ps-ai-lead">Automatski prikupljeni prijedlozi iz odobrenih izvora. Ovo nisu objavljeni članci. Svaki prijedlog mora se provjeriti, urednički obraditi i posebno odobriti.</p>
 <div id="rss-drafts-status" class="ps-editor-message" role="status">Učitavanje prijedloga…</div>
@@ -70,7 +80,7 @@
 </section>
 
 <section class="ps-admin-preview-modal" id="article-preview-modal" hidden><div class="ps-admin-preview-dialog"><div class="ps-admin-preview-head"><div><p class="ps-kicker">UREDNIČKI PREGLED</p><h2 id="article-preview-title">Pregled članka</h2><p id="article-preview-meta" class="ps-admin-muted"></p></div><button type="button" class="ps-admin-button ps-admin-button-light" id="article-preview-close">Zatvori</button></div><img id="article-preview-image" class="ps-admin-preview-image" alt="" hidden><div id="article-preview-body" class="ps-admin-preview-body"></div><div id="article-preview-sources" class="ps-admin-preview-sources"></div></div></section>
-<section class="ps-admin-panel ps-admin-editor" id="article-editor">
+<section class="ps-admin-panel ps-admin-editor" id="article-editor" data-admin-group="content">
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">CMS UREDNIK</p><h2>Uredi članak</h2></div><span class="ps-admin-muted">Sprema se u portal_articles</span></div>
 <input id="article-id" type="hidden">
 <div class="ps-editor-grid">
@@ -92,16 +102,19 @@
 <div class="ps-admin-footer-actions"><button class="ps-admin-button" id="article-save" type="button">Spremi članak</button><button class="ps-admin-button ps-admin-button-light" id="article-clear" type="button">Novi / očisti</button><span id="article-editor-message" class="ps-editor-message">Odaberi članak ili pokreni novi.</span></div>
 </section>
 
-<section class="ps-admin-panel ps-admin-comments-panel">
+<section class="ps-admin-panel ps-admin-comments-panel" data-admin-group="community">
 <div class="ps-admin-panel-head"><div><p class="ps-kicker">ZAJEDNICA</p><h2>Komentari</h2></div><span class="ps-admin-muted">Moderacija dostupna urednicima i administratorima</span></div>
 <div id="comments-manage" class="ps-admin-list"><p>Učitavanje komentara…</p></div>
 </section>
 
-<div class="ps-admin-panels">
+<div class="ps-admin-panels ps-admin-overview-panels" data-admin-group="overview">
 <section class="ps-admin-panel"><div class="ps-admin-panel-head"><div><p class="ps-kicker">PREGLED</p><h2>Najnoviji članci</h2></div><a href="najnovije.html">Otvori Najnovije</a></div><div id="latest-list" class="ps-admin-list"><p>Učitavanje…</p></div></section>
 <section class="ps-admin-panel"><div class="ps-admin-panel-head"><div><p class="ps-kicker">SIGURNOST</p><h2>Operativni pregled</h2></div></div><ul class="ps-admin-checks" id="system-checks"></ul></section>
 </div>
-<div class="ps-admin-footer-actions"><a class="ps-admin-button" href="racun.html">Moj račun</a><a class="ps-admin-button ps-admin-button-light" href="../index.html">Naslovnica</a><button class="ps-admin-button ps-admin-button-light" id="refresh-admin" type="button">Osvježi podatke</button></div>
+<div class="ps-admin-footer-actions ps-admin-global-actions"><a class="ps-admin-button" href="racun.html">Moj račun</a><a class="ps-admin-button ps-admin-button-light" href="../index.html">Naslovnica</a><button class="ps-admin-button ps-admin-button-light" id="refresh-admin" type="button">Osvježi podatke</button></div>
 </section></main>
 <script src="../assets/js/portal.js"></script><script src="../assets/js/auth.js"></script><script src="https://js.puter.com/v2/"></script><script src="../assets/js/article-editor.js"></script><script src="../assets/js/ai-article.js"></script><script src="../assets/js/admin.js"></script>
+<script>
+(()=>{const nav=document.getElementById("admin-module-nav");if(!nav)return;const names={overview:"Pregled sustava",content:"Članci i CMS",ai:"AI urednik i RSS redakcija",community:"Zajednica i moderacija",users:"Korisnici i ovlasti"};const desc={overview:"Stanje portala, najnoviji članci i operativne provjere.",content:"Upravljajte nacrtima, člancima i objavama iz jednog radnog prostora.",ai:"AI generiranje, RSS izvori i urednički prijedlozi vijesti.",community:"Prijavljene priče i komentari zajednice.",users:"Korisnički profili i upravljanje ulogama prema vašim ovlastima."};const activate=tab=>{nav.querySelectorAll("[data-admin-tab]").forEach(b=>{const on=b.dataset.adminTab===tab;b.classList.toggle("is-active",on);b.setAttribute("aria-pressed",String(on))});document.querySelectorAll("[data-admin-group]").forEach(el=>{el.hidden=el.dataset.adminGroup!==tab});const label=document.getElementById("admin-view-label");if(label)label.innerHTML="<span>RADNI PROSTOR</span><strong>"+names[tab]+"</strong><small>"+desc[tab]+"</small>";try{sessionStorage.setItem("ps-admin-view",tab)}catch(e){}};nav.querySelectorAll("[data-admin-tab]").forEach(b=>b.addEventListener("click",()=>activate(b.dataset.adminTab)));let initial="overview";try{const saved=sessionStorage.getItem("ps-admin-view");if(saved&&names[saved])initial=saved}catch(e){}activate(initial)})();
+</script>
 </body></html>
