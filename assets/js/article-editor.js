@@ -80,6 +80,8 @@ async function save(){
     const revision={article_id:article.id,revision_no:nextRevisionNo,snapshot:article,note:status==="published"?"Objava članka":"Spremanje uredničke verzije",created_by:currentUser.id};
     const rr=await client.from("portal_article_revisions").insert(revision);if(rr.error)throw rr.error;
     currentId=article.id;val("article-id",article.id);
+    const rssDraftId=window.PatriaSoulAIArticle?.currentRSSDraftId;
+    if(rssDraftId){const moved=await client.from("rss_editorial_drafts").update({status:"converted",updated_at:new Date().toISOString(),reviewed_by:currentUser.id,reviewed_at:new Date().toISOString()}).eq("id",rssDraftId).select("id").maybeSingle();if(moved.error)throw moved.error;if(!moved.data)throw new Error("Članak je spremljen, ali RSS prijedlog nije mogao biti premješten u spremljene.");window.PatriaSoulAIArticle.currentRSSDraftId=null;}
     message((finalSlug!==baseSlug?"Spremljeno kao "+finalSlug+" — postojeći slug je već postojao. ":"Spremljeno: ")+statusLabel(status),true);
     if(window.PatriaSoulAdmin?.refreshArticles) await window.PatriaSoulAdmin.refreshArticles();
     // Nakon uspješnog spremanja zatvori CMS urednik; članak ostaje spremljen u svom statusu.
