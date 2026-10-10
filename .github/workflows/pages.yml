@@ -35,6 +35,9 @@ jobs:
       - name: Provjeri sintaksu Cloudflare Workera
         run: node --check worker.js
 
+      - name: Izradi javne HTML stranice za objavljene CMS članke
+        run: node scripts/build/generate-cms-articles.js
+
       - name: Normaliziraj članke
         run: node scripts/build/normalize-articles.js
 
