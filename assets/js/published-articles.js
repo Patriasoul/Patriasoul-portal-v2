@@ -92,16 +92,24 @@
 
     let databaseArticles = [];
     try {
-      const supabase = await client();
-      const result = await supabase
-        .from("portal_articles")
-        .select("id,path,title,kicker,category,subcategory,excerpt,image_url,image_alt,author_display,published_at")
-        .eq("status", "published")
-        .order("published_at", { ascending: false })
-        .limit(100);
-
-      if (result.error) throw result.error;
-      databaseArticles = (result.data || []).map(article => ({
+      // Vanjska baza ne smije blokirati otvaranje kategorije. Ako CDN ili
+      // Supabase ne odgovore brzo, stranica koristi već učitani lokalni indeks.
+      const databaseRequest = (async () => {
+        const supabase = await client();
+        const result = await supabase
+          .from("portal_articles")
+          .select("id,path,title,kicker,category,subcategory,excerpt,image_url,image_alt,author_display,published_at")
+          .eq("status", "published")
+          .order("published_at", { ascending: false })
+          .limit(100);
+        if (result.error) throw result.error;
+        return result.data || [];
+      })();
+      const timeout = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("Isteklo je vrijeme čekanja baze; koristi se lokalni indeks članaka.")), 4000);
+      });
+      const rows = await Promise.race([databaseRequest, timeout]);
+      databaseArticles = rows.map(article => ({
         id: article.id,
         url: String(article.path || "").replace(/^\.\//, ""),
         title: article.title,
