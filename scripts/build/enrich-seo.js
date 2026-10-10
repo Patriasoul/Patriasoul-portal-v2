@@ -1,7 +1,7 @@
 const fs=require("fs"),path=require("path");
 
 const root=process.cwd();
-const base="https://patriasoul.github.io/Patriasoul-portal-v2/";
+const base="https://patriasoul-portal-v2.patriasoul.workers.dev/";
 const excluded=new Set(["404.html","googlef31b6b8a66adf403.html","prijava.html","registracija.html","racun.html","administracija.html","newsletter.html","kolacici.html"]);
 const escHtml=s=>String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const escJson=s=>JSON.stringify(String(s||""));
@@ -9,7 +9,7 @@ const strip=s=>String(s||"").replace(/<[^>]+>/g," ").replace(/&nbsp;/g," ").repl
 const abs=(u,rel)=>{
   if(!u)return "";
   if(/^https?:\/\//i.test(u))return u;
-  if(u.startsWith("/"))return "https://patriasoul.github.io"+u;
+  if(u.startsWith("/"))return new URL(u,base).href;
   return new URL(u,new URL(rel,base)).href;
 };
 const pageUrl=rel=>rel.endsWith("/index.html")?base+rel.slice(0,-"index.html".length):base+rel;
