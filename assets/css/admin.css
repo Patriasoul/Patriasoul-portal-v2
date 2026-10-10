@@ -76,3 +76,22 @@
 .ps-rss-draft-actions label{display:grid;gap:5px;color:var(--ps-blue);font-size:.8rem;font-weight:800}
 .ps-rss-draft-actions select{border:1px solid var(--ps-border);border-radius:8px;padding:9px;background:#fff;color:var(--ps-blue);font:inherit}
 @media(max-width:760px){.ps-rss-draft-head{flex-direction:column;gap:4px}.ps-rss-draft-actions{align-items:stretch;flex-direction:column}.ps-rss-draft-actions label,.ps-rss-draft-actions select{width:100%;box-sizing:border-box}}
+
+/* Administrative workspace navigation */
+.ps-admin-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:0 0 14px}
+.ps-admin-nav button{display:grid;gap:5px;align-content:start;text-align:left;min-height:105px;padding:15px;border:1px solid var(--ps-border);border-radius:12px;background:#fff;color:var(--ps-blue);cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
+.ps-admin-nav button>span{font-size:.7rem;font-weight:900;letter-spacing:.12em;color:var(--ps-red)}
+.ps-admin-nav button strong{font-size:.95rem;line-height:1.25}
+.ps-admin-nav button small{font-size:.75rem;line-height:1.35;color:var(--ps-muted)}
+.ps-admin-nav button:hover{border-color:var(--ps-blue);transform:translateY(-1px)}
+.ps-admin-nav button.is-active{border-color:var(--ps-blue);box-shadow:inset 0 0 0 1px var(--ps-blue);background:#f4f8fb}
+.ps-admin-view-label{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:15px 18px;margin-bottom:16px;border-left:4px solid var(--ps-red);border-radius:0 8px 8px 0;background:#f6f8fa}
+.ps-admin-view-label>span{font-size:.68rem;font-weight:900;letter-spacing:.12em;color:var(--ps-muted)}
+.ps-admin-view-label>strong{font-size:1rem;color:var(--ps-blue)}
+.ps-admin-view-label>small{color:var(--ps-muted);font-size:.8rem}
+.ps-admin-page [data-admin-group][hidden]{display:none!important}
+.ps-admin-management-grid{grid-template-columns:minmax(0,1fr)}
+.ps-admin-global-actions{padding-top:18px;border-top:1px solid var(--ps-border)}
+.ps-admin-global-actions a,.ps-admin-global-actions button{font-size:.82rem}
+@media(max-width:900px){.ps-admin-nav{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){.ps-admin-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ps-admin-nav button{min-height:94px;padding:12px}.ps-admin-view-label{display:grid;gap:5px}.ps-admin-view-label>small{line-height:1.45}}
