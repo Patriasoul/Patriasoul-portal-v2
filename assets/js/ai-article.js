@@ -5,6 +5,16 @@ const set=(id,v)=>{const e=$("#"+id);if(e)e.value=v??""};
 const get=(id)=>$("#"+id)?.value.trim()||"";
 const status=(text,ok=false)=>{const e=$("#ai-status");if(e){e.textContent=text;e.className="ps-editor-message "+(ok?"is-ok":"")}};
 
+const ALLOWED_RSS_HOSTS=new Set(["index.hr","www.index.hr","vecernji.hr","www.vecernji.hr"]);
+function isAllowedFeedUrl(value){
+  try{const u=new URL(value);return u.protocol==="https:"&&ALLOWED_RSS_HOSTS.has(u.hostname.toLowerCase())&&!u.username&&!u.password}
+  catch(_){return false}
+}
+function validateFeedUrl(value){
+  let parsed;try{parsed=new URL(value)}catch(_){throw new Error("RSS poveznica nije valjana.")}
+  if(!isAllowedFeedUrl(parsed.href))throw new Error("Dopušteni RSS izvori su Index.hr i Večernji list. Novi izvori moraju se prethodno odobriti u konfiguraciji PatriaSoula.");
+  return parsed;
+}
 const FEED_KEY="patriasoul_ai_rss_feeds_v2";
 const LAST_KEY="patriasoul_ai_rss_last_refresh_v1";
 const DEFAULT_FEEDS=[
@@ -48,9 +58,7 @@ function parseXml(xml,source){
   return [...doc.querySelectorAll("entry")].map(n=>({title:stripHtml(n.querySelector("title")?.textContent),description:stripHtml(n.querySelector("summary")?.textContent||n.querySelector("content")?.textContent),link:(n.querySelector("link")?.getAttribute("href")||"").trim(),date:(n.querySelector("published")?.textContent||n.querySelector("updated")?.textContent||"").trim(),source})).filter(x=>x.title);
 }
 async function fetchText(url){
-  let parsed;
-  try{parsed=new URL(url)}catch(_){throw new Error("RSS poveznica nije valjana.")}
-  if(parsed.protocol!=="https:")throw new Error("RSS izvor mora koristiti sigurnu HTTPS poveznicu.");
+  const parsed=validateFeedUrl(url);
   const endpoint="/api/rss?url="+encodeURIComponent(parsed.href);
   const r=await fetch(endpoint,{cache:"no-store",headers:{"Accept":"application/rss+xml, application/atom+xml, application/xml, text/xml, */*"}});
   if(!r.ok){
@@ -87,8 +95,7 @@ async function refreshAllFeeds(){
 }
 async function loadSingleRSS(){
   const raw=get("ai-rss-url");if(!raw)throw new Error("Unesi RSS poveznicu.");
-  let parsed;try{parsed=new URL(raw)}catch(_){throw new Error("RSS poveznica nije valjana.")}
-  if(parsed.protocol!=="https:")throw new Error("RSS poveznica mora počinjati s https://.");
+  const parsed=validateFeedUrl(raw);
   const feed={name:feedName(parsed.href),url:parsed.href};
   const items=await fetchFeed(feed);rssItems=items.slice(0,30);selectedRss=new Set();renderRSS();
   status("RSS učitan · "+rssItems.length+" stavki iz "+feed.name+".",true);
@@ -163,8 +170,7 @@ function fill(d){
 }
 function addFeed(){
   const input=$("#ai-rss-new-url"),url=input?.value.trim();if(!url)return;
-  let parsed;try{parsed=new URL(url)}catch(_){status("RSS: neispravna poveznica.",false);return}
-  if(parsed.protocol!=="https:"){status("RSS: koristi poveznicu koja počinje s https://.",false);return}
+  let parsed;try{parsed=validateFeedUrl(url)}catch(e){status("RSS: "+(e.message||e),false);return}
   if(feeds.some(f=>f.url===parsed.href)){status("RSS: taj izvor već postoji.",false);return}
   feeds.push({name:feedName(parsed.href),url:parsed.href,enabled:true});saveFeeds();renderFeeds();if(input)input.value="";status("RSS izvor dodan.",true);
 }
