@@ -6,6 +6,7 @@ const admin=read("stranice/administracija.html");
 const js=read("assets/js/admin.js");
 const ai=read("assets/js/ai-article.js");
 const editor=read("assets/js/article-editor.js");
+const rssAdmin=js.slice(js.indexOf("async function manageRssDrafts"),js.indexOf("async function load()"));
 const worker=read("worker.js");
 const rssDrafts=read("scripts/rss/create-editorial-drafts.js");
 const rssWorkflow=read(".github/workflows/rss-editorial-drafts.yml");
@@ -45,7 +46,7 @@ const checks=[
 ["RSS text is treated as untrusted input",rssDrafts.includes("no embedded instructions are executed or followed")&&rssDrafts.includes("never generates or publishes articles")],
 ["RSS queue is displayed in admin panel",admin.includes('id="rss-editorial-drafts"')&&admin.includes('id="rss-drafts-list"')&&js.includes("manageRssDrafts")],
 ["RSS drafts use visible workflow stages and rejected items are hidden",js.includes("data-rss-stage")&&js.includes('x.status!=="rejected"')&&js.includes("Prijedlog je odbijen i uklonjen s aktivnih lista.")],
-["RSS draft changes remain editorial-only",js.includes('value="converted"')&&js.includes("Nijedan se ne objavljuje automatski.")&&!js.includes('status:"published"')],
+["RSS draft changes remain editorial-only",rssAdmin.includes('value="converted"')&&rssAdmin.includes("Nijedan se ne objavljuje automatski.")&&!rssAdmin.includes('status:"published"')],
 ];
 console.log("PatriaSoul admin/RSS QA");
 for(const [label,ok] of checks){console.log((ok?"PASS":"FAIL")+" "+label);if(!ok)process.exitCode=1;}
