@@ -70,7 +70,7 @@ async function main() {
       '<main class="container article-page" data-modern-article="true"><span class="kicker">'+esc(label.toLocaleUpperCase("hr-HR"))+(article.subcategory ? " · "+esc(article.subcategory) : "")+'</span>',
       '<h1>'+esc(title)+'</h1>',
       article.excerpt ? '<p class="article-deck">'+esc(article.excerpt)+'</p>' : "",
-      '<div class="article-meta">Autor: '+esc(article.author_display || "PatriaSoul")+(date ? " · "+esc(date) : "")+'</div>',
+      '<div class="article-meta">Autor: '+esc(author)+(date ? " · "+esc(date) : "")+'</div>',
       imageHtml, '<article class="article-body">'+normalizeBodyImages(article.body_html || "")+'</article>', sourcesHtml,
       '<p class="editorial-note"><strong>PatriaSoul — Čuvari nasljeđa</strong><br>Čuvamo priče. Provjeravamo činjenice. Prenosimo nasljeđe.</p></main>',
       '<footer class="site-footer"><div class="container"><strong>PatriaSoul</strong><p>Čuvamo priče. Provjeravamo činjenice. Prenosimo nasljeđe.</p></div></footer>',
